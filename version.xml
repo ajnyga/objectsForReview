@@ -2,19 +2,19 @@
 <!DOCTYPE version SYSTEM "../../../lib/pkp/dtd/pluginVersion.dtd">
 
 <!--
-  * plugins/generic/funding/version.xml
+  * plugins/generic/objectsForReview/version.xml
   *
-  * Copyright (c) 2014-2017 Simon Fraser University
-  * Copyright (c) 2003-2017 John Willinsky
+  * Copyright (c) 2014-2018 Simon Fraser University
+  * Copyright (c) 2003-2018 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
   * Plugin version information.
   -->
 <version>
-	<application>funding</application>
+	<application>objectsForReview</application>
 	<type>plugins.generic</type>
-	<release>2.1.1.2</release>
-	<date>2017-10-18</date>
+	<release>3.0.0.0</release>
+	<date>2018-09-20</date>
 	<lazy-load>1</lazy-load>
-	<class>FundingPlugin</class>
+	<class>ObjectsForReviewPlugin</class>
 </version>
