@@ -1,19 +1,19 @@
 <?php
 
 /**
- * @file plugins/generic/funding/classes/Funder.inc.php
+ * @file plugins/generic/objectsForReview/classes/ObjectForReview.inc.php
  *
  * Copyright (c) 2014-2017 Simon Fraser University
  * Copyright (c) 2003-2017 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class Funder
- * @ingroup plugins_generic_funding
+ * @ingroup plugins_generic_objectsForReview
  *
  * Data object representing a funder.
  */
 
-class Funder extends DataObject {
+class ObjectForReview extends DataObject {
 
 	//
 	// Get/set methods
@@ -67,34 +67,6 @@ class Funder extends DataObject {
 		return $this->setData('funderIdentification', $funderIdentification);
 	}
 
-	/**
-	 * Get name.
-	 * @return string
-	 */
-	function getFunderName() {
-		return $this->getData('funderName');
-	}
-
-	/**
-	 * Set name.
-	 * @param $funderName string
-	 */
-	function setFunderName($funderName) {
-		return $this->setData('funderName', $funderName);
-	}
-
-	/**
-	 * Get name and identification.
-	 * @return string
-	 */
-	function getFunderNameIdentification() {
-		if ($this->getFunderIdentification()){
-			return $this->getFunderName() . '[' . $this->getFunderIdentification() . ']';
-		}
-		else{
-			return $this->getFunderName();
-		}
-	}
 
 }
 
