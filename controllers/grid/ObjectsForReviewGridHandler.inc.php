@@ -1,23 +1,23 @@
 <?php
 
 /**
- * @file plugins/generic/funding/controllers/grid/FunderGridHandler.inc.php
+ * @file plugins/generic/objectsForReview/controllers/grid/ObjectsForReviewGridHandler.inc.php
  *
  * Copyright (c) 2014-2017 Simon Fraser University
  * Copyright (c) 2003-2017 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
- * @class FunderGridHandler
+ * @class ObjectsForReviewGridHandler
  * @ingroup plugins_generic_funding
  *
- * @brief Handle Funder grid requests.
+ * @brief Handle ObjectsForReview grid requests.
  */
 
 import('lib.pkp.classes.controllers.grid.GridHandler');
-import('plugins.generic.funding.controllers.grid.FunderGridRow');
-import('plugins.generic.funding.controllers.grid.FunderGridCellProvider');
+import('plugins.generic.objectsForReview.controllers.grid.ObjectsForReviewGridRow');
+import('plugins.generic.objectsForReview.controllers.grid.ObjectsForReviewGridCellProvider');
 
-class FunderGridHandler extends GridHandler {
+class ObjectsForReviewGridHandler extends GridHandler {
 	static $plugin;
 
 	/** @var boolean */
@@ -30,7 +30,7 @@ class FunderGridHandler extends GridHandler {
 		parent::__construct();
 		$this->addRoleAssignment(
 			array(ROLE_ID_MANAGER, ROLE_ID_SUB_EDITOR, ROLE_ID_ASSISTANT, ROLE_ID_AUTHOR),
-			array('fetchGrid', 'fetchRow', 'addFunder', 'editFunder', 'updateFunder', 'deleteFunder')
+			array('fetchGrid', 'fetchRow', 'addObjectsForReview', 'editObjectsForReview', 'updateObjectsForReview', 'deleteObjectsForReview')
 		);
 	}
 
@@ -38,7 +38,7 @@ class FunderGridHandler extends GridHandler {
 	// Getters/Setters
 	//
 	/**
-	 * Set the Funder plugin.
+	 * Set the ObjectsForReview plugin.
 	 * @param $plugin FundingPlugin
 	 */
 	static function setPlugin($plugin) {
@@ -97,18 +97,18 @@ class FunderGridHandler extends GridHandler {
 		$this->setEmptyRowText('plugins.generic.funding.noneCreated');
 
 		// Get the items and add the data to the grid
-		$funderDao = DAORegistry::getDAO('FunderDAO');
-		$funderAwardDao = DAORegistry::getDAO('FunderAwardDAO');
-		$funderIterator = $funderDao->getBySubmissionId($submissionId);
+		$objectsForReviewDao = DAORegistry::getDAO('ObjectsForReviewDAO');
+		$objectsForReviewAwardDao = DAORegistry::getDAO('ObjectsForReviewAwardDAO');
+		$objectsForReviewIterator = $objectsForReviewDao->getBySubmissionId($submissionId);
 
 		$gridData = array();
-		while ($funder = $funderIterator->next()) {
-			$funderId = $funder->getId();
-			$funderAwards = $funderAwardDao->getFunderAwardNumbersByFunderId($funderId);
-			$gridData[$funderId] = array(
-				'funderName' => $funder->getFunderName(),
-				'funderIdentification' => $funder->getFunderIdentification(),
-				'funderGrants' => implode(";", $funderAwards)
+		while ($objectsForReview = $objectsForReviewIterator->next()) {
+			$objectsForReviewId = $objectsForReview->getId();
+			$objectsForReviewAwards = $objectsForReviewAwardDao->getObjectsForReviewAwardNumbersByObjectsForReviewId($objectsForReviewId);
+			$gridData[$objectsForReviewId] = array(
+				'objectsForReviewName' => $objectsForReview->getObjectsForReviewName(),
+				'objectsForReviewIdentification' => $objectsForReview->getObjectsForReviewIdentification(),
+				'objectsForReviewGrants' => implode(";", $objectsForReviewAwards)
 			);
 		}
 
@@ -121,13 +121,13 @@ class FunderGridHandler extends GridHandler {
 			import('lib.pkp.classes.linkAction.request.AjaxModal');
 			$this->addAction(
 				new LinkAction(
-					'addFunder',
+					'addObjectsForReview',
 					new AjaxModal(
-						$router->url($request, null, null, 'addFunder', null, array('submissionId' => $submissionId)),
-						__('plugins.generic.funding.addFunder'),
+						$router->url($request, null, null, 'addObjectsForReview', null, array('submissionId' => $submissionId)),
+						__('plugins.generic.funding.addObjectsForReview'),
 						'modal_add_item'
 					),
-					__('plugins.generic.funding.addFunder'),
+					__('plugins.generic.funding.addObjectsForReview'),
 					'add_item'
 				)
 			);
@@ -136,24 +136,24 @@ class FunderGridHandler extends GridHandler {
 		}
 
 		// Columns
-		$cellProvider = new FunderGridCellProvider();
+		$cellProvider = new ObjectsForReviewGridCellProvider();
 		$this->addColumn(new GridColumn(
-			'funderName',
-			'plugins.generic.funding.funderName',
+			'objectsForReviewName',
+			'plugins.generic.funding.objectsForReviewName',
 			null,
 			'controllers/grid/gridCell.tpl',
 			$cellProvider
 		));
 		$this->addColumn(new GridColumn(
-			'funderIdentification',
-			'plugins.generic.funding.funderIdentification',
+			'objectsForReviewIdentification',
+			'plugins.generic.funding.objectsForReviewIdentification',
 			null,
 			'controllers/grid/gridCell.tpl',
 			$cellProvider
 		));
 		$this->addColumn(new GridColumn(
-			'funderGrants',
-			'plugins.generic.funding.funderGrants',
+			'objectsForReviewGrants',
+			'plugins.generic.funding.objectsForReviewGrants',
 			null,
 			'controllers/grid/gridCell.tpl',
 			$cellProvider
@@ -168,38 +168,38 @@ class FunderGridHandler extends GridHandler {
 	 * @copydoc Gridhandler::getRowInstance()
 	 */
 	function getRowInstance() {
-		return new FunderGridRow($this->getReadOnly());
+		return new ObjectsForReviewGridRow($this->getReadOnly());
 	}
 
 	/**
 	 * @copydoc GridHandler::getJSHandler()
 	 */
 	public function getJSHandler() {
-		return '$.pkp.plugins.generic.funding.FunderGridHandler';
+		return '$.pkp.plugins.generic.funding.ObjectsForReviewGridHandler';
 	}
 
 	//
 	// Public Grid Actions
 	//
 	/**
-	 * An action to add a new funder item
+	 * An action to add a new objectsForReview item
 	 * @param $args array Arguments to the request
 	 * @param $request PKPRequest
 	 */
-	function addFunder($args, $request) {
-		// Calling editFunderitem with an empty ID will add
-		// a new Funder item.
-		return $this->editFunder($args, $request);
+	function addObjectsForReview($args, $request) {
+		// Calling editObjectsForReviewitem with an empty ID will add
+		// a new ObjectsForReview item.
+		return $this->editObjectsForReview($args, $request);
 	}
 
 	/**
-	 * An action to edit a funder
+	 * An action to edit a objectsForReview
 	 * @param $args array Arguments to the request
 	 * @param $request PKPRequest
 	 * @return string Serialized JSON object
 	 */
-	function editFunder($args, $request) {
-		$funderId = $request->getUserVar('funderId');
+	function editObjectsForReview($args, $request) {
+		$objectsForReviewId = $request->getUserVar('objectsForReviewId');
 		$context = $request->getContext();
 		$submission = $this->getSubmission();
 		$submissionId = $submission->getId();
@@ -207,21 +207,21 @@ class FunderGridHandler extends GridHandler {
 		$this->setupTemplate($request);
 
 		// Create and present the edit form
-		import('plugins.generic.funding.controllers.grid.form.FunderForm');
-		$funderForm = new FunderForm(self::$plugin, $context->getId(), $submissionId, $funderId);
-		$funderForm->initData();
-		$json = new JSONMessage(true, $funderForm->fetch($request));
+		import('plugins.generic.funding.controllers.grid.form.ObjectsForReviewForm');
+		$objectsForReviewForm = new ObjectsForReviewForm(self::$plugin, $context->getId(), $submissionId, $objectsForReviewId);
+		$objectsForReviewForm->initData();
+		$json = new JSONMessage(true, $objectsForReviewForm->fetch($request));
 		return $json->getString();
 	}
 
 	/**
-	 * Update a funder
+	 * Update a objectsForReview
 	 * @param $args array
 	 * @param $request PKPRequest
 	 * @return string Serialized JSON object
 	 */
-	function updateFunder($args, $request) {
-		$funderId = $request->getUserVar('funderId');
+	function updateObjectsForReview($args, $request) {
+		$objectsForReviewId = $request->getUserVar('objectsForReviewId');
 		$context = $request->getContext();
 		$submission = $this->getSubmission();
 		$submissionId = $submission->getId();
@@ -229,36 +229,36 @@ class FunderGridHandler extends GridHandler {
 		$this->setupTemplate($request);
 
 		// Create and populate the form
-		import('plugins.generic.funding.controllers.grid.form.FunderForm');
-		$funderForm = new FunderForm(self::$plugin, $context->getId(), $submissionId, $funderId);
-		$funderForm->readInputData();
+		import('plugins.generic.funding.controllers.grid.form.ObjectsForReviewForm');
+		$objectsForReviewForm = new ObjectsForReviewForm(self::$plugin, $context->getId(), $submissionId, $objectsForReviewId);
+		$objectsForReviewForm->readInputData();
 		// Validate
-		if ($funderForm->validate()) {
+		if ($objectsForReviewForm->validate()) {
 			// Save
-			$funder = $funderForm->execute();
+			$objectsForReview = $objectsForReviewForm->execute();
  			return DAO::getDataChangedEvent($submissionId);
 		} else {
 			// Present any errors
-			$json = new JSONMessage(true, $funderForm->fetch($request));
+			$json = new JSONMessage(true, $objectsForReviewForm->fetch($request));
 			return $json->getString();
 		}
 	}
 
 	/**
-	 * Delete a funder
+	 * Delete a objectsForReview
 	 * @param $args array
 	 * @param $request PKPRequest
 	 * @return string Serialized JSON object
 	 */
-	function deleteFunder($args, $request) {
-		$funderId = $request->getUserVar('funderId');
+	function deleteObjectsForReview($args, $request) {
+		$objectsForReviewId = $request->getUserVar('objectsForReviewId');
 		$submission = $this->getSubmission();
 		$submissionId = $submission->getId();
 
-		$funderDao = DAORegistry::getDAO('FunderDAO');
-		$funder = $funderDao->getById($funderId, $submissionId);
+		$objectsForReviewDao = DAORegistry::getDAO('ObjectsForReviewDAO');
+		$objectsForReview = $objectsForReviewDao->getById($objectsForReviewId, $submissionId);
 
-		$funderDao->deleteObject($funder);
+		$objectsForReviewDao->deleteObject($objectsForReview);
 		return DAO::getDataChangedEvent($submissionId);
 	}
 

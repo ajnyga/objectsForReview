@@ -1,21 +1,21 @@
 <?php
 
 /**
- * @file plugins/generic/funding/controllers/grid/FunderGridRow.inc.php
+ * @file plugins/generic/objectsForReview/controllers/grid/ObjectForReviewGridRow.inc.php
  *
  * Copyright (c) 2014-2017 Simon Fraser University
  * Copyright (c) 2003-2017 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
- * @class FunderGridRow
+ * @class ObjectForReviewGridRow
  * @ingroup plugins_generic_funding
  *
- * @brief Handle funder grid row requests.
+ * @brief Handle ObjectForReview grid row requests.
  */
 
 import('lib.pkp.classes.controllers.grid.GridRow');
 
-class FunderGridRow extends GridRow {
+class ObjectForReviewGridRow extends GridRow {
 	/** @var boolean */
 	var $_readOnly;
 
@@ -35,19 +35,19 @@ class FunderGridRow extends GridRow {
 	 */
 	function initialize($request, $template = null) {
 		parent::initialize($request, $template);
-		$funderId = $this->getId();
+		$ObjectForReviewId = $this->getId();
 		$submissionId = $request->getUserVar('submissionId');
 
-		if (!empty($funderId) && !$this->isReadOnly()) {
+		if (!empty($ObjectForReviewId) && !$this->isReadOnly()) {
 			$router = $request->getRouter();
 
 			// Create the "edit" action
 			import('lib.pkp.classes.linkAction.request.AjaxModal');
 			$this->addAction(
 				new LinkAction(
-					'editFunderItem',
+					'editObjectForReviewItem',
 					new AjaxModal(
-						$router->url($request, null, null, 'editFunder', null, array('funderId' => $funderId, 'submissionId' => $submissionId)),
+						$router->url($request, null, null, 'editObjectForReview', null, array('ObjectForReviewId' => $ObjectForReviewId, 'submissionId' => $submissionId)),
 						__('grid.action.edit'),
 						'modal_edit',
 						true),
@@ -65,7 +65,7 @@ class FunderGridRow extends GridRow {
 						$request->getSession(),
 						__('common.confirmDelete'),
 						__('grid.action.delete'),
-						$router->url($request, null, null, 'deleteFunder', null, array('funderId' => $funderId, 'submissionId' => $submissionId)), 'modal_delete'
+						$router->url($request, null, null, 'deleteObjectForReview', null, array('ObjectForReviewId' => $ObjectForReviewId, 'submissionId' => $submissionId)), 'modal_delete'
 					),
 					__('grid.action.delete'),
 					'delete'
