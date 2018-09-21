@@ -103,48 +103,16 @@ class ObjectsForReviewForm extends Form {
 			$objectForReview->setSubmissionId($this->submissionId);
 		}
 
-		$funderName = '';
-		$funderIdentification = '';
-		$funderNameIdentification = $this->getData('funderNameIdentification');
-		$subOrganizationNameIdentification = $this->getData('subsidiaryOption');
-		if ($funderNameIdentification != ''){
-			$funderName = trim(preg_replace('/\s*\[.*?\]\s*/ ', '', $funderNameIdentification));
-			if (preg_match('/\[(.*?)\]/', $funderNameIdentification, $output)) {
-				$funderIdentification = $output[1];
-				if ($subOrganizationNameIdentification != ''){
-					$funderName = trim(preg_replace('/\s*\[.*?\]\s*/ ', '', $subOrganizationNameIdentification	));
-					$doiPrefix = '';
-					if (preg_match('/(http:\/\/dx\.doi\.org\/10\.\d{5}\/)(.+)/', $funderIdentification, $output)) {
-						$doiPrefix = $output[1];
-					}
-					if (preg_match('/\[(.*?)\]/', $subOrganizationNameIdentification, $output)) {
-						$funderIdentification = $doiPrefix . $output[1];
-					}
-				}
-			}
-		}
+		$objectForReview->setIdentifier($this->getData('identifier'));
+		$objectForReview->setIdentifierType($this->getData('identifierType'));
+		$objectForReview->setDescription($this->getData('description'));
 
-		$funder->setFunderName($funderName);
-		$funder->setFunderIdentification($funderIdentification);
 
-		if ($funderId) {
-			$funderDao->updateObject($funder);
-			$funderAwardDao->deleteByFunderId($funderId);
+		if ($reviewId) {
+			$objectForReview->updateObject($objectForReview);
 		} else {
-			$funderId = $funderDao->insertObject($funder);
+			$objectForReview = $objectForReviewDao->insertObject($objectForReview);
 		}
-
-		$funderAwards = array();
-		if (!empty($this->getData('funderAwards'))) {
-			$funderAwards = explode(';', $this->getData('funderAwards'));
-		}
-		foreach ($funderAwards as $funderAwardNumber){
-			$funderAward = $funderAwardDao->newDataObject();
-			$funderAward->setFunderId($funderId);
-			$funderAward->setFunderAwardNumber($funderAwardNumber);
-			$funderAwardDao->insertObject($funderAward);
-		}
-
 
 	}
 }

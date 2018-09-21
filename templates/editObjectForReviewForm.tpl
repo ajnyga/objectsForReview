@@ -14,23 +14,32 @@
 	{rdelim});
 </script>
 
-{url|assign:actionUrl router=$smarty.const.ROUTE_COMPONENT component="plugins.generic.objectsForReview.controllers.grid.ObjectsForReviewGridHandler" op="updateObjectForReview" submissionId=$submissionId escape=false}
+{capture assign="actionUrl"}{url router=$smarty.const.ROUTE_COMPONENT component="plugins.generic.objectsForReview.controllers.grid.ObjectsForReviewGridHandler" op="updateObjectForReview" submissionId=$submissionId escape=false}{/capture}
+
 <form class="pkp_form" id="objectsForReviewForm" method="post" action="{$actionUrl}">
 	{csrf}
-	{if $funderId}
-		<input type="hidden" name="funderId" value="{$funderId|escape}" />
+	{if $reviewId}
+		<input type="hidden" name="reviewId" value="{$reviewId|escape}" />
 	{/if}
 	{fbvFormArea id="objectsForReviewFormArea" class="border"}
-		{fbvFormSection}
-			<span id="funderError" class="error" style="display:none">{translate key="plugins.generic.objectsForReview.funderNameIdentificationRequired.registry"}</span>
-			{fbvElement type="hidden" class="funderNameIdentification" label="plugins.generic.objectsForReview.funderNameIdentification" id="funderNameIdentification" value=$funderNameIdentification maxlength="255" inline=true size=$fbvStyles.size.LARGE}
-			<span>{translate key="plugins.generic.objectsForReview.funderNameIdentification"}</span>
+
+
+		{fbvFormSection for="identifierType" description="plugins.generic.objectsForReview.itemIdentifierType"}
+			{fbvElement type="select" id="identifierType" from=$identifierTypes selected=$identifierType translate=false size=$fbvStyles.size.SMALL}
 		{/fbvFormSection}
-		{fbvFormSection}
-			{fbvElement type="hidden" class="funderAwards" label="plugins.generic.objectsForReview.funderGrants" id="funderAwards" value=$funderAwards maxlength="255" inline=true size=$fbvStyles.size.LARGE}
-			<span>{translate key="plugins.generic.objectsForReview.funderGrants"}</span>
-		{/fbvFormSection}				
+
+		{fbvFormSection label="plugins.generic.objectsForReview.itemIdentifier" for="identifier"}
+			{fbvElement type="text" id="identifier" value=$identifier maxlength="255" inline=true multilingual=false size=$fbvStyles.size.MEDIUM}
+		{/fbvFormSection}
+
+		{fbvFormSection label="plugins.generic.objectsForReview.itemDescription" for="description"}
+			{fbvElement type="textarea" multilingual=true name="description" id="description" value=$description rich=true height=$fbvStyles.height.TALL variables=$allowedVariables}
+		{/fbvFormSection}
+
+
 	{/fbvFormArea}
+
+
 	{fbvFormSection class="formButtons"}
 		{assign var=buttonId value="submitFormButton"|concat:"-"|uniqid}
 		{fbvElement type="submit" class="submitFormButton" id=$buttonId label="common.save"}
