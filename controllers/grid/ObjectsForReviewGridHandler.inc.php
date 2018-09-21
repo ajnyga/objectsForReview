@@ -176,9 +176,9 @@ class ObjectsForReviewGridHandler extends GridHandler {
 	/**
 	 * @copydoc GridHandler::getJSHandler()
 	 */
-	public function getJSHandler() {
-		return '$.pkp.plugins.generic.funding.ObjectsForReviewGridHandler';
-	}
+	#public function getJSHandler() {
+	#	return '$.pkp.plugins.generic.funding.ObjectsForReviewGridHandler';
+	#}
 
 	//
 	// Public Grid Actions
