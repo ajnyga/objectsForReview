@@ -199,7 +199,7 @@ class ObjectsForReviewGridHandler extends GridHandler {
 	 * @return string Serialized JSON object
 	 */
 	function editObjectsForReview($args, $request) {
-		$objectsForReviewId = $request->getUserVar('objectsForReviewId');
+		$reviewId = $request->getUserVar('reviewId');
 		$context = $request->getContext();
 		$submission = $this->getSubmission();
 		$submissionId = $submission->getId();
@@ -208,7 +208,7 @@ class ObjectsForReviewGridHandler extends GridHandler {
 
 		// Create and present the edit form
 		import('plugins.generic.objectsForReview.controllers.grid.form.ObjectsForReviewForm');
-		$objectsForReviewForm = new ObjectsForReviewForm(self::$plugin, $context->getId(), $submissionId, $objectsForReviewId);
+		$objectsForReviewForm = new ObjectsForReviewForm(self::$plugin, $context->getId(), $submissionId, $reviewId);
 		$objectsForReviewForm->initData();
 		$json = new JSONMessage(true, $objectsForReviewForm->fetch($request));
 		return $json->getString();
