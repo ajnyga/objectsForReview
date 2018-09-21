@@ -106,6 +106,8 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 
 			HookRegistry::register('LoadComponentHandler', array($this, 'setupGridHandler'));
 
+			HookRegistry::register('TemplateManager::display',array($this, 'addGridhandlerJs'));			
+
 			HookRegistry::register('Templates::Article::Main', array($this, 'addSubmissionDisplay'));
 			HookRegistry::register('Templates::Catalog::Book::Main', array($this, 'addSubmissionDisplay'));
 
@@ -178,22 +180,35 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 	}
 
 	/**
-		 * @copydoc Plugin::getInstallSchemaFile()
-		 */
-		function getInstallSchemaFile() {
-			return $this->getPluginPath() . '/schema.xml';
-		}
-
-
-
-		/**
-	 * @copydoc PKPPlugin::getTemplatePath
-
-	function getTemplatePath($inCore = false) {
-		return $this->getTemplateResource('plugins/generic/objectsForReview/templates/');
+	 * @copydoc Plugin::getInstallSchemaFile()
+	 */
+	function getInstallSchemaFile() {
+		return $this->getPluginPath() . '/schema.xml';
 	}
 
-*/
+	/**
+	 * Add custom gridhandlerJS for backend
+	 */
+	function addGridhandlerJs($hookName, $params) {
+		$templateMgr = $params[0];
+		$request = $this->getRequest();
+		$gridHandlerJs = $this->getJavaScriptURL($request, false) . DIRECTORY_SEPARATOR . 'ObjectsForReviewGridHandler.js';
+		$templateMgr->addJavaScript(
+			'ObjectsForReviewGridHandlerJs',
+			$gridHandlerJs,
+			array('contexts' => 'backend')
+		);
+		return false;
+	}
+
+	/**
+	 * Get the JavaScript URL for this plugin.
+	 */
+	function getJavaScriptURL() {
+		return Request::getBaseUrl() . DIRECTORY_SEPARATOR . $this->getPluginPath() . DIRECTORY_SEPARATOR . 'js';
+	}
+
+
 }
 
 ?>

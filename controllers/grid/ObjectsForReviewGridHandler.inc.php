@@ -173,10 +173,9 @@ class ObjectsForReviewGridHandler extends GridHandler {
 	/**
 	 * @copydoc GridHandler::getJSHandler()
 	 */
-	#public function getJSHandler() {
-	#	return '$.pkp.plugins.generic.funding.ObjectsForReviewGridHandler';
-	#}
-
+	public function getJSHandler() {
+		return '$.pkp.plugins.generic.objectsForReview.ObjectsForReviewGridHandler';
+	}
 
 	//
 	// Public Grid Actions
@@ -252,12 +251,12 @@ class ObjectsForReviewGridHandler extends GridHandler {
 	 * @return string Serialized JSON object
 	 */
 	function deleteObjectsForReview($args, $request) {
-		$objectForReviewId = $request->getUserVar('objectForReviewId');
+		$reviewId = $request->getUserVar('reviewId');
 		$submission = $this->getSubmission();
 		$submissionId = $submission->getId();
 
 		$objectForReviewDao = DAORegistry::getDAO('ObjectForReviewDAO');
-		$objectsForReview = $objectForReviewDao->getById($objectForReviewId, $submissionId);
+		$objectsForReview = $objectForReviewDao->getById($reviewId, $submissionId);
 
 		$objectForReviewDao->deleteObject($objectsForReview);
 		return DAO::getDataChangedEvent($submissionId);
@@ -298,6 +297,7 @@ class ObjectsForReviewGridHandler extends GridHandler {
 	function getTemplatePath($inCore = false) {
 		return parent::getTemplatePath($inCore) . 'templates/';
 	}
+
 
 }
 
