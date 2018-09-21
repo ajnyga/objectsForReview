@@ -176,14 +176,14 @@ class ObjectsForReviewGridHandler extends GridHandler {
 	#public function getJSHandler() {
 	#	return '$.pkp.plugins.generic.funding.ObjectsForReviewGridHandler';
 	#}
-	
+
 
 	//
 	// Public Grid Actions
 	//
 	/**
-	 * An action to add a new 
-	 ForReview item
+	 * An action to add a new
+	*  ForReview item
 	 * @param $args array Arguments to the request
 	 * @param $request PKPRequest
 	 */
@@ -297,7 +297,7 @@ class ObjectsForReviewGridHandler extends GridHandler {
 	 */
 	function getTemplatePath($inCore = false) {
 		return parent::getTemplatePath($inCore) . 'templates/';
-	}	
+	}
 
 }
 

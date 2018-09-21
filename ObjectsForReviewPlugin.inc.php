@@ -106,8 +106,8 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 
 			HookRegistry::register('LoadComponentHandler', array($this, 'setupGridHandler'));
 
-			HookRegistry::register('Templates::Article::Details', array($this, 'addSubmissionDisplay'));
-			HookRegistry::register('Templates::Catalog::Book::Details', array($this, 'addSubmissionDisplay'));
+			HookRegistry::register('Templates::Article::Main', array($this, 'addSubmissionDisplay'));
+			HookRegistry::register('Templates::Catalog::Book::Main', array($this, 'addSubmissionDisplay'));
 
 		}
 		return $success;
@@ -155,28 +155,26 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 		$submission = $templateMgr->get_template_vars('monograph') ? $templateMgr->get_template_vars('monograph') : $templateMgr->get_template_vars('article');
 
 		$objectForReviewDao = DAORegistry::getDAO('ObjectForReviewDAO');
+		$objectForReview = $objectForReviewDao->getBySubmissionId($submission->getId());
+		$objectsForReviewIterator = $objectForReviewDao->getBySubmissionId($submission->getId());
 
-		$objectsForReview = $objectForReviewDao->getBySubmissionId($submission->getId());
+		$templateData = array();
 
-		/*
-		$funderData = array();
-		while ($funder = $funders->next()) {
-			$funderId = $funder->getId();
-			$funderAwards = $funderAwardDao->getFunderAwardNumbersByFunderId($funderId);
-			$funderData[$funderId] = array(
-				'funderName' => $funder->getFunderName(),
-				'funderIdentification' => $funder->getFunderIdentification(),
-				'funderAwards' => implode(";", $funderAwards)
+		while ($objectsForReview = $objectsForReviewIterator->next()) {
+			$objectsForReviewId = $objectsForReview->getId();
+			$templateData[$objectsForReviewId] = array(
+				'identifierType' => $objectsForReview->getIdentifierType(),
+				'identifier' => $objectsForReview->getIdentifier(),
+				'description' => $objectsForReview->getDescription()
 			);
 		}
 
-		if ($funderData){
-			$templateMgr->assign('funderData', $funderData);
-			$output .= $templateMgr->fetch($this->getTemplatePath() . 'listFunders.tpl');
+		if ($objectForReview){
+			$templateMgr->assign('objectsForReview', $templateData);
+			$output .= $templateMgr->fetch($this->getTemplateResource('listReviews.tpl'));
 		}
-		*/
-		return false;
 
+		return false;
 	}
 
 	/**

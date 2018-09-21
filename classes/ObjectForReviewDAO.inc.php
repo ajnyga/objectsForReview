@@ -42,7 +42,7 @@ class ObjectForReviewDAO extends DAO {
 	}
 
 	/**
-	 * Get a objects for review by submission ID
+	 * Get a object for review by submission ID
 	 * @param $submissionId int Submission ID
 	 * @param $contextId int (optional) context ID
 	 */
@@ -164,7 +164,7 @@ class ObjectForReviewDAO extends DAO {
 		return $this->_getInsertId('objects_for_review', 'review_id');
 	}
 
-	
+
 	/**
 	 * Get the additional field names.
 	 * @return array
