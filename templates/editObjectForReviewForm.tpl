@@ -14,7 +14,7 @@
 	{rdelim});
 </script>
 
-{capture assign="actionUrl"}{url router=$smarty.const.ROUTE_COMPONENT component="plugins.generic.objectsForReview.controllers.grid.ObjectsForReviewGridHandler" op="updateObjectForReview" submissionId=$submissionId escape=false}{/capture}
+{capture assign="actionUrl"}{url router=$smarty.const.ROUTE_COMPONENT component="plugins.generic.objectsForReview.controllers.grid.ObjectsForReviewGridHandler" op="updateObjectsForReview" submissionId=$submissionId escape=false}{/capture}
 
 <form class="pkp_form" id="objectsForReviewForm" method="post" action="{$actionUrl}">
 	{csrf}
@@ -25,7 +25,7 @@
 
 
 		{fbvFormSection for="identifierType" label="plugins.generic.objectsForReview.itemIdentifierType"}
-			{fbvElement type="select" id="identifierType" from=$identifierTypes selected=$identifierType translate=false size=$fbvStyles.size.SMALL}
+			{fbvElement type="select" id="identifierType" from=$identifierTypes selected=$identifierType translate=false size=$fbvStyles.size.SMALL} 
 		{/fbvFormSection}
 
 		{fbvFormSection label="plugins.generic.objectsForReview.itemIdentifier" for="identifier"}

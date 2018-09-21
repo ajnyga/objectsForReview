@@ -81,6 +81,10 @@ class ObjectsForReviewForm extends Form {
 		$templateMgr = TemplateManager::getManager();
 		$templateMgr->assign('reviewId', $this->reviewId);
 		$templateMgr->assign('submissionId', $this->submissionId);
+
+		$identifierTypes = array('DOI'=>'DOI','ISBN'=>'ISBN','link'=>'link');
+		$templateMgr->assign('identifierTypes', $identifierTypes);
+
 		return parent::fetch($request);
 	}
 
@@ -106,6 +110,8 @@ class ObjectsForReviewForm extends Form {
 		$objectForReview->setIdentifier($this->getData('identifier'));
 		$objectForReview->setIdentifierType($this->getData('identifierType'));
 		$objectForReview->setDescription($this->getData('description'));
+
+
 
 
 		if ($reviewId) {
