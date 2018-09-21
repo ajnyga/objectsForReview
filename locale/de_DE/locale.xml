@@ -27,5 +27,7 @@
   <message key="plugins.generic.objectsForReview.noneCreated">Diese Einreichung hat keine rezensierten Objekte.</message>
 
   <!-- article landing page -->
-  <message key="plugins.generic.objectsForReview.objectsForReviewData">Rezensierte Werke:</message>
+  <message key="plugins.generic.objectsForReview.objectsForReviewData.singular">Rezensiertes Werk</message>
+  <message key="plugins.generic.objectsForReview.objectsForReviewData.plural">Rezensierte Werke</message>
+
 </locale>

@@ -27,5 +27,7 @@
   <message key="plugins.generic.objectsForReview.noneCreated">No object for review in this submission.</message>
 
   <!-- article landing page -->
-  <message key="plugins.generic.objectsForReview.objectsForReviewData">Reviewed publications:</message>
+  <message key="plugins.generic.objectsForReview.objectsForReviewData.singular">Reviewed publication</message>
+  <message key="plugins.generic.objectsForReview.objectsForReviewData.plural">Reviewed publications</message>
+
 </locale>
