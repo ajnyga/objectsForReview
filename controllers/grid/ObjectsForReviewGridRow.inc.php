@@ -35,10 +35,10 @@ class ObjectForReviewGridRow extends GridRow {
 	 */
 	function initialize($request, $template = null) {
 		parent::initialize($request, $template);
-		$ObjectForReviewId = $this->getId();
+		$objectForReviewId = $this->getId();
 		$submissionId = $request->getUserVar('submissionId');
 
-		if (!empty($ObjectForReviewId) && !$this->isReadOnly()) {
+		if (!empty($objectForReviewId) && !$this->isReadOnly()) {
 			$router = $request->getRouter();
 
 			// Create the "edit" action
@@ -47,7 +47,7 @@ class ObjectForReviewGridRow extends GridRow {
 				new LinkAction(
 					'editObjectForReviewItem',
 					new AjaxModal(
-						$router->url($request, null, null, 'editObjectForReview', null, array('ObjectForReviewId' => $ObjectForReviewId, 'submissionId' => $submissionId)),
+						$router->url($request, null, null, 'editObjectForReview', null, array('objectForReviewId' => $objectForReviewId, 'submissionId' => $submissionId)),
 						__('grid.action.edit'),
 						'modal_edit',
 						true),
@@ -65,7 +65,7 @@ class ObjectForReviewGridRow extends GridRow {
 						$request->getSession(),
 						__('common.confirmDelete'),
 						__('grid.action.delete'),
-						$router->url($request, null, null, 'deleteObjectForReview', null, array('ObjectForReviewId' => $ObjectForReviewId, 'submissionId' => $submissionId)), 'modal_delete'
+						$router->url($request, null, null, 'deleteObjectForReview', null, array('objectForReviewId' => $objectForReviewId, 'submissionId' => $submissionId)), 'modal_delete'
 					),
 					__('grid.action.delete'),
 					'delete'

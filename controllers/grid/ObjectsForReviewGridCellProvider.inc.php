@@ -30,12 +30,12 @@ class ObjectsForReviewGridCellProvider extends GridCellProvider {
 	function getTemplateVarsFromRowColumn($row, $column) {
 		$objectsForReviewItem = $row->getData();
 		switch ($column->getId()) {
-			case 'objectsForReviewName':
-				return array('label' => $objectsForReviewItem['objectsForReviewName']);
-			case 'objectsForReviewIdentification':
-				return array('label' => $objectsForReviewItem['objectsForReviewIdentification']);
-			case 'objectsForReviewGrants':
-				return array('label' => $objectsForReviewItem['objectsForReviewGrants']);
+			case 'identifierType':
+				return array('label' => $objectsForReviewItem['identifierType']);
+			case 'identifier':
+				return array('label' => $objectsForReviewItem['identifier']);
+			case 'description':
+				return array('label' => $objectsForReviewItem['description']);
 		}
 	}
 }

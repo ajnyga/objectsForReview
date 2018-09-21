@@ -93,26 +93,23 @@ class ObjectsForReviewGridHandler extends GridHandler {
 		$submissionId = $submission->getId();
 
 		// Set the grid details.
-		$this->setTitle('plugins.generic.funding.fundingData');
-		$this->setEmptyRowText('plugins.generic.funding.noneCreated');
+		$this->setTitle('plugins.generic.objectsForReview.objectsForReviewTitle');
+		$this->setEmptyRowText('plugins.generic.objectsForReview.noneCreated');
 
 		// Get the items and add the data to the grid
 		$objectForReviewDao = DAORegistry::getDAO('ObjectForReviewDAO');
-		$objectForReviewIterator = $objectForReviewDao->getBySubmissionId($submissionId);
+		$objectsForReviewIterator = $objectForReviewDao->getBySubmissionId($submissionId);
 
 		$gridData = array();
 
-		/*
 		while ($objectsForReview = $objectsForReviewIterator->next()) {
 			$objectsForReviewId = $objectsForReview->getId();
-			$objectsForReviewAwards = $objectsForReviewAwardDao->getObjectsForReviewAwardNumbersByObjectsForReviewId($objectsForReviewId);
 			$gridData[$objectsForReviewId] = array(
-				'objectsForReviewName' => $objectsForReview->getObjectsForReviewName(),
-				'objectsForReviewIdentification' => $objectsForReview->getObjectsForReviewIdentification(),
-				'objectsForReviewGrants' => implode(";", $objectsForReviewAwards)
+				'identifierType' => $objectsForReview->getIdentifierType(),
+				'identifier' => $objectsForReview->getIdentifier(),
+				'description' => $objectsForReview->getDescription()
 			);
 		}
-		*/
 
 		$this->setGridDataElements($gridData);
 
@@ -126,10 +123,10 @@ class ObjectsForReviewGridHandler extends GridHandler {
 					'addObjectsForReview',
 					new AjaxModal(
 						$router->url($request, null, null, 'addObjectsForReview', null, array('submissionId' => $submissionId)),
-						__('plugins.generic.funding.addObjectsForReview'),
+						__('plugins.generic.objectsForReview.addObjectsForReview'),
 						'modal_add_item'
 					),
-					__('plugins.generic.funding.addObjectsForReview'),
+					__('plugins.generic.objectsForReview.addObjectsForReview'),
 					'add_item'
 				)
 			);
@@ -140,22 +137,22 @@ class ObjectsForReviewGridHandler extends GridHandler {
 		// Columns
 		$cellProvider = new ObjectsForReviewGridCellProvider();
 		$this->addColumn(new GridColumn(
-			'objectsForReviewName',
-			'plugins.generic.funding.objectsForReviewName',
+			'identifierType',
+			'plugins.generic.objectsForReview.itemIdentifierType',
 			null,
 			'controllers/grid/gridCell.tpl',
 			$cellProvider
 		));
 		$this->addColumn(new GridColumn(
-			'objectsForReviewIdentification',
-			'plugins.generic.funding.objectsForReviewIdentification',
+			'identifier',
+			'plugins.generic.objectsForReview.itemIdentifier',
 			null,
 			'controllers/grid/gridCell.tpl',
 			$cellProvider
 		));
 		$this->addColumn(new GridColumn(
-			'objectsForReviewGrants',
-			'plugins.generic.funding.objectsForReviewGrants',
+			'description',
+			'plugins.generic.objectsForReview.ItemDescription',
 			null,
 			'controllers/grid/gridCell.tpl',
 			$cellProvider
@@ -179,6 +176,7 @@ class ObjectsForReviewGridHandler extends GridHandler {
 	#public function getJSHandler() {
 	#	return '$.pkp.plugins.generic.funding.ObjectsForReviewGridHandler';
 	#}
+	
 
 	//
 	// Public Grid Actions
@@ -210,7 +208,7 @@ class ObjectsForReviewGridHandler extends GridHandler {
 		$this->setupTemplate($request);
 
 		// Create and present the edit form
-		import('plugins.generic.funding.controllers.grid.form.ObjectsForReviewForm');
+		import('plugins.generic.objectsForReview.controllers.grid.form.ObjectsForReviewForm');
 		$objectsForReviewForm = new ObjectsForReviewForm(self::$plugin, $context->getId(), $submissionId, $objectsForReviewId);
 		$objectsForReviewForm->initData();
 		$json = new JSONMessage(true, $objectsForReviewForm->fetch($request));
@@ -232,7 +230,7 @@ class ObjectsForReviewGridHandler extends GridHandler {
 		$this->setupTemplate($request);
 
 		// Create and populate the form
-		import('plugins.generic.funding.controllers.grid.form.ObjectsForReviewForm');
+		import('plugins.generic.objectsForReview.controllers.grid.form.ObjectsForReviewForm');
 		$objectsForReviewForm = new ObjectsForReviewForm(self::$plugin, $context->getId(), $submissionId, $objectsForReviewId);
 		$objectsForReviewForm->readInputData();
 		// Validate
@@ -292,6 +290,14 @@ class ObjectsForReviewGridHandler extends GridHandler {
 		// Default: Read-only.
 		return false;
 	}
+
+
+	/**
+	 * @copydoc Plugin::getTemplatePath()
+	 */
+	function getTemplatePath($inCore = false) {
+		return parent::getTemplatePath($inCore) . 'templates/';
+	}	
 
 }
 
