@@ -15,7 +15,7 @@
 
 import('lib.pkp.classes.controllers.grid.GridRow');
 
-class ObjectForReviewGridRow extends GridRow {
+class ObjectsForReviewGridRow extends GridRow {
 	/** @var boolean */
 	var $_readOnly;
 

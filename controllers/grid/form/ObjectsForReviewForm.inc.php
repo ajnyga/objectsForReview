@@ -1,14 +1,14 @@
 <?php
 
 /**
- * @file plugins/generic/funding/controllers/grid/form/FunderForm.inc.php
+ * @file plugins/generic/objectsForReview/controllers/grid/form/ObjectsForReviewForm.inc.php
  *
  * Copyright (c) 2014-2017 Simon Fraser University
  * Copyright (c) 2003-2017 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
- * @class FunderForm
- * @ingroup controllers_grid_funding
+ * @class ObjectsForReviewForm
+ * @ingroup controllers_grid_objectsForReview
  *
  * Form for adding/editing a funder
  *
@@ -16,33 +16,35 @@
 
 import('lib.pkp.classes.form.Form');
 
-class FunderForm extends Form {
+class ObjectsForReviewForm extends Form {
 	/** @var int Context ID */
 	var $contextId;
 
 	/** @var int Submission ID */
 	var $submissionId;
 
-	/** @var FundingPlugin */
+	/** @var ObjectsForReviewPlugin */
 	var $plugin;
 
 	/**
 	 * Constructor
-	 * @param $fundingPlugin FundingPlugin
+	 * @param $objectsForReviewPlugin objectsForReviewPlugin
 	 * @param $contextId int Context ID
 	 * @param $submissionId int Submission ID
 	 * @param $funderId int (optional) Funder ID
 	 */
-	function __construct($fundingPlugin, $contextId, $submissionId, $funderId = null) {
-		parent::__construct($fundingPlugin->getTemplatePath() . 'editFunderForm.tpl');
+	function __construct($objectsForReviewPlugin, $contextId, $submissionId, $reviewId = null) {
+		parent::__construct($objectsForReviewPlugin->getTemplateResource('editObjectForReviewForm.tpl'));
 
 		$this->contextId = $contextId;
 		$this->submissionId = $submissionId;
-		$this->funderId = $funderId;
-		$this->plugin = $fundingPlugin;
+		$this->reviewId = $reviewId;
+		$this->plugin = $objectsForReviewPlugin;
 
 		// Add form checks
-		$this->addCheck(new FormValidator($this, 'funderNameIdentification', 'required', 'plugins.generic.funding.funderNameIdentificationRequired'));
+		$this->addCheck(new FormValidator($this, 'identifierType', 'required', 'plugins.generic.objectsForReview.identifierTypeRequired'));
+		$this->addCheck(new FormValidator($this, 'description', 'required', 'plugins.generic.objectsForReview.descriptionRequired'));
+		$this->addCheck(new FormValidator($this, 'identifier', 'required', 'plugins.generic.objectsForReview.identifierRequired'));
 		$this->addCheck(new FormValidatorPost($this));
 		$this->addCheck(new FormValidatorCSRF($this));
 
@@ -53,15 +55,15 @@ class FunderForm extends Form {
 	 */
 	function initData() {
 		$this->setData('submissionId', $this->submissionId);
-		if ($this->funderId) {
-			$funderDao = DAORegistry::getDAO('FunderDAO');
-			$funderAwardDao = DAORegistry::getDAO('FunderAwardDAO');
+		if ($this->reviewId) {
 
-			$funder = $funderDao->getById($this->funderId);
-			$this->setData('funderNameIdentification', $funder->getFunderNameIdentification());
+			$objectForReviewDao = DAORegistry::getDAO('ObjectForReviewDAO');
+			$objectForReview = $objectForReviewDao->getById($this->reviewId);
+			
+			$this->setData('identifierType', $objectForReview->getIdentifierType());
+			$this->setData('description', $objectForReview->getDescription());
+			$this->setData('identifier', $objectForReview->getIdentifier());
 
-			$funderAwards = $funderAwardDao->getFunderAwardNumbersByFunderId($this->funderId);
-			$this->setData('funderAwards', implode(';', $funderAwards));
 		}
 	}
 
@@ -69,7 +71,7 @@ class FunderForm extends Form {
 	 * @copydoc Form::readInputData()
 	 */
 	function readInputData() {
-		$this->readUserVars(array('funderNameIdentification', 'funderAwards', 'subsidiaryOption'));
+		$this->readUserVars(array('identifierType', 'description', 'identifier'));
 	}
 
 	/**
@@ -77,10 +79,8 @@ class FunderForm extends Form {
 	 */
 	function fetch($request) {
 		$templateMgr = TemplateManager::getManager();
-		$templateMgr->assign('funderId', $this->funderId);
+		$templateMgr->assign('reviewId', $this->reviewId);
 		$templateMgr->assign('submissionId', $this->submissionId);
-		$subsidiaryOptions = array('' => __('plugins.generic.funding.funderSubOrganization.select'));
-		$templateMgr->assign('subsidiaryOptions', $subsidiaryOptions);
 		return parent::fetch($request);
 	}
 
@@ -88,18 +88,19 @@ class FunderForm extends Form {
 	 * Save form values into the database
 	 */
 	function execute() {
-		$funderId = $this->funderId;
-		$funderDao = DAORegistry::getDAO('FunderDAO');
-		$funderAwardDao = DAORegistry::getDAO('FunderAwardDAO');
+		$reviewId = $this->reviewId;
 
-		if ($funderId) {
+
+		$objectForReviewDao = DAORegistry::getDAO('ObjectForReviewDAO');
+
+		if ($reviewId) {
 			// Load and update an existing funder
-			$funder = $funderDao->getById($this->funderId, $this->submissionId);
+			$objectForReview = $objectForReviewDao->getById($this->reviewId, $this->submissionId);
 		} else {
 			// Create a new
-			$funder = $funderDao->newDataObject();
-			$funder->setContextId($this->contextId);
-			$funder->setSubmissionId($this->submissionId);
+			$objectForReview = $objectForReviewDao->newDataObject();
+			$objectForReview->setContextId($this->contextId);
+			$objectForReview->setSubmissionId($this->submissionId);
 		}
 
 		$funderName = '';
@@ -143,6 +144,8 @@ class FunderForm extends Form {
 			$funderAward->setFunderAwardNumber($funderAwardNumber);
 			$funderAwardDao->insertObject($funderAward);
 		}
+
+
 	}
 }
 
