@@ -10,7 +10,7 @@
  * @class ObjectsForReviewForm
  * @ingroup controllers_grid_objectsForReview
  *
- * Form for adding/editing a funder
+ * Form for adding/editing an objectForReview
  *
  */
 
@@ -31,7 +31,7 @@ class ObjectsForReviewForm extends Form {
 	 * @param $objectsForReviewPlugin objectsForReviewPlugin
 	 * @param $contextId int Context ID
 	 * @param $submissionId int Submission ID
-	 * @param $funderId int (optional) Funder ID
+	 * @param $reviewId int (optional) Review ID
 	 */
 	function __construct($objectsForReviewPlugin, $contextId, $submissionId, $reviewId = null) {
 		parent::__construct($objectsForReviewPlugin->getTemplateResource('editObjectForReviewForm.tpl'));
@@ -93,8 +93,6 @@ class ObjectsForReviewForm extends Form {
 	 */
 	function execute() {
 		$reviewId = $this->reviewId;
-
-
 		$objectForReviewDao = DAORegistry::getDAO('ObjectForReviewDAO');
 
 		if ($reviewId) {
@@ -110,9 +108,6 @@ class ObjectsForReviewForm extends Form {
 		$objectForReview->setIdentifier($this->getData('identifier'));
 		$objectForReview->setIdentifierType($this->getData('identifierType'));
 		$objectForReview->setDescription($this->getData('description'));
-
-
-
 
 		if ($reviewId) {
 			$objectForReview->updateObject($objectForReview);

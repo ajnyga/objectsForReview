@@ -23,7 +23,6 @@
 	{/if}
 	{fbvFormArea id="objectsForReviewFormArea" class="border"}
 
-
 		{fbvFormSection for="identifierType" label="plugins.generic.objectsForReview.itemIdentifierType"}
 			{fbvElement type="select" id="identifierType" from=$identifierTypes selected=$identifierType translate=false size=$fbvStyles.size.SMALL} 
 		{/fbvFormSection}
@@ -33,12 +32,10 @@
 		{/fbvFormSection}
 
 		{fbvFormSection label="plugins.generic.objectsForReview.itemDescription" for="description"}
-			{fbvElement type="textarea" multilingual=true name="description" id="description" value=$description rich=true height=$fbvStyles.height.TALL variables=$allowedVariables}
+			{fbvElement type="textarea" multilingual=false name="description" id="description" value=$description rich=false height=$fbvStyles.height.TALL variables=$allowedVariables}
 		{/fbvFormSection}
 
-
 	{/fbvFormArea}
-
 
 	{fbvFormSection class="formButtons"}
 		{assign var=buttonId value="submitFormButton"|concat:"-"|uniqid}

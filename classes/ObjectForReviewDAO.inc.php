@@ -65,6 +65,7 @@ class ObjectForReviewDAO extends DAO {
 	 * @return int Inserted objectForReview ID
 	 */
 	function insertObject($objectForReview) {
+
 		$this->update(
 			'INSERT INTO objects_for_review (submission_id, context_id, identifier, identifier_type, description) VALUES (?, ?, ?, ?, ?)',
 			array(
@@ -75,9 +76,11 @@ class ObjectForReviewDAO extends DAO {
 				$objectForReview->getDescription()
 			)
 		);
+		
 		$objectForReview->setId($this->getInsertId());
 		#$this->updateLocaleFields($objectForReview);
 		return $objectForReview->getId();
+
 	}
 
 	/**
@@ -107,16 +110,16 @@ class ObjectForReviewDAO extends DAO {
 	 * Delete a objectForReview by ID.
 	 * @param $objectForReviewId int
 	 */
-	function deleteById($objectForReviewId) {
+	function deleteById($reviewId) {
 
 		$this->update(
 			'DELETE FROM objects_for_review WHERE review_id = ?',
-			(int) $objectForReviewId
+			(int) $reviewId
 		);
 
 		$this->update(
 			'DELETE FROM objects_for_review WHERE review_id = ?',
-			(int) $objectForReviewId
+			(int) $reviewId
 		);
 	}
 
