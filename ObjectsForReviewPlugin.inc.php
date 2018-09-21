@@ -47,6 +47,10 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 		$success = parent::register($category, $path, $mainContextId);
 		if ($success && $this->getEnabled($mainContextId)) {
 
+			import('plugins.generic.objectsForReview.classes.ObjectForReviewDAO');
+			$objectForReviewDao = new ObjectForReviewDAO();
+			DAORegistry::registerDAO('ObjectForReviewDAO', $objectForReviewDao);			
+
 			HookRegistry::register('Templates::Submission::SubmissionMetadataForm::AdditionalMetadata', array($this, 'metadataFieldEdit'));
 
 			HookRegistry::register('LoadComponentHandler', array($this, 'setupGridHandler'));
@@ -81,7 +85,10 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 		$smarty =& $params[1];
 		$output =& $params[2];
 		$request = $this->getRequest();
+		
 		$output .= $smarty->fetch($this->getTemplatePath() . 'metadataForm.tpl');
+
+
 		return false;
 	}
 
@@ -96,11 +103,11 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 
 		$submission = $templateMgr->get_template_vars('monograph') ? $templateMgr->get_template_vars('monograph') : $templateMgr->get_template_vars('article');
 
-		$funderDao = DAORegistry::getDAO('FunderDAO');
-		$funderAwardDao = DAORegistry::getDAO('FunderAwardDAO');
+		$objectForReviewDao = DAORegistry::getDAO('ObjectForReviewDAO');
 
-		$funders = $funderDao->getBySubmissionId($submission->getId());
+		$objectsForReview = $objectForReviewDao->getBySubmissionId($submission->getId());
 
+		/*
 		$funderData = array();
 		while ($funder = $funders->next()) {
 			$funderId = $funder->getId();
@@ -116,7 +123,7 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 			$templateMgr->assign('funderData', $funderData);
 			$output .= $templateMgr->fetch($this->getTemplatePath() . 'listFunders.tpl');
 		}
-
+		*/
 		return false;
 
 	}

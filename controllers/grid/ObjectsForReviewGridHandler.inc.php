@@ -97,11 +97,12 @@ class ObjectsForReviewGridHandler extends GridHandler {
 		$this->setEmptyRowText('plugins.generic.funding.noneCreated');
 
 		// Get the items and add the data to the grid
-		$objectsForReviewDao = DAORegistry::getDAO('ObjectsForReviewDAO');
-		$objectsForReviewAwardDao = DAORegistry::getDAO('ObjectsForReviewAwardDAO');
-		$objectsForReviewIterator = $objectsForReviewDao->getBySubmissionId($submissionId);
+		$objectForReviewDao = DAORegistry::getDAO('ObjectForReviewDAO');
+		$objectForReviewIterator = $objectForReviewDao->getBySubmissionId($submissionId);
 
 		$gridData = array();
+
+		/*
 		while ($objectsForReview = $objectsForReviewIterator->next()) {
 			$objectsForReviewId = $objectsForReview->getId();
 			$objectsForReviewAwards = $objectsForReviewAwardDao->getObjectsForReviewAwardNumbersByObjectsForReviewId($objectsForReviewId);
@@ -111,6 +112,7 @@ class ObjectsForReviewGridHandler extends GridHandler {
 				'objectsForReviewGrants' => implode(";", $objectsForReviewAwards)
 			);
 		}
+		*/
 
 		$this->setGridDataElements($gridData);
 
@@ -182,7 +184,8 @@ class ObjectsForReviewGridHandler extends GridHandler {
 	// Public Grid Actions
 	//
 	/**
-	 * An action to add a new objectsForReview item
+	 * An action to add a new 
+	 ForReview item
 	 * @param $args array Arguments to the request
 	 * @param $request PKPRequest
 	 */
@@ -251,14 +254,14 @@ class ObjectsForReviewGridHandler extends GridHandler {
 	 * @return string Serialized JSON object
 	 */
 	function deleteObjectsForReview($args, $request) {
-		$objectsForReviewId = $request->getUserVar('objectsForReviewId');
+		$objectForReviewId = $request->getUserVar('objectForReviewId');
 		$submission = $this->getSubmission();
 		$submissionId = $submission->getId();
 
-		$objectsForReviewDao = DAORegistry::getDAO('ObjectsForReviewDAO');
-		$objectsForReview = $objectsForReviewDao->getById($objectsForReviewId, $submissionId);
+		$objectForReviewDao = DAORegistry::getDAO('ObjectForReviewDAO');
+		$objectsForReview = $objectForReviewDao->getById($objectForReviewId, $submissionId);
 
-		$objectsForReviewDao->deleteObject($objectsForReview);
+		$objectForReviewDao->deleteObject($objectsForReview);
 		return DAO::getDataChangedEvent($submissionId);
 	}
 
