@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE locale SYSTEM "../../../../../lib/pkp/dtd/locale.dtd">
+
+<!--
+  * plugins/generic/objectsForReview/locale/fi_FI/locale.xml
+  *
+  * Copyright (c) 2014-2018 Simon Fraser University
+  * Copyright (c) 2003-2018 John Willinsky
+  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
+  *
+  * Localization strings for this plugin.
+  *
+  -->
+  <locale name="fi_FI" full_name="Suomi">
+  <message key="plugins.generic.objectsForReview.displayName">Arvioinnin kohteet</message>
+  <message key="plugins.generic.objectsForReview.description">Tallenna arvioinnin kohdetta, esimerkiksi kirjaa, koskevat tiedot käsikirjoituksen yhteyteen.</message>
+
+  <!-- Settings Management -->
+  <message key="plugins.generic.objectsForReview.settings.displayInToc.display">Näytä arviointien kohteet sisällysluettelossa.</message>
+
+  <!-- Object listing in submission form -->
+  <message key="plugins.generic.objectsForReview.objectsForReviewTitle">Tässä käsikirjoituksessa arvioidut kohteet</message>
+  <message key="plugins.generic.objectsForReview.addObjectsForReview">Lisää arvioinnin kohde</message>
+  <message key="plugins.generic.objectsForReview.itemIdentifierType">Tunnisteen tyyppi</message>
+  <message key="plugins.generic.objectsForReview.itemIdentifier">Tunniste</message>
+  <message key="plugins.generic.objectsForReview.itemDescription">Kuvaus</message>
+  <message key="plugins.generic.objectsForReview.noneCreated">Tämä käsikirjoitus ei sisällä arvioinnin kohteita.</message>
+
+  <!-- article landing page -->
+  <message key="plugins.generic.objectsForReview.objectsForReviewData.singular">Arvioitu julkaisu</message>
+  <message key="plugins.generic.objectsForReview.objectsForReviewData.plural">Arvioidut julkaisut</message>
+
+</locale>
