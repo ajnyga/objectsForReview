@@ -19,16 +19,16 @@ import('plugins.generic.objectsForReview.classes.ObjectForReview');
 class ObjectForReviewDAO extends DAO {
 
 	/**
-	 * Get a funder by ID
-	 * @param $funderId int Funder ID
+	 * Get a object for review by ID
+	 * @param $reviewId int ObjectForReview ID
 	 * @param $submissionId int (optional) Submission ID
 	 */
-	function getById($funderId, $submissionId = null) {
-		$params = array((int) $funderId);
+	function getById($reviewId, $submissionId = null) {
+		$params = array((int) $reviewId);
 		if ($submissionId) $params[] = (int) $submissionId;
 
 		$result = $this->retrieve(
-			'SELECT * FROM funders WHERE funder_id = ?'
+			'SELECT * FROM objects_for_review WHERE review_id = ?'
 			. ($submissionId?' AND submission_id = ?':''),
 			$params
 		);
@@ -41,99 +41,99 @@ class ObjectForReviewDAO extends DAO {
 		return $returner;
 	}
 
-
 	/**
-	 * Get funders by submission ID.
+	 * Get a objects for review by submission ID
 	 * @param $submissionId int Submission ID
-	 * @param $contextId int (optional) Context ID
-	 * @return Funder
+	 * @param $contextId int (optional) context ID
 	 */
 	function getBySubmissionId($submissionId, $contextId = null) {
 		$params = array((int) $submissionId);
 		if ($contextId) $params[] = (int) $contextId;
 
 		$result = $this->retrieve(
-			'SELECT * FROM funders WHERE submission_id = ?'
+			'SELECT * FROM objects_for_review WHERE submission_id = ?'
 			. ($contextId?' AND context_id = ?':''),
 			$params
 		);
-		
+
 		return new DAOResultFactory($result, $this, '_fromRow');
 	}
 
 	/**
-	 * Insert a funder.
-	 * @param $funder Funder
-	 * @return int Inserted funder ID
+	 * Insert a object for review.
+	 * @param $funder ObjectForReview
+	 * @return int Inserted objectForReview ID
 	 */
-	function insertObject($funder) {
+	function insertObject($objectForReview) {
 		$this->update(
-			'INSERT INTO funders (funder_identification, submission_id, context_id) VALUES (?, ?, ?)',
+			'INSERT INTO objects_for_review (submission_id, context_id, identifier, identifier_type, description) VALUES (?, ?, ?, ?, ?)',
 			array(
-				$funder->getFunderIdentification(),
-				(int) $funder->getSubmissionId(),
-				(int) $funder->getContextId()
+				(int) $objectForReview->getSubmissionId(),
+				(int) $objectForReview->getContextId(),
+				$objectForReview->getIdentifier(),
+				$objectForReview->getIdentifierType(),
+				$objectForReview->getDescription()
 			)
 		);
-		$funder->setId($this->getInsertId());
-		$this->updateLocaleFields($funder);
-		return $funder->getId();
+		$objectForReview->setId($this->getInsertId());
+		#$this->updateLocaleFields($objectForReview);
+		return $objectForReview->getId();
 	}
 
 	/**
-	 * Update the database with a funder object
-	 * @param $funder Funder
+	 * Update the database with a objectForReview object
+	 * @param $objectForReview ObjectForReview
 	 */
-	function updateObject($funder) {
+	function updateObject($objectForReview) {
 		$this->update(
-			'UPDATE	funders
+			'UPDATE	objects_for_review
 			SET	context_id = ?,
-				funder_identification = ?
-			WHERE funder_id = ?',
+				identifier = ?,
+				identifier_type = ?,
+				description = ?
+			WHERE review_id = ?',
 			array(
-				(int) $funder->getContextId(),
-				$funder->getFunderIdentification(),
-				(int) $funder->getId()
+				(int) $objectForReview->getContextId(),
+				$objectForReview->getIdentifier(),
+				$objectForReview->getIdentifierType(),
+				$objectForReview->getDescription(),
+				(int) $objectForReview->getId()
 			)
 		);
-		$this->updateLocaleFields($funder);
+		#$this->updateLocaleFields($objectForReview);
 	}
 
 	/**
-	 * Delete a funder by ID.
-	 * @param $funderId int
+	 * Delete a objectForReview by ID.
+	 * @param $objectForReviewId int
 	 */
-	function deleteById($funderId) {
+	function deleteById($objectForReviewId) {
 
 		$this->update(
-			'DELETE FROM funders WHERE funder_id = ?',
-			(int) $funderId
+			'DELETE FROM objects_for_review WHERE review_id = ?',
+			(int) $objectForReviewId
 		);
 
 		$this->update(
-			'DELETE FROM funder_settings WHERE funder_id = ?',
-			(int) $funderId
+			'DELETE FROM objects_for_review WHERE review_id = ?',
+			(int) $objectForReviewId
 		);
-
-		$funderAwardDAO = DAORegistry::getDAO('FunderAwardDAO');
-		$funderAwardDAO->deleteByFunderId($funderId);
-
 	}
 
 	/**
-	 * Delete a funder object.
-	 * @param $funder Funder
+	 * Delete a objectForReview object.
+	 * @param $objectForReviewId ObjectForReviewId
 	 */
-	function deleteObject($funder) {
-		$this->deleteById($funder->getId());
+	function deleteObject($objectForReview) {
+		$this->deleteById($objectForReview->getId());
 	}
 
 	/**
 	 * Generate a new funder object.
-	 * @return Funder
+	 * @return ObjectForReview
 	 */
 	function newDataObject() {
-		return new Funder();
+		return new ObjectForReview();
 	}
 
 	/**
@@ -141,14 +141,19 @@ class ObjectForReviewDAO extends DAO {
 	 * @return Funder
 	 */
 	function _fromRow($row) {
-		$funder = $this->newDataObject();
-		$funder->setId($row['funder_id']);
-		$funder->setFunderIdentification($row['funder_identification']);
-		$funder->setContextId($row['context_id']);
+		$objectForReview = $this->newDataObject();
 
-		$this->getDataObjectSettings('funder_settings', 'funder_id', $row['funder_id'], $funder);
 
-		return $funder;
+		$objectForReview->setId($row['review_id']);
+		$objectForReview->setIdentifier($row['identifier']);
+		$objectForReview->setIdentifierType($row['identifier_type']);
+		$objectForReview->setDescription($row['description']);
+		$objectForReview->setContextId($row['context_id']);
+		$objectForReview->setSubmissionId($row['submission_id']);
+
+		#$this->getDataObjectSettings('funder_settings', 'funder_id', $row['funder_id'], $funder);
+
+		return $objectForReview;
 	}
 
 	/**
@@ -156,24 +161,18 @@ class ObjectForReviewDAO extends DAO {
 	 * @return int
 	 */
 	function getInsertId() {
-		return $this->_getInsertId('funders', 'funder_id');
+		return $this->_getInsertId('objects_for_review', 'review_id');
 	}
 
+	
 	/**
 	 * Get the additional field names.
 	 * @return array
 	 */
-	function getAdditionalFieldNames() {
-		return array('funderName');
-	}
+	#function getAdditionalFieldNames() {
+	#	return array('description');
+	#}
 
-	/**
-	 * Update the settings for this object
-	 * @param $funder object
-	 */
-	function updateLocaleFields($funder) {
-		$this->updateDataObjectSettings('funder_settings', $funder, array('funder_id' => (int) $funder->getId()));
-	}
 
 }
 

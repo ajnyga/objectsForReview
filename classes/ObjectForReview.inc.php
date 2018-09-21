@@ -51,50 +51,72 @@ class ObjectForReview extends DataObject {
 		return $this->setData('submissionId', $submissionId);
 	}
 
+
 	/**
-	 * Get identification.
+	 * Get reviewId.
 	 * @return string
 	 */
-	function getFunderIdentification() {
-		return $this->getData('funderIdentification');
+	function getId() {
+		return $this->getData('reviewId');
 	}
 
 	/**
-	 * Set identification.
-	 * @param $funderIdentification string
-	 */
-	function setFunderIdentification($funderIdentification) {
-		return $this->setData('funderIdentification', $funderIdentification);
+	 * Set reviewId.
+	 * @param $reviewId string
+	 */ 
+	function setId($reviewId) {
+		return $this->setData('reviewId', $reviewId);
 	}
 
 	/**
-	 * Get name.
+	 * Get identifier.
 	 * @return string
 	 */
-	function getFunderName() {
-		return $this->getData('funderName');
+	function getIdentifier() {
+		return $this->getData('identifier');
 	}
 
 	/**
-	 * Set name.
-	 * @param $funderName string
+	 * Set identifier.
+	 * @param $identifier string
 	 */
-	function setFunderName($funderName) {
-		return $this->setData('funderName', $funderName);
+	function setIdentifier($identifier) {
+		return $this->setData('identifier', $identifier);
 	}
 
 	/**
-	 * Get name and identification.
+	 * Get identifierType.
 	 * @return string
 	 */
-	function getFunderNameIdentification() {
-		if ($this->getFunderIdentification()){
-			return $this->getFunderName() . '[' . $this->getFunderIdentification() . ']';
-		}
-		else{
-			return $this->getFunderName();
-		}
+	function getIdentifierType() {
+		return $this->getData('identifierType');
 	}
+
+	/**
+	 * Set identifierType.
+	 * @param $identifierType string
+	 */
+	function setIdentifierType($identifierType) {
+		return $this->setData('identifierType', $identifierType);
+	}
+
+	/**
+	 * Get description.
+	 * @return string
+	 */
+	function getDescription() {
+		return $this->getData('description');
+	}
+
+	/**
+	 * Set description.
+	 * @param $description string
+	 */
+	function setDescription($description) {
+		return $this->setData('description', $description);
+	}
+
+
 
 }
 
