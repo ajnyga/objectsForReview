@@ -11,11 +11,13 @@
   * Localization strings for this plugin.
   *
   -->
-<locale name="en_US" full_name="U.S. English">
-	<message key="plugins.generic.objectsForReview.displayName">Objects for review</message>
-	<message key="plugins.generic.objectsForReview.description">Record reviewed objects with submissions.</message>
-	<!-- Settings Management -->
-	<message key="plugins.generic.objectsForReview.settings.displayInToc.display">Display reviews in table of contents</message>
+  <locale name="en_US" full_name="U.S. English">
+  <message key="plugins.generic.objectsForReview.displayName">Objects for review</message>
+  <message key="plugins.generic.objectsForReview.description">Record reviewed objects with submissions.</message>
+
+  <!-- Settings Management -->
+  <message key="plugins.generic.objectsForReview.settings.displayInToc.display">Display reviews in table of contents</message>
+
   <!-- Object listing in submission form -->
   <message key="plugins.generic.objectsForReview.objectsForReviewTitle">Objects reviewed in this submission</message>
   <message key="plugins.generic.objectsForReview.addObjectsForReview">Add reviewed object</message>
@@ -23,4 +25,7 @@
   <message key="plugins.generic.objectsForReview.itemIdentifier">Identifier</message>
   <message key="plugins.generic.objectsForReview.itemDescription">Description</message>
   <message key="plugins.generic.objectsForReview.noneCreated">No object for review in this submission.</message>
+
+  <!-- article landing page -->
+  <message key="plugins.generic.objectsForReview.objectsForReviewData">Reviewed publications:</message>
 </locale>
