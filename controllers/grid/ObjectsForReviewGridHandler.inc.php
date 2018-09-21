@@ -152,7 +152,7 @@ class ObjectsForReviewGridHandler extends GridHandler {
 		));
 		$this->addColumn(new GridColumn(
 			'description',
-			'plugins.generic.objectsForReview.ItemDescription',
+			'plugins.generic.objectsForReview.itemDescription',
 			null,
 			'controllers/grid/gridCell.tpl',
 			$cellProvider
