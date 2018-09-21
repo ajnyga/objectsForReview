@@ -24,7 +24,7 @@
 	{fbvFormArea id="objectsForReviewFormArea" class="border"}
 
 
-		{fbvFormSection for="identifierType" description="plugins.generic.objectsForReview.itemIdentifierType"}
+		{fbvFormSection for="identifierType" label="plugins.generic.objectsForReview.itemIdentifierType"}
 			{fbvElement type="select" id="identifierType" from=$identifierTypes selected=$identifierType translate=false size=$fbvStyles.size.SMALL}
 		{/fbvFormSection}
 
