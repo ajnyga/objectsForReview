@@ -179,6 +179,14 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 
 	}
 
+	/**
+		 * @copydoc Plugin::getInstallSchemaFile()
+		 */
+		function getInstallSchemaFile() {
+			return $this->getPluginPath() . '/schema.xml';
+		}
+
+
 }
 
 ?>
