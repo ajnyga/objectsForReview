@@ -137,7 +137,7 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 		$output =& $params[2];
 		$request = $this->getRequest();
 
-		$output .= $smarty->fetch($this->getTemplatePath() . 'metadataForm.tpl');
+		$output .= $smarty->fetch($this->getTemplateResource('metadataForm.tpl'));
 
 
 		return false;
@@ -187,6 +187,15 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 		}
 
 
+
+		/**
+	 * @copydoc PKPPlugin::getTemplatePath
+
+	function getTemplatePath($inCore = false) {
+		return $this->getTemplateResource('plugins/generic/objectsForReview/templates/');
+	}
+
+*/
 }
 
 ?>
