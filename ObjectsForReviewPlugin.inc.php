@@ -10,8 +10,7 @@
  * @class ObjectsForReviewPlugin
  * @ingroup plugins_generic_objectsForReview
 
- * @brief Add objectsForReview data to the submission metadata, consider them in the Crossref export,
- * and display them on the submission view page.
+ * @brief Add objectsForReview data to the submission metadata and display them on the submission view page.
  *
  */
 
@@ -40,56 +39,56 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 		return __('plugins.generic.objectsForReview.description');
     }
 
-		/**
-		 * @copydoc Plugin::getActions()
-		 */
-		function getActions($request, $verb) {
-			$router = $request->getRouter();
-			import('lib.pkp.classes.linkAction.request.AjaxModal');
-			return array_merge(
-				$this->getEnabled()?array(
-					new LinkAction(
-						'settings',
-						new AjaxModal(
-							$router->url($request, null, null, 'manage', null, array('verb' => 'settings', 'plugin' => $this->getName(), 'category' => 'generic')),
-							$this->getDisplayName()
-						),
-						__('manager.plugins.settings'),
-						null
+	/**
+	 * @copydoc Plugin::getActions()
+	 */
+	function getActions($request, $verb) {
+		$router = $request->getRouter();
+		import('lib.pkp.classes.linkAction.request.AjaxModal');
+		return array_merge(
+			$this->getEnabled()?array(
+				new LinkAction(
+					'settings',
+					new AjaxModal(
+						$router->url($request, null, null, 'manage', null, array('verb' => 'settings', 'plugin' => $this->getName(), 'category' => 'generic')),
+						$this->getDisplayName()
 					),
-				):array(),
-				parent::getActions($request, $verb)
-			);
-		}
+					__('manager.plugins.settings'),
+					null
+				),
+			):array(),
+			parent::getActions($request, $verb)
+		);
+	}
 
-		/**
-		 * @copydoc Plugin::manage()
-		 */
-		function manage($args, $request) {
-			switch ($request->getUserVar('verb')) {
-				case 'settings':
-					$context = $request->getContext();
+	/**
+	 * @copydoc Plugin::manage()
+	 */
+	function manage($args, $request) {
+		switch ($request->getUserVar('verb')) {
+			case 'settings':
+				$context = $request->getContext();
 
-					AppLocale::requireComponents(LOCALE_COMPONENT_APP_COMMON,  LOCALE_COMPONENT_PKP_MANAGER);
-					$templateMgr = TemplateManager::getManager($request);
-					$templateMgr->register_function('plugin_url', array($this, 'smartyPluginUrl'));
+				AppLocale::requireComponents(LOCALE_COMPONENT_APP_COMMON,  LOCALE_COMPONENT_PKP_MANAGER);
+				$templateMgr = TemplateManager::getManager($request);
+				$templateMgr->register_function('plugin_url', array($this, 'smartyPluginUrl'));
 
-					$this->import('ObjectsForReviewSettingsForm');
-					$form = new ObjectsForReviewSettingsForm($this, $context->getId());
+				$this->import('ObjectsForReviewSettingsForm');
+				$form = new ObjectsForReviewSettingsForm($this, $context->getId());
 
-					if ($request->getUserVar('save')) {
-						$form->readInputData();
-						if ($form->validate()) {
-							$form->execute();
-							return new JSONMessage(true);
-						}
-					} else {
-						$form->initData();
+				if ($request->getUserVar('save')) {
+					$form->readInputData();
+					if ($form->validate()) {
+						$form->execute();
+						return new JSONMessage(true);
 					}
-					return new JSONMessage(true, $form->fetch($request));
-			}
-			return parent::manage($args, $request);
+				} else {
+					$form->initData();
+				}
+				return new JSONMessage(true, $form->fetch($request));
 		}
+		return parent::manage($args, $request);
+	}
 
 	/**
 	 * @copydoc Plugin::register()
@@ -115,9 +114,8 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 		return $success;
 	}
 
-
 	/**
-	 * Permit requests to the Funder grid handler
+	 * Permit requests to the ObjectsForReview grid handler
 	 * @param $hookName string The name of the hook being invoked
 	 * @param $args array The parameters to the invoked hook
 	 */
@@ -132,16 +130,13 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 	}
 
 	/**
-	 * Insert funder grid in the submission metadata form
+	 * Insert ObjectsForReview grid in the submission metadata form
 	 */
 	function metadataFieldEdit($hookName, $params) {
 		$smarty =& $params[1];
 		$output =& $params[2];
 		$request = $this->getRequest();
-
 		$output .= $smarty->fetch($this->getTemplateResource('metadataForm.tpl'));
-
-
 		return false;
 	}
 
@@ -206,7 +201,6 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 	function getJavaScriptURL() {
 		return Request::getBaseUrl() . DIRECTORY_SEPARATOR . $this->getPluginPath() . DIRECTORY_SEPARATOR . 'js';
 	}
-
 
 }
 
