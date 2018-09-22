@@ -1,14 +1,14 @@
 <?php
 
 /**
- * @file plugins/generic/funding/classes/classes/FunderDAO.inc.php
+ * @file plugins/generic/objectsForReview/classes/classes/ObjectForReviewDAO.inc.php
  *
- * Copyright (c) 2014-2017 Simon Fraser University
- * Copyright (c) 2003-2017 John Willinsky
+ * Copyright (c) 2014-2018 Simon Fraser University
+ * Copyright (c) 2003-2018 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
- * @class FunderDAO
- * @ingroup plugins_generic_funding
+ * @class ObjectForReviewDAO
+ * @ingroup plugins_generic_objectsForReview
  *
  * Operations for retrieving and modifying ObjectForReview objects.
  */
@@ -19,7 +19,7 @@ import('plugins.generic.objectsForReview.classes.ObjectForReview');
 class ObjectForReviewDAO extends DAO {
 
 	/**
-	 * Get a object for review by ID
+	 * Get a object for objectForReview by ID
 	 * @param $reviewId int ObjectForReview ID
 	 * @param $submissionId int (optional) Submission ID
 	 */
@@ -42,7 +42,7 @@ class ObjectForReviewDAO extends DAO {
 	}
 
 	/**
-	 * Get a object for review by submission ID
+	 * Get a object for objectForReview by submission ID
 	 * @param $submissionId int Submission ID
 	 * @param $contextId int (optional) context ID
 	 */
@@ -61,7 +61,7 @@ class ObjectForReviewDAO extends DAO {
 
 	/**
 	 * Insert a object for review.
-	 * @param $funder ObjectForReview
+	 * @param $objectForReview ObjectForReview
 	 * @return int Inserted objectForReview ID
 	 */
 	function insertObject($objectForReview) {
@@ -78,7 +78,6 @@ class ObjectForReviewDAO extends DAO {
 		);
 		
 		$objectForReview->setId($this->getInsertId());
-		#$this->updateLocaleFields($objectForReview);
 		return $objectForReview->getId();
 
 	}
@@ -103,7 +102,6 @@ class ObjectForReviewDAO extends DAO {
 				(int) $objectForReview->getId()
 			)
 		);
-		#$this->updateLocaleFields($objectForReview);
 	}
 
 	/**
@@ -111,7 +109,6 @@ class ObjectForReviewDAO extends DAO {
 	 * @param $objectForReviewId int
 	 */
 	function deleteById($reviewId) {
-
 		$this->update(
 			'DELETE FROM objects_for_review WHERE review_id = ?',
 			(int) $reviewId
@@ -141,41 +138,26 @@ class ObjectForReviewDAO extends DAO {
 
 	/**
 	 * Return a new funder object from a given row.
-	 * @return Funder
+	 * @return ObjectForReview
 	 */
 	function _fromRow($row) {
 		$objectForReview = $this->newDataObject();
-
-
 		$objectForReview->setId($row['review_id']);
 		$objectForReview->setIdentifier($row['identifier']);
 		$objectForReview->setIdentifierType($row['identifier_type']);
 		$objectForReview->setDescription($row['description']);
 		$objectForReview->setContextId($row['context_id']);
 		$objectForReview->setSubmissionId($row['submission_id']);
-
-		#$this->getDataObjectSettings('funder_settings', 'funder_id', $row['funder_id'], $funder);
-
 		return $objectForReview;
 	}
 
 	/**
-	 * Get the insert ID for the last inserted funder.
+	 * Get the insert ID for the last inserted objectForReview.
 	 * @return int
 	 */
 	function getInsertId() {
 		return $this->_getInsertId('objects_for_review', 'review_id');
 	}
-
-
-	/**
-	 * Get the additional field names.
-	 * @return array
-	 */
-	#function getAdditionalFieldNames() {
-	#	return array('description');
-	#}
-
 
 }
 

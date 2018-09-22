@@ -3,12 +3,12 @@
 /**
  * @file plugins/generic/objectsForReview/classes/ObjectForReview.inc.php
  *
- * Copyright (c) 2014-2017 Simon Fraser University
- * Copyright (c) 2003-2017 John Willinsky
+ * Copyright (c) 2014-2018 Simon Fraser University
+ * Copyright (c) 2003-2018 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class ObjectForReview
- * @ingroup plugins_generic_ObjectForReview
+ * @ingroup plugins_generic_objectForReview
  *
  * Data object representing a ObjectForReview.
  */
@@ -50,7 +50,6 @@ class ObjectForReview extends DataObject {
 	function setSubmissionId($submissionId) {
 		return $this->setData('submissionId', $submissionId);
 	}
-
 
 	/**
 	 * Get reviewId.
@@ -115,8 +114,6 @@ class ObjectForReview extends DataObject {
 	function setDescription($description) {
 		return $this->setData('description', $description);
 	}
-
-
 
 }
 
