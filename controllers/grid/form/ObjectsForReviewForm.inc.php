@@ -3,8 +3,8 @@
 /**
  * @file plugins/generic/objectsForReview/controllers/grid/form/ObjectsForReviewForm.inc.php
  *
- * Copyright (c) 2014-2017 Simon Fraser University
- * Copyright (c) 2003-2017 John Willinsky
+ * Copyright (c) 2014-2018 Simon Fraser University
+ * Copyright (c) 2003-2018 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class ObjectsForReviewForm
@@ -28,7 +28,7 @@ class ObjectsForReviewForm extends Form {
 
 	/**
 	 * Constructor
-	 * @param $objectsForReviewPlugin objectsForReviewPlugin
+	 * @param $objectsForReviewPlugin ObjectsForReviewPlugin
 	 * @param $contextId int Context ID
 	 * @param $submissionId int Submission ID
 	 * @param $reviewId int (optional) Review ID
@@ -56,14 +56,11 @@ class ObjectsForReviewForm extends Form {
 	function initData() {
 		$this->setData('submissionId', $this->submissionId);
 		if ($this->reviewId) {
-
 			$objectForReviewDao = DAORegistry::getDAO('ObjectForReviewDAO');
 			$objectForReview = $objectForReviewDao->getById($this->reviewId);
-			
 			$this->setData('identifierType', $objectForReview->getIdentifierType());
 			$this->setData('description', $objectForReview->getDescription());
 			$this->setData('identifier', $objectForReview->getIdentifier());
-
 		}
 	}
 
@@ -82,7 +79,7 @@ class ObjectsForReviewForm extends Form {
 		$templateMgr->assign('reviewId', $this->reviewId);
 		$templateMgr->assign('submissionId', $this->submissionId);
 
-		$identifierTypes = array('DOI'=>'DOI','ISBN'=>'ISBN','link'=>'link');
+		$identifierTypes = array('DOI'=>'DOI','ISBN-10'=>'ISBN-10','ISBN-13'=>'ISBN-13','link'=>'link');
 		$templateMgr->assign('identifierTypes', $identifierTypes);
 
 		return parent::fetch($request);
@@ -96,10 +93,10 @@ class ObjectsForReviewForm extends Form {
 		$objectForReviewDao = DAORegistry::getDAO('ObjectForReviewDAO');
 
 		if ($reviewId) {
-			// Load and update an existing funder
+			// Load and update an existing objectForReview
 			$objectForReview = $objectForReviewDao->getById($this->reviewId, $this->submissionId);
 		} else {
-			// Create a new
+			// Create a new objectForReview
 			$objectForReview = $objectForReviewDao->newDataObject();
 			$objectForReview->setContextId($this->contextId);
 			$objectForReview->setSubmissionId($this->submissionId);
@@ -110,12 +107,12 @@ class ObjectsForReviewForm extends Form {
 		$objectForReview->setDescription($this->getData('description'));
 
 		if ($reviewId) {
-			$objectForReview->updateObject($objectForReview);
+			$objectForReviewDao->updateObject($objectForReview);
 		} else {
 			$objectForReview = $objectForReviewDao->insertObject($objectForReview);
 		}
-
 	}
+
 }
 
 ?>

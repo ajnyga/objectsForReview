@@ -2,7 +2,7 @@
 <!DOCTYPE locale SYSTEM "../../../../../lib/pkp/dtd/locale.dtd">
 
 <!--
-  * plugins/generic/objectsForReview/locale/en_US/locale.xml
+  * plugins/generic/objectsForReview/locale/de_DE/locale.xml
   *
   * Copyright (c) 2014-2018 Simon Fraser University
   * Copyright (c) 2003-2018 John Willinsky
@@ -20,7 +20,7 @@
 
   <!-- Object listing in submission form -->
   <message key="plugins.generic.objectsForReview.objectsForReviewTitle">Rezensierte Objekte in dieser Einreichung</message>
-  <message key="plugins.generic.objectsForReview.addObjectsForReview">Rezensiertes Objekt hinzufügen</message>
+  <message key="plugins.generic.objectsForReview.addObjectForReview">Rezensiertes Objekt hinzufügen</message>
   <message key="plugins.generic.objectsForReview.itemIdentifierType">Verweis-Typ</message>
   <message key="plugins.generic.objectsForReview.itemIdentifier">Verweis</message>
   <message key="plugins.generic.objectsForReview.itemDescription">Beschreibung</message>

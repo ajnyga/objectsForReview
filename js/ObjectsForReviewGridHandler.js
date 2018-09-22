@@ -16,8 +16,6 @@
 		$.pkp.plugins.generic.objectsForReview ||
 		{ js: { } };
 
-
-
 	/**
 	 * @constructor
 	 *

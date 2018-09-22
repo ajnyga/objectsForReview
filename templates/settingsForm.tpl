@@ -1,5 +1,5 @@
 {**
- * plugins/generic/objectsForReview/settingsForm.tpl
+ * plugins/generic/objectsForReview/templates/settingsForm.tpl
  *
  * Copyright (c) 2014-2018 Simon Fraser University
  * Copyright (c) 2003-2018 John Willinsky
@@ -20,11 +20,11 @@
 	{include file="controllers/notification/inPlaceNotification.tpl" notificationId="orSettingsFormNotification"}
 
 	{fbvFormArea id="objectsForReviewSettingsFormAreaSections"}
-    {fbvElement type="select" id="section" from=$sections selected=$section translate=false size=$fbvStyles.size.SMALL}
-  {/fbvFormArea}
+		{fbvElement type="select" id="section" from=$sections selected=$section translate=false size=$fbvStyles.size.SMALL}
+	{/fbvFormArea}
 
 	{fbvFormArea id="objectsForReviewSettingsFormAreaDisplay"}
-    {fbvElement type="checkbox" id="displayInToc" value="1" checked=$displayInToc label="plugins.generic.objectsForReview.settings.displayInToc.display"}
+		{fbvElement type="checkbox" id="displayInToc" value="1" checked=$displayInToc label="plugins.generic.objectsForReview.settings.displayInToc.display"}
 	{/fbvFormArea}
 
 	{fbvFormButtons}

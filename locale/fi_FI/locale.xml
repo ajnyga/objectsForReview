@@ -20,7 +20,7 @@
 
   <!-- Object listing in submission form -->
   <message key="plugins.generic.objectsForReview.objectsForReviewTitle">Tässä käsikirjoituksessa arvioidut kohteet</message>
-  <message key="plugins.generic.objectsForReview.addObjectsForReview">Lisää arvioinnin kohde</message>
+  <message key="plugins.generic.objectsForReview.addObjectForReview">Lisää arvioinnin kohde</message>
   <message key="plugins.generic.objectsForReview.itemIdentifierType">Tunnisteen tyyppi</message>
   <message key="plugins.generic.objectsForReview.itemIdentifier">Tunniste</message>
   <message key="plugins.generic.objectsForReview.itemDescription">Kuvaus</message>

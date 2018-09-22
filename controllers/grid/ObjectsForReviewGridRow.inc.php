@@ -1,16 +1,16 @@
 <?php
 
 /**
- * @file plugins/generic/objectsForReview/controllers/grid/ObjectForReviewGridRow.inc.php
+ * @file plugins/generic/objectsForReview/controllers/grid/ObjectsForReviewGridRow.inc.php
  *
- * Copyright (c) 2014-2017 Simon Fraser University
- * Copyright (c) 2003-2017 John Willinsky
+ * Copyright (c) 2014-2018 Simon Fraser University
+ * Copyright (c) 2003-2018 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
- * @class ObjectForReviewGridRow
- * @ingroup plugins_generic_funding
+ * @class ObjectsForReviewGridRow
+ * @ingroup plugins_generic_objectsForReview
  *
- * @brief Handle ObjectForReview grid row requests.
+ * @brief Handle ObjectsForReview grid row requests.
  */
 
 import('lib.pkp.classes.controllers.grid.GridRow');
@@ -47,7 +47,7 @@ class ObjectsForReviewGridRow extends GridRow {
 				new LinkAction(
 					'editObjectForReviewItem',
 					new AjaxModal(
-						$router->url($request, null, null, 'editObjectsForReview', null, array('reviewId' => $reviewId, 'submissionId' => $submissionId)),
+						$router->url($request, null, null, 'editObjectForReview', null, array('reviewId' => $reviewId, 'submissionId' => $submissionId)),
 						__('grid.action.edit'),
 						'modal_edit',
 						true),
@@ -65,7 +65,7 @@ class ObjectsForReviewGridRow extends GridRow {
 						$request->getSession(),
 						__('common.confirmDelete'),
 						__('grid.action.delete'),
-						$router->url($request, null, null, 'deleteObjectsForReview', null, array('reviewId' => $reviewId, 'submissionId' => $submissionId)), 'modal_delete'
+						$router->url($request, null, null, 'deleteObjectForReview', null, array('reviewId' => $reviewId, 'submissionId' => $submissionId)), 'modal_delete'
 					),
 					__('grid.action.delete'),
 					'delete'

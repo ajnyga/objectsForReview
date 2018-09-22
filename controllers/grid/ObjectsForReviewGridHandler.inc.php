@@ -3,12 +3,12 @@
 /**
  * @file plugins/generic/objectsForReview/controllers/grid/ObjectsForReviewGridHandler.inc.php
  *
- * Copyright (c) 2014-2017 Simon Fraser University
- * Copyright (c) 2003-2017 John Willinsky
+ * Copyright (c) 2014-2018 Simon Fraser University
+ * Copyright (c) 2003-2018 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class ObjectsForReviewGridHandler
- * @ingroup plugins_generic_funding
+ * @ingroup plugins_generic_objectsForReview
  *
  * @brief Handle ObjectsForReview grid requests.
  */
@@ -30,7 +30,7 @@ class ObjectsForReviewGridHandler extends GridHandler {
 		parent::__construct();
 		$this->addRoleAssignment(
 			array(ROLE_ID_MANAGER, ROLE_ID_SUB_EDITOR, ROLE_ID_ASSISTANT, ROLE_ID_AUTHOR),
-			array('fetchGrid', 'fetchRow', 'addObjectsForReview', 'editObjectsForReview', 'updateObjectsForReview', 'deleteObjectsForReview')
+			array('fetchGrid', 'fetchRow', 'addObjectForReview', 'editObjectForReview', 'updateObjectForReview', 'deleteObjectForReview')
 		);
 	}
 
@@ -39,7 +39,7 @@ class ObjectsForReviewGridHandler extends GridHandler {
 	//
 	/**
 	 * Set the ObjectsForReview plugin.
-	 * @param $plugin FundingPlugin
+	 * @param $plugin ObjectsForReviewPlugin
 	 */
 	static function setPlugin($plugin) {
 		self::$plugin = $plugin;
@@ -69,7 +69,6 @@ class ObjectsForReviewGridHandler extends GridHandler {
 		$this->_readOnly = $readOnly;
 	}
 
-
 	//
 	// Overridden template methods
 	//
@@ -98,16 +97,15 @@ class ObjectsForReviewGridHandler extends GridHandler {
 
 		// Get the items and add the data to the grid
 		$objectForReviewDao = DAORegistry::getDAO('ObjectForReviewDAO');
-		$objectsForReviewIterator = $objectForReviewDao->getBySubmissionId($submissionId);
+		$objectsForReview = $objectForReviewDao->getBySubmissionId($submissionId);
 
 		$gridData = array();
-
-		while ($objectsForReview = $objectsForReviewIterator->next()) {
-			$objectsForReviewId = $objectsForReview->getId();
+		while ($objectForReview = $objectsForReview->next()) {
+			$objectsForReviewId = $objectForReview->getId();
 			$gridData[$objectsForReviewId] = array(
-				'identifierType' => $objectsForReview->getIdentifierType(),
-				'identifier' => $objectsForReview->getIdentifier(),
-				'description' => $objectsForReview->getDescription()
+				'identifierType' => $objectForReview->getIdentifierType(),
+				'identifier' => $objectForReview->getIdentifier(),
+				'description' => $objectForReview->getDescription()
 			);
 		}
 
@@ -120,13 +118,13 @@ class ObjectsForReviewGridHandler extends GridHandler {
 			import('lib.pkp.classes.linkAction.request.AjaxModal');
 			$this->addAction(
 				new LinkAction(
-					'addObjectsForReview',
+					'addObjectForReview',
 					new AjaxModal(
-						$router->url($request, null, null, 'addObjectsForReview', null, array('submissionId' => $submissionId)),
-						__('plugins.generic.objectsForReview.addObjectsForReview'),
+						$router->url($request, null, null, 'addObjectForReview', null, array('submissionId' => $submissionId)),
+						__('plugins.generic.objectsForReview.addObjectForReview'),
 						'modal_add_item'
 					),
-					__('plugins.generic.objectsForReview.addObjectsForReview'),
+					__('plugins.generic.objectsForReview.addObjectForReview'),
 					'add_item'
 				)
 			);
@@ -181,24 +179,23 @@ class ObjectsForReviewGridHandler extends GridHandler {
 	// Public Grid Actions
 	//
 	/**
-	 * An action to add a new
-	*  ForReview item
+	 * An action to add a new ObjectForReview item
 	 * @param $args array Arguments to the request
 	 * @param $request PKPRequest
 	 */
-	function addObjectsForReview($args, $request) {
-		// Calling editObjectsForReviewitem with an empty ID will add
+	function addObjectForReview($args, $request) {
+		// Calling editObjectForReview with an empty ID will add
 		// a new ObjectsForReview item.
-		return $this->editObjectsForReview($args, $request);
+		return $this->editObjectForReview($args, $request);
 	}
 
 	/**
-	 * An action to edit a objectsForReview
+	 * An action to edit a objectForReview
 	 * @param $args array Arguments to the request
 	 * @param $request PKPRequest
 	 * @return string Serialized JSON object
 	 */
-	function editObjectsForReview($args, $request) {
+	function editObjectForReview($args, $request) {
 		$reviewId = $request->getUserVar('reviewId');
 		$context = $request->getContext();
 		$submission = $this->getSubmission();
@@ -215,13 +212,13 @@ class ObjectsForReviewGridHandler extends GridHandler {
 	}
 
 	/**
-	 * Update a objectsForReview
+	 * Update a objectForReview
 	 * @param $args array
 	 * @param $request PKPRequest
 	 * @return string Serialized JSON object
 	 */
-	function updateObjectsForReview($args, $request) {
-		$objectsForReviewId = $request->getUserVar('objectsForReviewId');
+	function updateObjectForReview($args, $request) {
+		$reviewId = $request->getUserVar('reviewId');
 		$context = $request->getContext();
 		$submission = $this->getSubmission();
 		$submissionId = $submission->getId();
@@ -230,7 +227,7 @@ class ObjectsForReviewGridHandler extends GridHandler {
 
 		// Create and populate the form
 		import('plugins.generic.objectsForReview.controllers.grid.form.ObjectsForReviewForm');
-		$objectsForReviewForm = new ObjectsForReviewForm(self::$plugin, $context->getId(), $submissionId, $objectsForReviewId);
+		$objectsForReviewForm = new ObjectsForReviewForm(self::$plugin, $context->getId(), $submissionId, $reviewId);
 		$objectsForReviewForm->readInputData();
 		// Validate
 		if ($objectsForReviewForm->validate()) {
@@ -245,12 +242,12 @@ class ObjectsForReviewGridHandler extends GridHandler {
 	}
 
 	/**
-	 * Delete a objectsForReview
+	 * Delete a objectForReview
 	 * @param $args array
 	 * @param $request PKPRequest
 	 * @return string Serialized JSON object
 	 */
-	function deleteObjectsForReview($args, $request) {
+	function deleteObjectForReview($args, $request) {
 		$reviewId = $request->getUserVar('reviewId');
 		$submission = $this->getSubmission();
 		$submissionId = $submission->getId();
@@ -289,15 +286,6 @@ class ObjectsForReviewGridHandler extends GridHandler {
 		// Default: Read-only.
 		return false;
 	}
-
-
-	/**
-	 * @copydoc Plugin::getTemplatePath()
-	 */
-	function getTemplatePath($inCore = false) {
-		return parent::getTemplatePath($inCore) . 'templates/';
-	}
-
 
 }
 

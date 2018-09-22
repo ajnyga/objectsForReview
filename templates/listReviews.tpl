@@ -7,7 +7,7 @@
  *
  * The included template that is hooked into Templates::Article::Main and Templates::Catalog::Book::Main.
  *}
-<div class="item funders">
+<div class="item objectsForReview">
 	<div class="value">
     {if $objectsForReview|@count == 1}
   		<h3>{translate key="plugins.generic.objectsForReview.objectsForReviewData.singular"}</h3>
