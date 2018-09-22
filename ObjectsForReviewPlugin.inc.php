@@ -157,8 +157,8 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 		$templateData = array();
 
 		while ($objectForReview = $objectsForReview->next()) {
-			$objectForReviewId = $objectForReview->getId();
-			$templateData[$objectForReviewId] = array(
+			$reviewId = $objectForReview->getId();
+			$templateData[$reviewId] = array(
 				'identifierType' => $objectForReview->getIdentifierType(),
 				'identifier' => $objectForReview->getIdentifier(),
 				'description' => $objectForReview->getDescription()

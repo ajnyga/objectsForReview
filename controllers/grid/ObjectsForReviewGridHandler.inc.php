@@ -101,8 +101,8 @@ class ObjectsForReviewGridHandler extends GridHandler {
 
 		$gridData = array();
 		while ($objectForReview = $objectsForReview->next()) {
-			$objectsForReviewId = $objectForReview->getId();
-			$gridData[$objectsForReviewId] = array(
+			$reviewId = $objectForReview->getId();
+			$gridData[$reviewId] = array(
 				'identifierType' => $objectForReview->getIdentifierType(),
 				'identifier' => $objectForReview->getIdentifier(),
 				'description' => $objectForReview->getDescription()
