@@ -146,7 +146,7 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 	}
 
 	/**
-	* Hook to Templates::Article::Details and Templates::Catalog::Book::Details and list funder information
+	* Hook to Templates::Article::Details and Templates::Catalog::Book::Details and list object for review information
 	* @param $hookName string
 	* @param $params array
 	*/
@@ -157,21 +157,20 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 		$submission = $templateMgr->get_template_vars('monograph') ? $templateMgr->get_template_vars('monograph') : $templateMgr->get_template_vars('article');
 
 		$objectForReviewDao = DAORegistry::getDAO('ObjectForReviewDAO');
-		$objectForReview = $objectForReviewDao->getBySubmissionId($submission->getId());
-		$objectsForReviewIterator = $objectForReviewDao->getBySubmissionId($submission->getId());
+		$objectsForReview = $objectForReviewDao->getBySubmissionId($submission->getId());
 
 		$templateData = array();
 
-		while ($objectsForReview = $objectsForReviewIterator->next()) {
-			$objectsForReviewId = $objectsForReview->getId();
-			$templateData[$objectsForReviewId] = array(
-				'identifierType' => $objectsForReview->getIdentifierType(),
-				'identifier' => $objectsForReview->getIdentifier(),
-				'description' => $objectsForReview->getDescription()
+		while ($objectForReview = $objectsForReview->next()) {
+			$objectForReviewId = $objectForReview->getId();
+			$templateData[$objectForReviewId] = array(
+				'identifierType' => $objectForReview->getIdentifierType(),
+				'identifier' => $objectForReview->getIdentifier(),
+				'description' => $objectForReview->getDescription()
 			);
 		}
 
-		if ($objectForReview){
+		if ($objectsForReview){
 			$templateMgr->assign('objectsForReview', $templateData);
 			$output .= $templateMgr->fetch($this->getTemplateResource('listReviews.tpl'));
 		}
