@@ -105,10 +105,13 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 
 			HookRegistry::register('LoadComponentHandler', array($this, 'setupGridHandler'));
 
-			HookRegistry::register('TemplateManager::display',array($this, 'addGridhandlerJs'));			
+			HookRegistry::register('TemplateManager::display',array($this, 'addGridhandlerJs'));
 
 			HookRegistry::register('Templates::Article::Main', array($this, 'addSubmissionDisplay'));
 			HookRegistry::register('Templates::Catalog::Book::Main', array($this, 'addSubmissionDisplay'));
+
+			HookRegistry::register('ArticleDAO::_fromRow', array($this, 'addSubtitleDisplay'));
+			HookRegistry::register('MonographDAO::_fromRow', array($this, 'addSubtitleDisplay'));
 
 		}
 		return $success;
@@ -168,6 +171,28 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 		if ($objectsForReview){
 			$templateMgr->assign('objectsForReview', $templateData);
 			$output .= $templateMgr->fetch($this->getTemplateResource('listReviews.tpl'));
+		}
+
+		return false;
+	}
+
+	/**
+	* Hook to ArticleDAO::_fromRow and MonographDAO::_fromRow and display objectForReview as subtitle
+	* @param $hookName string
+	* @param $params array
+	*/ 
+	function addSubtitleDisplay($hookName, $params) {
+		$submission =& $params[0];
+		$objectForReviewDao = DAORegistry::getDAO('ObjectForReviewDAO');
+		$objectsForReview = $objectForReviewDao->getBySubmissionId($submission->getId());
+
+		$objects = array();
+		while ($objectForReview = $objectsForReview->next()) {
+			$objects[] = $objectForReview->getDescription();
+		}
+
+		if ($objects){
+			$submission->setSubtitle(implode(" ▪ ", $objects), $submission->getLocale());
 		}
 
 		return false;
