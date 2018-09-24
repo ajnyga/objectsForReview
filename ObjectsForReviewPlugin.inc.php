@@ -183,6 +183,10 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 	*/ 
 	function addSubtitleDisplay($hookName, $params) {
 		$submission =& $params[0];
+
+
+		
+		
 		$objectForReviewDao = DAORegistry::getDAO('ObjectForReviewDAO');
 		$objectsForReview = $objectForReviewDao->getBySubmissionId($submission->getId());
 

@@ -24,11 +24,12 @@
 			<AUTOINCREMENT/>
 		</field>
 		<field name="submission_id" type="I8">
-			<NOTNULL/>
 		</field>
 		<field name="context_id" type="I8">
 			<NOTNULL/>
 		</field>
+		<field name="user_id" type="I8">
+		</field>		
 		<field name="identifier" type="C2" size="255">
 			<NOTNULL/>
 		</field>
@@ -39,5 +40,4 @@
 		</field>
 		<descr>List of objects for review</descr>
 	</table>
-
 </schema>

@@ -52,6 +52,22 @@ class ObjectForReview extends DataObject {
 	}
 
 	/**
+	 * Get user ID.
+	 * @return int
+	 */
+	function getUserId(){
+		return $this->getData('userId');
+	}
+
+	/**
+	 * Set user ID.
+	 * @param $userId int
+	 */
+	function setUserId($userId) {
+		return $this->setData('userId', $userId);
+	}	
+
+	/**
 	 * Get reviewId.
 	 * @return string
 	 */
