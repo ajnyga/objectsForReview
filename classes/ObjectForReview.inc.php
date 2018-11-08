@@ -116,6 +116,22 @@ class ObjectForReview extends DataObject {
 	}
 
 	/**
+	 * Get itemType.
+	 * @return string
+	 */
+	function getItemType() {
+		return $this->getData('itemType');
+	}
+
+	/**
+	 * Set itemType.
+	 * @param $itemType string
+	 */
+	function setItemType($itemType) {
+		return $this->setData('itemType', $itemType);
+	}	
+
+	/**
 	 * Get description.
 	 * @return string
 	 */

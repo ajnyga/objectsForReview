@@ -23,6 +23,11 @@
 	{/if}
 	{fbvFormArea id="objectsForReviewFormArea" class="border"}
 
+
+		{fbvFormSection for="itemType" label="plugins.generic.objectsForReview.itemType"}
+			{fbvElement type="select" id="itemType" from=$itemTypes selected=$itemType translate=false size=$fbvStyles.size.SMALL}
+		{/fbvFormSection}
+
 		{fbvFormSection for="identifierType" label="plugins.generic.objectsForReview.itemIdentifierType"}
 			{fbvElement type="select" id="identifierType" from=$identifierTypes selected=$identifierType translate=false size=$fbvStyles.size.SMALL} 
 		{/fbvFormSection}
