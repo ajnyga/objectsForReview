@@ -78,13 +78,13 @@ class ObjectsForReviewForm extends Form {
 	 */
 	function fetch($request) {
 		$templateMgr = TemplateManager::getManager();
-		$identifierTypes = $this->getIdentifierTypes();
-		$itemTypes = $this->getItemTypes();
+		$identifierTypes = $this->_getIdentifierTypes();
+		$resourceTypes = $this->_getResourceTypes(null);
 
 		$templateMgr->assign('reviewId', $this->reviewId);
 		$templateMgr->assign('submissionId', $this->submissionId);
 		$templateMgr->assign('identifierTypes', $identifierTypes);
-		$templateMgr->assign('itemTypes', $itemTypes);
+		$templateMgr->assign('resourceTypes', $resourceTypes);
 
 		return parent::fetch($request);
 	}
@@ -121,8 +121,9 @@ class ObjectsForReviewForm extends Form {
 	/**
 	 * List identifierTypes 
 	 * See Crossref Schema isReviewOf relation types and Datacite relationType
+	 * @return array
 	 */
-	function getIdentifierTypes() {
+	function _getIdentifierTypes() {
 		return array(
 				'DOI'=>'doi',
 				'ISSN'=>'issn',
@@ -143,50 +144,30 @@ class ObjectsForReviewForm extends Form {
 	}
 
 	/**
-	 * List itemTypes 
-	 * See https://www.zotero.org/support/kb/item_types_and_fields
+	 * Get a COAR Resource Type by URI. If $uri is null return all.
+	 * @param $uri string
+	 * @return mixed
 	 */
-	function getItemTypes() {
-		return array(
-			__('plugins.generic.objectsForReview.item.book') => 'Book',
-			__('plugins.generic.objectsForReview.item.bookSection') => 'Book Section',
-			__('plugins.generic.objectsForReview.item.artwork') => 'Artwork',
-			__('plugins.generic.objectsForReview.item.audioRecording') => 'Audio Recording',
-			__('plugins.generic.objectsForReview.item.bill') => 'Bill',
-			__('plugins.generic.objectsForReview.item.blogPost') => 'Blog Post',
-			__('plugins.generic.objectsForReview.item.case') => 'Case',
-			__('plugins.generic.objectsForReview.item.computerProgram') => 'Computer Program',
-			__('plugins.generic.objectsForReview.item.conferencePaper') => 'Conference Paper',
-			__('plugins.generic.objectsForReview.item.dictionaryEntry') => 'Dictionary Entry',
-			__('plugins.generic.objectsForReview.item.document') => 'Document',
-			__('plugins.generic.objectsForReview.item.email') => 'Email',
-			__('plugins.generic.objectsForReview.item.encyclopediaArticle') => 'Encyclopedia Article',
-			__('plugins.generic.objectsForReview.item.film') => 'Film',
-			__('plugins.generic.objectsForReview.item.forumPost') => 'Forum Post',
-			__('plugins.generic.objectsForReview.item.hearing') => 'Hearing',
-			__('plugins.generic.objectsForReview.item.instantMessage') => 'Instant Message',
-			__('plugins.generic.objectsForReview.item.interview') => 'Interview',
-			__('plugins.generic.objectsForReview.item.journalArticle') => 'Journal Article',
-			__('plugins.generic.objectsForReview.item.letter') => 'Letter',
-			__('plugins.generic.objectsForReview.item.magazineArticle') => 'Magazine Article',
-			__('plugins.generic.objectsForReview.item.manuscript') => 'Manuscript',
-			__('plugins.generic.objectsForReview.item.map') => 'Map',
-			__('plugins.generic.objectsForReview.item.newspaperArticle') => 'Newspaper Article',
-			__('plugins.generic.objectsForReview.item.patent') => 'Patent',
-			__('plugins.generic.objectsForReview.item.podcast') => 'Podcast',
-			__('plugins.generic.objectsForReview.item.presentation') => 'Presentation',
-			__('plugins.generic.objectsForReview.item.radioBroadcast') => 'Radio Broadcast',
-			__('plugins.generic.objectsForReview.item.report') => 'Report',
-			__('plugins.generic.objectsForReview.item.statute') => 'Statute',
-			__('plugins.generic.objectsForReview.item.thesis') => 'Thesis',
-			__('plugins.generic.objectsForReview.item.TvBroadcast') => 'TV Broadcast',
-			__('plugins.generic.objectsForReview.item.videoRecording') => 'Video Recording',
-			__('plugins.generic.objectsForReview.item.webpage') => 'Webpage',
-			__('plugins.generic.objectsForReview.item.attachment') => 'Attachment',
-			__('plugins.generic.objectsForReview.item.note') => 'Note'
+	function _getResourceTypes($uri = null) {
+		$resourceTypes = array(
+				'http://purl.org/coar/resource_type/c_2f33' => 'plugins.generic.objectsForReview.COAR.book',
+				'http://purl.org/coar/resource_type/c_3248' => 'plugins.generic.objectsForReview.COAR.bookPart',
+				'http://purl.org/coar/resource_type/c_6501' => 'plugins.generic.objectsForReview.COAR.journalArticle',
+				'http://purl.org/coar/resource_type/c_5794' => 'plugins.generic.objectsForReview.COAR.conferencePaper',
+				'http://purl.org/coar/resource_type/c_46ec' => 'plugins.generic.objectsForReview.COAR.thesis',
+				'http://purl.org/coar/resource_type/c_816b' => 'plugins.generic.objectsForReview.COAR.preprint',
+				'http://purl.org/coar/resource_type/c_7ad9' => 'plugins.generic.objectsForReview.COAR.website',
+				'http://purl.org/coar/resource_type/c_ddb1' => 'plugins.generic.objectsForReview.COAR.dataset',
+				'http://purl.org/coar/resource_type/c_ddb1' => 'plugins.generic.objectsForReview.COAR.software',
+				'http://purl.org/coar/resource_type/c_12cc' => 'plugins.generic.objectsForReview.COAR.cartographicMaterial',
+				'http://purl.org/coar/resource_type/c_18cc' => 'plugins.generic.objectsForReview.COAR.sound'
 		);
+		if ($uri){
+			return $resourceTypes[$uri];
+		} else {
+			return $resourceTypes;
+		}
 	}
-
 }
 
 ?>

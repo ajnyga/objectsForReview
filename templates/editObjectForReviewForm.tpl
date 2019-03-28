@@ -24,8 +24,8 @@
 	{fbvFormArea id="objectsForReviewFormArea" class="border"}
 
 
-		{fbvFormSection for="itemType" label="plugins.generic.objectsForReview.itemType"}
-			{fbvElement type="select" id="itemType" from=$itemTypes selected=$itemType translate=false size=$fbvStyles.size.SMALL}
+		{fbvFormSection for="resourceType" label="plugins.generic.objectsForReview.resourceType"}
+			{fbvElement type="select" id="resourceType" from=$resourceTypes selected=$resourceType size=$fbvStyles.size.SMALL}
 		{/fbvFormSection}
 
 		{fbvFormSection for="identifierType" label="plugins.generic.objectsForReview.itemIdentifierType"}

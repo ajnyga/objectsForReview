@@ -22,12 +22,29 @@
   <message key="plugins.generic.objectsForReview.objectsForReviewTitle">Objects reviewed in this submission</message>
   <message key="plugins.generic.objectsForReview.addObjectForReview">Add reviewed object</message>
   <message key="plugins.generic.objectsForReview.itemIdentifierType">Identifier type</message>
+  <message key="plugins.generic.objectsForReview.resourceType">Resource type</message>
   <message key="plugins.generic.objectsForReview.itemIdentifier">Identifier</message>
   <message key="plugins.generic.objectsForReview.itemDescription">Description</message>
   <message key="plugins.generic.objectsForReview.noneCreated">No object for review in this submission.</message>
+
 
   <!-- article landing page -->
   <message key="plugins.generic.objectsForReview.objectsForReviewData.singular">Reviewed publication</message>
   <message key="plugins.generic.objectsForReview.objectsForReviewData.plural">Reviewed publications</message>
 
+  <!-- For official label translations see http://vocabularies.coar-repositories.org/documentation/resource_types/2.0.draft/ -->
+  <message key="plugins.generic.objectsForReview.COAR.book">book</message>
+  <message key="plugins.generic.objectsForReview.COAR.bookPart">book part</message>
+  <message key="plugins.generic.objectsForReview.COAR.journalArticle">journal article</message>
+  <message key="plugins.generic.objectsForReview.COAR.conferencePaper">conference paper</message>  
+  <message key="plugins.generic.objectsForReview.COAR.thesis">thesis</message>
+  <message key="plugins.generic.objectsForReview.COAR.preprint">preprint</message>
+  <message key="plugins.generic.objectsForReview.COAR.website">website</message>
+  <message key="plugins.generic.objectsForReview.COAR.dataset">dataset</message>
+  <message key="plugins.generic.objectsForReview.COAR.software">software</message>
+  <message key="plugins.generic.objectsForReview.COAR.cartographicMaterial">cartographic material</message>
+  <message key="plugins.generic.objectsForReview.COAR.sound">sound</message>
+
 </locale>
+
+
