@@ -3,8 +3,8 @@
 /**
  * @file plugins/generic/objectsForReview/classes/ObjectForReview.inc.php
  *
- * Copyright (c) 2014-2018 Simon Fraser University
- * Copyright (c) 2003-2018 John Willinsky
+ * Copyright (c) 2014-2019 Simon Fraser University
+ * Copyright (c) 2003-2019 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class ObjectForReview
@@ -116,19 +116,19 @@ class ObjectForReview extends DataObject {
 	}
 
 	/**
-	 * Get itemType.
+	 * Get resourceType.
 	 * @return string
 	 */
-	function getItemType() {
-		return $this->getData('itemType');
+	function getResourceType() {
+		return $this->getData('resourceType');
 	}
 
 	/**
-	 * Set itemType.
-	 * @param $itemType string
+	 * Set resourceType.
+	 * @param $resourceType string
 	 */
-	function setItemType($itemType) {
-		return $this->setData('itemType', $itemType);
+	function setResourceType($resourceType) {
+		return $this->setData('resourceType', $resourceType);
 	}	
 
 	/**

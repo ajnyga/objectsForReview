@@ -3,8 +3,8 @@
 /**
  * @file plugins/generic/objectsForReview/controllers/grid/form/ObjectsForReviewForm.inc.php
  *
- * Copyright (c) 2014-2018 Simon Fraser University
- * Copyright (c) 2003-2018 John Willinsky
+ * Copyright (c) 2014-2019 Simon Fraser University
+ * Copyright (c) 2003-2019 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class ObjectsForReviewForm
@@ -43,7 +43,7 @@ class ObjectsForReviewForm extends Form {
 
 		// Add form checks
 		$this->addCheck(new FormValidator($this, 'identifierType', 'required', 'plugins.generic.objectsForReview.identifierTypeRequired'));
-		$this->addCheck(new FormValidator($this, 'itemType', 'required', 'plugins.generic.objectsForReview.itemTypeRequired'));
+		$this->addCheck(new FormValidator($this, 'resourceType', 'required', 'plugins.generic.objectsForReview.resourceTypeRequired'));
 		$this->addCheck(new FormValidator($this, 'description', 'required', 'plugins.generic.objectsForReview.descriptionRequired'));
 		$this->addCheck(new FormValidator($this, 'identifier', 'required', 'plugins.generic.objectsForReview.identifierRequired'));
 		$this->addCheck(new FormValidatorPost($this));
@@ -60,7 +60,7 @@ class ObjectsForReviewForm extends Form {
 			$objectForReviewDao = DAORegistry::getDAO('ObjectForReviewDAO');
 			$objectForReview = $objectForReviewDao->getById($this->reviewId);
 			$this->setData('identifierType', $objectForReview->getIdentifierType());
-			$this->setData('itemType', $objectForReview->getItemType());
+			$this->setData('resourceType', $objectForReview->getResourceType());
 			$this->setData('description', $objectForReview->getDescription());
 			$this->setData('identifier', $objectForReview->getIdentifier());
 		}
@@ -70,7 +70,7 @@ class ObjectsForReviewForm extends Form {
 	 * @copydoc Form::readInputData()
 	 */
 	function readInputData() {
-		$this->readUserVars(array('identifierType', 'itemType', 'description', 'identifier'));
+		$this->readUserVars(array('identifierType', 'resourceType', 'description', 'identifier'));
 	}
 
 	/**
@@ -108,7 +108,7 @@ class ObjectsForReviewForm extends Form {
 
 		$objectForReview->setIdentifier($this->getData('identifier'));
 		$objectForReview->setIdentifierType($this->getData('identifierType'));
-		$objectForReview->setItemType($this->getData('itemType'));
+		$objectForReview->setResourceType($this->getData('resourceType'));
 		$objectForReview->setDescription($this->getData('description'));
 
 		if ($reviewId) {

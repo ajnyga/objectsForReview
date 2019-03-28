@@ -3,8 +3,8 @@
 /**
  * @file plugins/generic/objectsForReview/ObjectsForReviewSettingsForm.inc.php
  *
- * Copyright (c) 2014-2018 Simon Fraser University
- * Copyright (c) 2003-2018 John Willinsky
+ * Copyright (c) 2014-2019 Simon Fraser University
+ * Copyright (c) 2003-2019 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class ObjectsForReviewSettingsForm
@@ -34,8 +34,6 @@ class ObjectsForReviewSettingsForm extends Form {
 
 		parent::__construct($plugin->getTemplateResource('settingsForm.tpl'));
 
-		$this->addCheck(new FormValidator($this, 'objectsForReviewSiteId', 'required', 'plugins.generic.objectsForReview.manager.settings.objectsForReviewSiteIdRequired'));
-
 		$this->addCheck(new FormValidatorPost($this));
 		$this->addCheck(new FormValidatorCSRF($this));
 	}
@@ -45,7 +43,8 @@ class ObjectsForReviewSettingsForm extends Form {
 	 */
 	function initData() {
 		$this->_data = array(
-			'objectsForReviewSiteId' => $this->_plugin->getSetting($this->_journalId, 'objectsForReviewSiteId'),
+			'displayAsSubtitle' => $this->_plugin->getSetting($this->_journalId, 'displayAsSubtitle'),
+			'displayAsList' => $this->_plugin->getSetting($this->_journalId, 'displayAsList'),
 		);
 	}
 
@@ -53,7 +52,7 @@ class ObjectsForReviewSettingsForm extends Form {
 	 * Assign form data to user-submitted data.
 	 */
 	function readInputData() {
-		$this->readUserVars(array('objectsForReviewSiteId'));
+		$this->readUserVars(array('displayAsSubtitle', 'displayAsList'));
 	}
 
 	/**
@@ -69,7 +68,8 @@ class ObjectsForReviewSettingsForm extends Form {
 	 * Save settings.
 	 */
 	function execute() {
-		$this->_plugin->updateSetting($this->_journalId, 'objectsForReviewSiteId', trim($this->getData('objectsForReviewSiteId'), "\"\';"), 'string');
+		$this->_plugin->updateSetting($this->_journalId, 'displayAsSubtitle', $this->getData('displayAsSubtitle'), 'boolean');
+		$this->_plugin->updateSetting($this->_journalId, 'displayAsList', $this->getData('displayAsList'), 'boolean');
 	}
 }
 

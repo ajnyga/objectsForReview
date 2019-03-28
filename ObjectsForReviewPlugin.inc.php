@@ -3,8 +3,8 @@
 /**
  * @file plugins/generic/objectsForReview/ObjectsForReviewPlugin.inc.php
  *
- * Copyright (c) 2014-2018 Simon Fraser University
- * Copyright (c) 2003-2018 John Willinsky
+ * Copyright (c) 2014-2019 Simon Fraser University
+ * Copyright (c) 2003-2019 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class ObjectsForReviewPlugin
@@ -97,6 +97,9 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 		$success = parent::register($category, $path, $mainContextId);
 		if ($success && $this->getEnabled($mainContextId)) {
 
+			$request = $this->getRequest();
+			$context = $request->getContext();
+
 			import('plugins.generic.objectsForReview.classes.ObjectForReviewDAO');
 			$objectForReviewDao = new ObjectForReviewDAO();
 			DAORegistry::registerDAO('ObjectForReviewDAO', $objectForReviewDao);
@@ -104,15 +107,19 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 			HookRegistry::register('Templates::Submission::SubmissionMetadataForm::AdditionalMetadata', array($this, 'metadataFieldEdit'));
 
 			HookRegistry::register('LoadComponentHandler', array($this, 'setupGridHandler'));
-
 			HookRegistry::register('TemplateManager::display',array($this, 'addGridhandlerJs'));
 
+			// if list display is enabled
+			if ($this->getSetting($context->getId(), 'displayAsList')) {
 			HookRegistry::register('Templates::Article::Main', array($this, 'addSubmissionDisplay'));
 			HookRegistry::register('Templates::Catalog::Book::Main', array($this, 'addSubmissionDisplay'));
+			}
 
-			HookRegistry::register('ArticleDAO::_fromRow', array($this, 'addSubtitleDisplay'));
-			HookRegistry::register('MonographDAO::_fromRow', array($this, 'addSubtitleDisplay'));
-
+			// If subtitle display is enabled
+			if ($this->getSetting($context->getId(), 'displayAsSubtitle')) {
+				HookRegistry::register('ArticleDAO::_fromRow', array($this, 'addSubtitleDisplay'));
+				HookRegistry::register('MonographDAO::_fromRow', array($this, 'addSubtitleDisplay'));
+			}
 		}
 		return $success;
 	}
@@ -184,9 +191,6 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 	function addSubtitleDisplay($hookName, $params) {
 		$submission =& $params[0];
 
-
-		
-		
 		$objectForReviewDao = DAORegistry::getDAO('ObjectForReviewDAO');
 		$objectsForReview = $objectForReviewDao->getBySubmissionId($submission->getId());
 

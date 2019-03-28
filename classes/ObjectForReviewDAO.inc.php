@@ -3,8 +3,8 @@
 /**
  * @file plugins/generic/objectsForReview/classes/classes/ObjectForReviewDAO.inc.php
  *
- * Copyright (c) 2014-2018 Simon Fraser University
- * Copyright (c) 2003-2018 John Willinsky
+ * Copyright (c) 2014-2019 Simon Fraser University
+ * Copyright (c) 2003-2019 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class ObjectForReviewDAO
@@ -67,14 +67,14 @@ class ObjectForReviewDAO extends DAO {
 	function insertObject($objectForReview) {
 
 		$this->update(
-			'INSERT INTO objects_for_review (submission_id, context_id, user_id, identifier, identifier_type, item_type, description) VALUES (?, ?, ?, ?, ?, ?, ?)',
+			'INSERT INTO objects_for_review (submission_id, context_id, user_id, identifier, identifier_type, resource_type, description) VALUES (?, ?, ?, ?, ?, ?, ?)',
 			array(
 				(int) $objectForReview->getSubmissionId(),
 				(int) $objectForReview->getContextId(),
 				(int) $objectForReview->getUserId(),
 				$objectForReview->getIdentifier(),
 				$objectForReview->getIdentifierType(),
-				$objectForReview->getItemType(),
+				$objectForReview->getResourceType(),
 				$objectForReview->getDescription()
 			)
 		);
@@ -95,7 +95,7 @@ class ObjectForReviewDAO extends DAO {
 				user_id = ?,
 				identifier = ?,
 				identifier_type = ?,
-				item_type = ?,
+				resource_type = ?,
 				description = ?
 			WHERE review_id = ?',
 			array(
@@ -103,7 +103,7 @@ class ObjectForReviewDAO extends DAO {
 				(int) $objectForReview->getUserId(),
 				$objectForReview->getIdentifier(),
 				$objectForReview->getIdentifierType(),
-				$objectForReview->getItemType(),
+				$objectForReview->getResourceType(),
 				$objectForReview->getDescription(),
 				(int) $objectForReview->getId()
 			)
@@ -151,7 +151,7 @@ class ObjectForReviewDAO extends DAO {
 		$objectForReview->setId($row['review_id']);
 		$objectForReview->setIdentifier($row['identifier']);
 		$objectForReview->setIdentifierType($row['identifier_type']);
-		$objectForReview->setItemType($row['item_type']);
+		$objectForReview->setResourceType($row['resource_type']);
 		$objectForReview->setDescription($row['description']);
 		$objectForReview->setContextId($row['context_id']);
 		$objectForReview->setUserId($row['user_id']);

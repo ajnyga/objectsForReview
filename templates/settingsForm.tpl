@@ -1,8 +1,8 @@
 {**
  * plugins/generic/objectsForReview/templates/settingsForm.tpl
  *
- * Copyright (c) 2014-2018 Simon Fraser University
- * Copyright (c) 2003-2018 John Willinsky
+ * Copyright (c) 2014-2019 Simon Fraser University
+ * Copyright (c) 2003-2019 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * Objects for Review plugin settings
@@ -19,15 +19,21 @@
 	{csrf}
 	{include file="controllers/notification/inPlaceNotification.tpl" notificationId="orSettingsFormNotification"}
 
-	{fbvFormArea id="objectsForReviewSettingsFormAreaSections"}
-		{fbvElement type="select" id="section" from=$sections selected=$section translate=false size=$fbvStyles.size.SMALL}
-	{/fbvFormArea}
+	{fbvFormArea id="objectsForReviewSettingsFormArea"}
 
-	{fbvFormArea id="objectsForReviewSettingsFormAreaDisplay"}
-		{fbvElement type="checkbox" id="displayInToc" value="1" checked=$displayInToc label="plugins.generic.objectsForReview.settings.displayInToc.display"}
-	{/fbvFormArea}
+			{fbvElement type="select" id="section" from=$sections selected=$section translate=false size=$fbvStyles.size.SMALL}
 
-	{fbvFormButtons}
+		{fbvFormSection list=true label="plugins.generic.objectsForReview.settings.displayOptions"}
+			{fbvElement type="checkbox" id="displayAsSubtitle" value="1" label="plugins.generic.objectsForReview.settings.displayAsSubtitle" checked=$displayAsSubtitle}
+			{fbvElement type="checkbox" id="displayAsList" value="1" label="plugins.generic.objectsForReview.settings.displayAsList" checked=$displayAsList}
+		{/fbvFormSection}
+
+
+
+		{fbvFormButtons}
+	
+	{/fbvFormArea}
 
 	<p><span class="formRequired">{translate key="common.requiredField"}</span></p>
+
 </form>
