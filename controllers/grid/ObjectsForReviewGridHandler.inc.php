@@ -178,6 +178,7 @@ class ObjectsForReviewGridHandler extends GridHandler {
 	//
 	// Public Grid Actions
 	//
+
 	/**
 	 * An action to add a new ObjectForReview item
 	 * @param $args array Arguments to the request

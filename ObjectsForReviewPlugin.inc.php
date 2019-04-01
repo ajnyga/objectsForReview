@@ -104,15 +104,20 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 			$objectForReviewDao = new ObjectForReviewDAO();
 			DAORegistry::registerDAO('ObjectForReviewDAO', $objectForReviewDao);
 
+			// Handler for public objects for review page
+			#HookRegistry::register('LoadHandler', array($this, 'loadPageHandler'));
+
 			HookRegistry::register('Templates::Submission::SubmissionMetadataForm::AdditionalMetadata', array($this, 'metadataFieldEdit'));
 
 			HookRegistry::register('LoadComponentHandler', array($this, 'setupGridHandler'));
 			HookRegistry::register('TemplateManager::display',array($this, 'addGridhandlerJs'));
 
+			HookRegistry::register('Templates::Management::Settings::website', array($this, 'callbackShowWebsiteSettingsTabs'));
+
 			// if list display is enabled
 			if ($this->getSetting($context->getId(), 'displayAsList')) {
-			HookRegistry::register('Templates::Article::Main', array($this, 'addSubmissionDisplay'));
-			HookRegistry::register('Templates::Catalog::Book::Main', array($this, 'addSubmissionDisplay'));
+				HookRegistry::register('Templates::Article::Main', array($this, 'addSubmissionDisplay'));
+				HookRegistry::register('Templates::Catalog::Book::Main', array($this, 'addSubmissionDisplay'));
 			}
 
 			// If subtitle display is enabled
@@ -125,6 +130,20 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 	}
 
 	/**
+	 * Extend the website settings tabs to include custom locale
+	 * @param $hookName string The name of the invoked hook
+	 * @param $args array Hook parameters
+	 * @return boolean Hook handling status
+	 */
+	function callbackShowWebsiteSettingsTabs($hookName, $args) {
+		$output =& $args[2];
+		$request =& Registry::get('request');
+		$dispatcher = $request->getDispatcher();
+		$output .= '<li><a name="objectsForReviewManagement" href="' . $dispatcher->url($request, ROUTE_COMPONENT, null, 'plugins.generic.objectsForReview.controllers.grid.ObjectsForReviewManagementGridHandler', 'fetchGrid') . '">' . __('plugins.generic.objectsForReview.managementLink') . '</a></li>';
+		return false;
+	}
+
+	/**
 	 * Permit requests to the ObjectsForReview grid handler
 	 * @param $hookName string The name of the hook being invoked
 	 * @param $args array The parameters to the invoked hook
@@ -134,6 +153,11 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 		if ($component == 'plugins.generic.objectsForReview.controllers.grid.ObjectsForReviewGridHandler') {
 			import($component);
 			ObjectsForReviewGridHandler::setPlugin($this);
+			return true;
+		}
+		if ($component == 'plugins.generic.objectsForReview.controllers.grid.ObjectsForReviewManagementGridHandler') {
+			import($component);
+			ObjectsForReviewManagementGridHandler::setPlugin($this);
 			return true;
 		}
 		return false;
@@ -164,20 +188,23 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 		$objectForReviewDao = DAORegistry::getDAO('ObjectForReviewDAO');
 		$objectsForReview = $objectForReviewDao->getBySubmissionId($submission->getId());
 
-		$templateData = array();
-
-		while ($objectForReview = $objectsForReview->next()) {
-			$reviewId = $objectForReview->getId();
-			$templateData[$reviewId] = array(
-				'identifierType' => $objectForReview->getIdentifierType(),
-				'identifier' => $objectForReview->getIdentifier(),
-				'description' => $objectForReview->getDescription()
-			);
-		}
-
 		if ($objectsForReview){
-			$templateMgr->assign('objectsForReview', $templateData);
-			$output .= $templateMgr->fetch($this->getTemplateResource('listReviews.tpl'));
+			$templateData = array();
+
+			while ($objectForReview = $objectsForReview->next()) {
+				$reviewId = $objectForReview->getId();
+				$templateData[$reviewId] = array(
+					'identifierType' => $objectForReview->getIdentifierType(),
+					'identifier' => $objectForReview->getIdentifier(),
+					'description' => $objectForReview->getDescription()
+				);
+			}
+
+			if ($objectsForReview){
+				$templateMgr->assign('objectsForReview', $templateData);
+				$output .= $templateMgr->fetch($this->getTemplateResource('listReviews.tpl'));
+			}
+
 		}
 
 		return false;
@@ -194,13 +221,15 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 		$objectForReviewDao = DAORegistry::getDAO('ObjectForReviewDAO');
 		$objectsForReview = $objectForReviewDao->getBySubmissionId($submission->getId());
 
-		$objects = array();
-		while ($objectForReview = $objectsForReview->next()) {
-			$objects[] = $objectForReview->getDescription();
-		}
+		if ($objectsForReview){
+			$objects = array();
+			while ($objectForReview = $objectsForReview->next()) {
+				$objects[] = $objectForReview->getDescription();
+			}
 
-		if ($objects){
-			$submission->setSubtitle(implode(" ▪ ", $objects), $submission->getLocale());
+			if ($objects){
+				$submission->setSubtitle(implode(" ▪ ", $objects), $submission->getLocale());
+			}
 		}
 
 		return false;

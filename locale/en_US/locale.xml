@@ -15,6 +15,10 @@
   <message key="plugins.generic.objectsForReview.displayName">Objects for review</message>
   <message key="plugins.generic.objectsForReview.description">Record reviewed objects with submissions.</message>
 
+  <!-- Editorial management -->
+  <message key="plugins.generic.objectsForReview.tabTitle">Objects for review</message>
+
+
   <!-- Settings Management -->
   <message key="plugins.generic.objectsForReview.settings.displayOptions">Display options</message>
   <message key="plugins.generic.objectsForReview.settings.displayAsSubtitle">Display reviewed objects in the article subtitle field</message>
@@ -29,6 +33,9 @@
   <message key="plugins.generic.objectsForReview.itemDescription">Description</message>
   <message key="plugins.generic.objectsForReview.noneCreated">No object for review in this submission.</message>
 
+  <message key="plugins.generic.objectsForReview.managementLink">Objects for Review</message>
+  <message key="plugins.generic.objectsForReview.addAvailableObjectForReview">Add available object</message>
+  <message key="plugins.generic.objectsForReview.userName">Reserved for user</message>
 
   <!-- article landing page -->
   <message key="plugins.generic.objectsForReview.objectsForReviewData.singular">Reviewed publication</message>

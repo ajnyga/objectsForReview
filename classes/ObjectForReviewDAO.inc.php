@@ -60,6 +60,21 @@ class ObjectForReviewDAO extends DAO {
 	}
 
 	/**
+	 * Retrieve all objects
+	 * @param $contextId int required
+	 * @param $withoutReviewOnly true if only objects without a review should be included
+	 * @return DAOResultFactory containing matching Contexts
+	 */
+	function getAll($contextId, $withoutReviewOnly = false) {
+		$result = $this->retrieve(
+			'SELECT * FROM objects_for_review WHERE context_id = ?'
+			. ($withoutReviewOnly?' AND submission_id IS NULL':''),
+			$contextId
+		);
+		return new DAOResultFactory($result, $this, '_fromRow');
+	}
+
+	/**
 	 * Insert a object for review.
 	 * @param $objectForReview ObjectForReview
 	 * @return int Inserted objectForReview ID
