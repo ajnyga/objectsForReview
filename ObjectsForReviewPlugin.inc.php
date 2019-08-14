@@ -281,7 +281,7 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 	 */
 	public function loadPageHandler($hookName, $args) {
 		$page = $args[0];
-		if ($this->getEnabled()) {
+		if ($this->getEnabled() && $page === 'for-review') {
 			$this->import('pages/ObjectsForReviewHandler');
 			define('HANDLER_CLASS', 'ObjectsForReviewHandler');
 			return true;
