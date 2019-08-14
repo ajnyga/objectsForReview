@@ -76,7 +76,7 @@ class ObjectsForReviewForm extends Form {
 	/**
 	 * @copydoc Form::fetch
 	 */
-	function fetch($request) {
+	function fetch($request, $template = NULL, $display = false) {
 		$templateMgr = TemplateManager::getManager();
 		$identifierTypes = $this->_getIdentifierTypes();
 		$resourceTypes = $this->_getResourceTypes(null);

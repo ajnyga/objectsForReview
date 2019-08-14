@@ -9,12 +9,12 @@
  *
  * @class ObjectsForReviewPlugin
  * @ingroup plugins_generic_objectsForReview
-
  * @brief Add objectsForReview data to the submission metadata and display them on the submission view page.
  *
  */
 
 import('lib.pkp.classes.plugins.GenericPlugin');
+define('OBJECTSFORREVIEW_NMI_TYPE', 'OBJECTSFORREVIEW_NMI');
 
 class ObjectsForReviewPlugin extends GenericPlugin {
 
@@ -104,9 +104,6 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 			$objectForReviewDao = new ObjectForReviewDAO();
 			DAORegistry::registerDAO('ObjectForReviewDAO', $objectForReviewDao);
 
-			// Handler for public objects for review page
-			#HookRegistry::register('LoadHandler', array($this, 'loadPageHandler'));
-
 			HookRegistry::register('Templates::Submission::SubmissionMetadataForm::AdditionalMetadata', array($this, 'metadataFieldEdit'));
 
 			HookRegistry::register('LoadComponentHandler', array($this, 'setupGridHandler'));
@@ -125,6 +122,13 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 				HookRegistry::register('ArticleDAO::_fromRow', array($this, 'addSubtitleDisplay'));
 				HookRegistry::register('MonographDAO::_fromRow', array($this, 'addSubtitleDisplay'));
 			}
+
+			// Handler for public objects for review page
+			HookRegistry::register('LoadHandler', array($this, 'loadPageHandler'));
+			HookRegistry::register('NavigationMenus::itemTypes', array($this, 'addMenuItemTypes'));
+			HookRegistry::register('NavigationMenus::displaySettings', array($this, 'setMenuItemDisplayDetails'));
+			HookRegistry::register('SitemapHandler::createJournalSitemap', array($this, 'addSitemapURLs'));
+
 		}
 		return $success;
 	}
@@ -264,6 +268,91 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 		return Request::getBaseUrl() . DIRECTORY_SEPARATOR . $this->getPluginPath() . DIRECTORY_SEPARATOR . 'js';
 	}
 
+	/**
+	 * Load the handler to deal with browse by section page requests
+	 *
+	 * @param $hookName string `LoadHandler`
+	 * @param $args array [
+	 * 		@option string page
+	 * 		@option string op
+	 * 		@option string sourceFile
+	 * ]
+	 * @return bool
+	 */
+	public function loadPageHandler($hookName, $args) {
+		$page = $args[0];
+		if ($this->getEnabled()) {
+			$this->import('pages/ObjectsForReviewHandler');
+			define('HANDLER_CLASS', 'ObjectsForReviewHandler');
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Add Navigation Menu Item types for linking to objects for review page
+	 *
+	 * @param $hookName string
+	 * @param $args array [
+	 *		@option array Existing menu item types
+	 * ]
+	 */
+	public function addMenuItemTypes($hookName, $args) {
+		$types =& $args[0];
+		$request = Application::getRequest();
+		$context = $request->getContext();
+		$contextId = $context ? $context->getId() : CONTEXT_ID_NONE;
+		$types[OBJECTSFORREVIEW_NMI_TYPE] = array(
+			'title' => __('plugins.generic.objectsForReview.navMenuItem'),
+			'description' => __('plugins.generic.objectsForReview.navMenuItem.description'),
+		);
+	}
+
+	/**
+	 * Set the display details for the custom menu item types
+	 *
+	 * @param $hookName string
+	 * @param $args array [
+	 *		@option NavigationMenuItem
+	 * ]
+	 */
+	public function setMenuItemDisplayDetails($hookName, $args) {
+		$navigationMenuItem =& $args[0];
+		if ($navigationMenuItem->getType() == OBJECTSFORREVIEW_NMI_TYPE) {
+			$request = Application::getRequest();
+			$context = $request->getContext();
+			if ($context){
+				$dispatcher = $request->getDispatcher();
+				$navigationMenuItem->setUrl($dispatcher->url(
+					$request,
+					ROUTE_PAGE,
+					null,
+					'for-review'
+				));
+			}
+		}
+	}
+
+	/**
+	 * Add the objects for review page URL to the sitemap
+	 *
+	 * @param $hookName string
+	 * @param $args array
+	 * @return boolean
+	 */
+	function addSitemapURLs($hookName, $args) {
+		$doc = $args[0];
+		$rootNode = $doc->documentElement;
+		$request = Application::getRequest();
+		$context = $request->getContext();
+		if ($context) {
+			// Create and append sitemap XML "url" element
+			$url = $doc->createElement('url');
+			$url->appendChild($doc->createElement('loc', htmlspecialchars($request->url($context->getPath(), 'for-review'), ENT_COMPAT, 'UTF-8')));
+			$rootNode->appendChild($url);
+		}
+		return false;
+	}
 }
 
 ?>
