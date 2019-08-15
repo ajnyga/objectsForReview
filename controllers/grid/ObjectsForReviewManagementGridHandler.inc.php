@@ -71,17 +71,17 @@ class ObjectsForReviewManagementGridHandler extends GridHandler {
 
 		$gridData = array();
 		while ($objectForReview = $objectsForReview->next()) {
-			$reviewId = $objectForReview->getId();
+			$objectId = $objectForReview->getId();
 
 			if ($objectForReview->getUserId()){
 				$userDao = DAORegistry::getDAO('UserDAO');
 				$user = $userDao->getById($objectForReview->getUserId());
-				$userName = $user->getUsername();
+				$userName = $user->getUsername() . " (" . $user->getEmail() . ")";
 			} else{
 				$userName = "-";
 			}
 
-			$gridData[$reviewId] = array(
+			$gridData[$objectId] = array(
 				'identifierType' => $objectForReview->getIdentifierType(),
 				'identifier' => $objectForReview->getIdentifier(),
 				'description' => $objectForReview->getDescription(),
@@ -172,14 +172,14 @@ class ObjectsForReviewManagementGridHandler extends GridHandler {
 	 * @return string Serialized JSON object
 	 */
 	function editAvailableObjectForReview($args, $request) {
-		$reviewId = $request->getUserVar('reviewId');
+		$objectId = $request->getUserVar('objectId');
 		$context = $request->getContext();
 
 		$this->setupTemplate($request);
 
 		// Create and present the edit form
 		import('plugins.generic.objectsForReview.controllers.grid.form.AvailableObjectsForReviewForm');
-		$availableObjectsForReviewForm = new AvailableObjectsForReviewForm(self::$plugin, $context->getId(), $reviewId);
+		$availableObjectsForReviewForm = new AvailableObjectsForReviewForm(self::$plugin, $context->getId(), $objectId);
 		$availableObjectsForReviewForm->initData();
 
 
@@ -194,20 +194,20 @@ class ObjectsForReviewManagementGridHandler extends GridHandler {
 	 * @return string Serialized JSON object
 	 */
 	function updateAvailableObjectForReview($args, $request) {
-		$reviewId = $request->getUserVar('reviewId');
+		$objectId = $request->getUserVar('objectId');
 		$context = $request->getContext();
 
 		$this->setupTemplate($request);
 
 		// Create and populate the form
 		import('plugins.generic.objectsForReview.controllers.grid.form.AvailableObjectsForReviewForm');
-		$availableObjectsForReviewForm = new AvailableObjectsForReviewForm(self::$plugin, $context->getId(), $reviewId);
+		$availableObjectsForReviewForm = new AvailableObjectsForReviewForm(self::$plugin, $context->getId(), $objectId);
 		$availableObjectsForReviewForm->readInputData();
 		// Validate
 		if ($availableObjectsForReviewForm->validate()) {
 			// Save
 			$objectsForReview = $availableObjectsForReviewForm->execute();
- 			return DAO::getDataChangedEvent($reviewId);
+ 			return DAO::getDataChangedEvent($objectId);
 		} else {
 			// Present any errors
 			$json = new JSONMessage(true, $availableObjectsForReviewForm->fetch($request));
@@ -222,10 +222,10 @@ class ObjectsForReviewManagementGridHandler extends GridHandler {
 	 * @return string Serialized JSON object
 	 */
 	function deleteAvailableObjectForReview($args, $request) {
-		$reviewId = $request->getUserVar('reviewId');
+		$objectId = $request->getUserVar('objectId');
 
 		$objectForReviewDao = DAORegistry::getDAO('ObjectForReviewDAO');
-		$objectsForReview = $objectForReviewDao->getById($reviewId);
+		$objectsForReview = $objectForReviewDao->getById($objectId);
 
 		$objectForReviewDao->deleteObject($objectsForReview);
 		return DAO::getDataChangedEvent();

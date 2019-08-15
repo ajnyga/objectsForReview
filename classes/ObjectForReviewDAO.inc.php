@@ -20,15 +20,15 @@ class ObjectForReviewDAO extends DAO {
 
 	/**
 	 * Get a object for objectForReview by ID
-	 * @param $reviewId int ObjectForReview ID
+	 * @param $objectId int ObjectForReview ID
 	 * @param $submissionId int (optional) Submission ID
 	 */
-	function getById($reviewId, $submissionId = null) {
-		$params = array((int) $reviewId);
+	function getById($objectId, $submissionId = null) {
+		$params = array((int) $objectId);
 		if ($submissionId) $params[] = (int) $submissionId;
 
 		$result = $this->retrieve(
-			'SELECT * FROM objects_for_review WHERE review_id = ?'
+			'SELECT * FROM objects_for_review WHERE object_id = ?'
 			. ($submissionId?' AND submission_id = ?':''),
 			$params
 		);
@@ -112,7 +112,7 @@ class ObjectForReviewDAO extends DAO {
 				identifier_type = ?,
 				resource_type = ?,
 				description = ?
-			WHERE review_id = ?',
+			WHERE object_id = ?',
 			array(
 				(int) $objectForReview->getContextId(),
 				(int) $objectForReview->getUserId(),
@@ -129,21 +129,21 @@ class ObjectForReviewDAO extends DAO {
 	 * Delete a objectForReview by ID.
 	 * @param $objectForReviewId int
 	 */
-	function deleteById($reviewId) {
+	function deleteById($objectId) {
 		$this->update(
-			'DELETE FROM objects_for_review WHERE review_id = ?',
-			(int) $reviewId
+			'DELETE FROM objects_for_review WHERE object_id = ?',
+			(int) $objectId
 		);
 
 		$this->update(
-			'DELETE FROM objects_for_review WHERE review_id = ?',
-			(int) $reviewId
+			'DELETE FROM objects_for_review WHERE object_id = ?',
+			(int) $objectId
 		);
 	}
 
 	/**
 	 * Delete a objectForReview object.
-	 * @param $objectForReviewId ObjectForReviewId
+	 * @param $objectForReview ObjectForReview
 	 */
 	function deleteObject($objectForReview) {
 		$this->deleteById($objectForReview->getId());
@@ -163,7 +163,7 @@ class ObjectForReviewDAO extends DAO {
 	 */
 	function _fromRow($row) {
 		$objectForReview = $this->newDataObject();
-		$objectForReview->setId($row['review_id']);
+		$objectForReview->setId($row['object_id']);
 		$objectForReview->setIdentifier($row['identifier']);
 		$objectForReview->setIdentifierType($row['identifier_type']);
 		$objectForReview->setResourceType($row['resource_type']);
@@ -179,7 +179,7 @@ class ObjectForReviewDAO extends DAO {
 	 * @return int
 	 */
 	function getInsertId() {
-		return $this->_getInsertId('objects_for_review', 'review_id');
+		return $this->_getInsertId('objects_for_review', 'object_id');
 	}
 
 }

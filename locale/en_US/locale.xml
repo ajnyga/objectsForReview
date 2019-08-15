@@ -18,7 +18,6 @@
   <!-- Editorial management -->
   <message key="plugins.generic.objectsForReview.tabTitle">Objects for review</message>
 
-
   <!-- Settings Management -->
   <message key="plugins.generic.objectsForReview.settings.displayOptions">Display options</message>
   <message key="plugins.generic.objectsForReview.settings.displayAsSubtitle">Display reviewed objects in the article subtitle field</message>
@@ -37,9 +36,19 @@
   <message key="plugins.generic.objectsForReview.addAvailableObjectForReview">Add available object</message>
   <message key="plugins.generic.objectsForReview.userName">Reserved for user</message>
 
-  <!-- article landing page -->
+  <!-- Article landing page -->
   <message key="plugins.generic.objectsForReview.objectsForReviewData.singular">Reviewed publication</message>
   <message key="plugins.generic.objectsForReview.objectsForReviewData.plural">Reviewed publications</message>
+
+  <!-- Available objects for review page -->
+  <message key="plugins.generic.objectsForReview.frontendTitle">For review</message>
+  <message key="plugins.generic.objectsForReview.reserve">Offer to review</message>
+  <message key="plugins.generic.objectsForReview.cancel">Cancel your offer to review</message>
+  <message key="plugins.generic.objectsForReview.reserve.confirm">The selected item will be reserved for you and once you are ready, you can submit your review article.</message>
+  <message key="plugins.generic.objectsForReview.cancel.confirm">Are you sure you want to cancel your review for this item?</message>
+  <message key="plugins.generic.objectsForReview.objectAvailable">Available for review</message>
+  <message key="plugins.generic.objectsForReview.objectReserved">Reserved for review</message>
+  <message key="plugins.generic.objectsForReview.logInToReserve">To reserve an item for review, please login.</message>
 
   <!-- For official label translations see http://vocabularies.coar-repositories.org/documentation/resource_types/2.0.draft/ -->
   <message key="plugins.generic.objectsForReview.COAR.book">book</message>

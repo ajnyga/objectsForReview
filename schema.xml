@@ -19,7 +19,7 @@
 	 *
 	 -->
 	<table name="objects_for_review">
-		<field name="review_id" type="I8">
+		<field name="object_id" type="I8">
 			<KEY/>
 			<AUTOINCREMENT/>
 		</field>

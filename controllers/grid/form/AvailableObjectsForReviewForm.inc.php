@@ -27,13 +27,13 @@ class AvailableobjectsForReviewForm extends Form {
 	 * Constructor
 	 * @param $objectsForReviewPlugin ObjectsForReviewPlugin
 	 * @param $contextId int Context ID
-	 * @param $reviewId int (optional) Review ID
+	 * @param $objectId int (optional) Review ID
 	 */
-	function __construct($objectsForReviewPlugin, $contextId, $reviewId = null) {
+	function __construct($objectsForReviewPlugin, $contextId, $objectId = null) {
 		parent::__construct($objectsForReviewPlugin->getTemplateResource('editAvailableObjectForReviewForm.tpl'));
 
 		$this->contextId = $contextId;
-		$this->reviewId = $reviewId;
+		$this->objectId = $objectId;
 		$this->plugin = $objectsForReviewPlugin;
 
 		// Add form checks
@@ -50,9 +50,9 @@ class AvailableobjectsForReviewForm extends Form {
 	 * @copydoc Form::initData()
 	 */
 	function initData() {
-		if ($this->reviewId) {
+		if ($this->objectId) {
 			$objectForReviewDao = DAORegistry::getDAO('ObjectForReviewDAO');
-			$objectForReview = $objectForReviewDao->getById($this->reviewId);
+			$objectForReview = $objectForReviewDao->getById($this->objectId);
 			$this->setData('identifierType', $objectForReview->getIdentifierType());
 			$this->setData('resourceType', $objectForReview->getResourceType());
 			$this->setData('description', $objectForReview->getDescription());
@@ -74,7 +74,7 @@ class AvailableobjectsForReviewForm extends Form {
 		$templateMgr = TemplateManager::getManager();
 		$identifierTypes = $this->_getIdentifierTypes();
 		$resourceTypes = $this->_getResourceTypes(null);
-		$templateMgr->assign('reviewId', $this->reviewId);
+		$templateMgr->assign('objectId', $this->objectId);
 		$templateMgr->assign('identifierTypes', $identifierTypes);
 		$templateMgr->assign('resourceTypes', $resourceTypes);
 		return parent::fetch($request);
@@ -84,12 +84,12 @@ class AvailableobjectsForReviewForm extends Form {
 	 * Save form values into the database
 	 */
 	function execute() {
-		$reviewId = $this->reviewId;
+		$objectId = $this->objectId;
 		$objectForReviewDao = DAORegistry::getDAO('ObjectForReviewDAO');
 
-		if ($reviewId) {
+		if ($objectId) {
 			// Load and update an existing objectForReview
-			$objectForReview = $objectForReviewDao->getById($this->reviewId);
+			$objectForReview = $objectForReviewDao->getById($this->objectId);
 		} else {
 			// Create a new objectForReview
 			$objectForReview = $objectForReviewDao->newDataObject();
@@ -101,7 +101,7 @@ class AvailableobjectsForReviewForm extends Form {
 		$objectForReview->setResourceType($this->getData('resourceType'));
 		$objectForReview->setDescription($this->getData('description'));
 
-		if ($reviewId) {
+		if ($objectId) {
 			$objectForReviewDao->updateObject($objectForReview);
 		} else {
 			$objectForReview = $objectForReviewDao->insertObject($objectForReview);

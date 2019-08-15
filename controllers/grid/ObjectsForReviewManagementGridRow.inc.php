@@ -32,9 +32,9 @@ class ObjectsForReviewManagementGridRow extends GridRow {
 	 */
 	function initialize($request, $template = null) {
 		parent::initialize($request, $template);
-		$reviewId = $this->getId();
+		$objectId = $this->getId();
 
-		if (!empty($reviewId)) {
+		if (!empty($objectId)) {
 			$router = $request->getRouter();
 
 			// Create the "edit" action
@@ -43,7 +43,7 @@ class ObjectsForReviewManagementGridRow extends GridRow {
 				new LinkAction(
 					'edit',
 					new AjaxModal(
-						$router->url($request, null, null, 'editAvailableObjectForReview', null, array('reviewId' => $reviewId)),
+						$router->url($request, null, null, 'editAvailableObjectForReview', null, array('objectId' => $objectId)),
 						__('grid.action.edit'),
 						'modal_edit',
 						true),
@@ -61,7 +61,7 @@ class ObjectsForReviewManagementGridRow extends GridRow {
 						$request->getSession(),
 						__('common.confirmDelete'),
 						__('grid.action.delete'),
-						$router->url($request, null, null, 'deleteAvailableObjectForReview', null, array('reviewId' => $reviewId)), 'modal_delete'
+						$router->url($request, null, null, 'deleteAvailableObjectForReview', null, array('objectId' => $objectId)), 'modal_delete'
 					),
 					__('grid.action.delete'),
 					'delete'

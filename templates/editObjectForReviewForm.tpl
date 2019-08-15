@@ -18,8 +18,8 @@
 
 <form class="pkp_form" id="objectsForReviewForm" method="post" action="{$actionUrl}">
 	{csrf}
-	{if $reviewId}
-		<input type="hidden" name="reviewId" value="{$reviewId|escape}" />
+	{if $objectId}
+		<input type="hidden" name="objectId" value="{$objectId|escape}" />
 	{/if}
 	{fbvFormArea id="objectsForReviewFormArea" class="border"}
 

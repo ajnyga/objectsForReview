@@ -101,8 +101,8 @@ class ObjectsForReviewGridHandler extends GridHandler {
 
 		$gridData = array();
 		while ($objectForReview = $objectsForReview->next()) {
-			$reviewId = $objectForReview->getId();
-			$gridData[$reviewId] = array(
+			$objectId = $objectForReview->getId();
+			$gridData[$objectId] = array(
 				'identifierType' => $objectForReview->getIdentifierType(),
 				'identifier' => $objectForReview->getIdentifier(),
 				'description' => $objectForReview->getDescription()
@@ -197,7 +197,7 @@ class ObjectsForReviewGridHandler extends GridHandler {
 	 * @return string Serialized JSON object
 	 */
 	function editObjectForReview($args, $request) {
-		$reviewId = $request->getUserVar('reviewId');
+		$objectId = $request->getUserVar('objectId');
 		$context = $request->getContext();
 		$submission = $this->getSubmission();
 		$submissionId = $submission->getId();
@@ -206,7 +206,7 @@ class ObjectsForReviewGridHandler extends GridHandler {
 
 		// Create and present the edit form
 		import('plugins.generic.objectsForReview.controllers.grid.form.ObjectsForReviewForm');
-		$objectsForReviewForm = new ObjectsForReviewForm(self::$plugin, $context->getId(), $submissionId, $reviewId);
+		$objectsForReviewForm = new ObjectsForReviewForm(self::$plugin, $context->getId(), $submissionId, $objectId);
 		$objectsForReviewForm->initData();
 		$json = new JSONMessage(true, $objectsForReviewForm->fetch($request));
 		return $json->getString();
@@ -219,7 +219,7 @@ class ObjectsForReviewGridHandler extends GridHandler {
 	 * @return string Serialized JSON object
 	 */
 	function updateObjectForReview($args, $request) {
-		$reviewId = $request->getUserVar('reviewId');
+		$objectId = $request->getUserVar('objectId');
 		$context = $request->getContext();
 		$submission = $this->getSubmission();
 		$submissionId = $submission->getId();
@@ -228,7 +228,7 @@ class ObjectsForReviewGridHandler extends GridHandler {
 
 		// Create and populate the form
 		import('plugins.generic.objectsForReview.controllers.grid.form.ObjectsForReviewForm');
-		$objectsForReviewForm = new ObjectsForReviewForm(self::$plugin, $context->getId(), $submissionId, $reviewId);
+		$objectsForReviewForm = new ObjectsForReviewForm(self::$plugin, $context->getId(), $submissionId, $objectId);
 		$objectsForReviewForm->readInputData();
 		// Validate
 		if ($objectsForReviewForm->validate()) {
@@ -249,12 +249,12 @@ class ObjectsForReviewGridHandler extends GridHandler {
 	 * @return string Serialized JSON object
 	 */
 	function deleteObjectForReview($args, $request) {
-		$reviewId = $request->getUserVar('reviewId');
+		$objectId = $request->getUserVar('objectId');
 		$submission = $this->getSubmission();
 		$submissionId = $submission->getId();
 
 		$objectForReviewDao = DAORegistry::getDAO('ObjectForReviewDAO');
-		$objectsForReview = $objectForReviewDao->getById($reviewId, $submissionId);
+		$objectsForReview = $objectForReviewDao->getById($objectId, $submissionId);
 
 		$objectForReviewDao->deleteObject($objectsForReview);
 		return DAO::getDataChangedEvent($submissionId);

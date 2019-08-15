@@ -40,7 +40,65 @@ class ObjectsForReviewHandler extends Handler {
 		$contextId = $context ? $context->getId() : CONTEXT_ID_NONE;
 		$plugin = PluginRegistry::getPlugin('generic', 'ObjectsForReviewPlugin');
 		$templateMgr = TemplateManager::getManager($request);
-		$templateMgr->assign(array());
+		$currentUser = $request->getUser();
+
+		// Get the items and add the data to the grid
+		$objectForReviewDao = DAORegistry::getDAO('ObjectForReviewDAO');
+		$objectsForReview = $objectForReviewDao->getAll($context->getId(), false);
+		$gridData = array();
+		while ($objectForReview = $objectsForReview->next()) {
+			$objectId = $objectForReview->getId();
+			$gridData[$objectId] = array(
+				'objectId' => $objectForReview->getId(),
+				'identifierType' => $objectForReview->getIdentifierType(),
+				'identifier' => $objectForReview->getIdentifier(),
+				'description' => $objectForReview->getDescription(),
+				'userId' => $objectForReview->getUserId()
+			);
+		}
+
+		$templateMgr->assign(array('objectsForReview' => $gridData, 'currentUser' => $currentUser));
+
 		return $templateMgr->display($plugin->getTemplateResource('frontend/pages/forReview.tpl'));
+	}
+
+	/**
+	 * Reserve an object.
+	 * @param $args array
+	 * @param $request PKPRequest
+	 * @return JSONMessage JSON object
+	 */
+	function reserveObject($args, $request) {
+		if (!$request->checkCSRF()) fatalError('Error!');
+		$objectId = (int) $request->getUserVar('objectId');
+		$currentUser = $request->getUser();
+		$currentContext = $request->getContext();
+		$objectForReviewDao = DAORegistry::getDAO('ObjectForReviewDAO');
+		$objectForReview = $objectForReviewDao->getById($objectId);
+		if ($objectForReview && !$objectForReview->getUserId() && $currentContext->getId() == $objectForReview->getContextId()) {
+			$objectForReview->setUserId($currentUser->getId());
+			$objectForReviewDao->updateObject($objectForReview);
+		}
+		$request->redirect(null, 'for-review');
+	}
+
+	/**
+	 * Reserve an object.
+	 * @param $args array
+	 * @param $request PKPRequest
+	 * @return JSONMessage JSON object
+	 */
+	function cancelObject($args, $request) {
+		if (!$request->checkCSRF()) fatalError('Error!');
+		$objectId = (int) $request->getUserVar('objectId');
+		$currentUser = $request->getUser();
+		$currentContext = $request->getContext();
+		$objectForReviewDao = DAORegistry::getDAO('ObjectForReviewDAO');
+		$objectForReview = $objectForReviewDao->getById($objectId);
+		if ($objectForReview && $objectForReview->getUserId() == $currentUser->getId() && $currentContext->getId() == $objectForReview->getContextId()) {
+			$objectForReview->setUserId(null);
+			$objectForReviewDao->updateObject($objectForReview);
+		}
+		$request->redirect(null, 'for-review');
 	}
 }
