@@ -7,6 +7,29 @@
  *
  * Form for editing a objectsForReview item
  *}
+
+{if $reservedObjects}
+	{foreach from=$reservedObjects item=reservedObject}
+		<script>
+			$(function() {ldelim}
+				// Attach the form handler.
+				$('#reservedObjectsForReviewForm-{$reservedObject.objectId}').pkpHandler('$.pkp.controllers.form.AjaxFormHandler');
+			{rdelim});
+		</script>
+		<p>
+
+			{capture assign="reserveActionUrl"}{url router=$smarty.const.ROUTE_COMPONENT component="plugins.generic.objectsForReview.controllers.grid.ObjectsForReviewGridHandler" op="addReservedObjectForReview" submissionId=$submissionId escape=false}{/capture}
+
+			<form class="pkp_form" id="reservedObjectsForReviewForm-{$reservedObject.objectId}" method="post" action="{$reserveActionUrl}">
+				{csrf}
+				<input type="hidden" name="objectId" value="{$reservedObject.objectId|escape}" />
+				{assign var=buttonId value="submitFormButton"|concat:"-"|uniqid}
+				{$reservedObject.description} {fbvElement type="submit" class="submitFormButton" id=$buttonId label="plugins.generic.objectsForReview.objectsForReviewData.addReservedObject"}
+			</form>
+		</p>
+	{/foreach}
+{/if}
+
 <script>
 	$(function() {ldelim}
 		// Attach the form handler.
@@ -47,3 +70,4 @@
 		{fbvElement type="submit" class="submitFormButton" id=$buttonId label="common.save"}
 	{/fbvFormSection}
 </form>
+

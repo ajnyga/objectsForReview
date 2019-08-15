@@ -44,17 +44,17 @@ class ObjectsForReviewHandler extends Handler {
 
 		// Get the items and add the data to the grid
 		$objectForReviewDao = DAORegistry::getDAO('ObjectForReviewDAO');
-		$objectsForReview = $objectForReviewDao->getAll($context->getId(), false);
+		$objectsForReview = $objectForReviewDao->getAll($context->getId(), true, true);
 		$gridData = array();
 		while ($objectForReview = $objectsForReview->next()) {
-			$objectId = $objectForReview->getId();
-			$gridData[$objectId] = array(
-				'objectId' => $objectForReview->getId(),
-				'identifierType' => $objectForReview->getIdentifierType(),
-				'identifier' => $objectForReview->getIdentifier(),
-				'description' => $objectForReview->getDescription(),
-				'userId' => $objectForReview->getUserId()
-			);
+				$objectId = $objectForReview->getId();
+				$gridData[$objectId] = array(
+					'objectId' => $objectForReview->getId(),
+					'identifierType' => $objectForReview->getIdentifierType(),
+					'identifier' => $objectForReview->getIdentifier(),
+					'description' => $objectForReview->getDescription(),
+					'userId' => $objectForReview->getUserId()
+				);
 		}
 
 		$templateMgr->assign(array('objectsForReview' => $gridData, 'currentUser' => $currentUser));

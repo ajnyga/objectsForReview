@@ -60,15 +60,37 @@ class ObjectForReviewDAO extends DAO {
 	}
 
 	/**
+	 * Get a object for objectForReview by user ID
+	 * @param $userId int User ID
+	 * @param $contextId int (optional) context ID
+	 * @param $withoutSubmissionOnly true if only objects without a submission should be included
+	 */
+	function getByUserId($userId, $contextId = null, $withoutSubmissionOnly = false) {
+		$params = array((int) $userId);
+		if ($contextId) $params[] = (int) $contextId;
+
+		$result = $this->retrieve(
+			'SELECT * FROM objects_for_review WHERE user_id = ?'
+			. ($withoutSubmissionOnly?' AND submission_id IS NULL':'')
+			. ($contextId?' AND context_id = ?':''),
+			$params
+		);
+
+		return new DAOResultFactory($result, $this, '_fromRow');
+	}
+
+	/**
 	 * Retrieve all objects
 	 * @param $contextId int required
-	 * @param $withoutReviewOnly true if only objects without a review should be included
+	 * @param $withoutSubmissionOnly true if only objects without a submission should be included
+	 * @param $managerCreatedOnly true if only objects created by the manager should be included
 	 * @return DAOResultFactory containing matching Contexts
 	 */
-	function getAll($contextId, $withoutReviewOnly = false) {
+	function getAll($contextId, $withoutSubmissionOnly = false, $managerCreatedOnly = false) {
 		$result = $this->retrieve(
 			'SELECT * FROM objects_for_review WHERE context_id = ?'
-			. ($withoutReviewOnly?' AND submission_id IS NULL':''),
+			. ($withoutSubmissionOnly?' AND submission_id IS NULL':'')
+			. ($managerCreatedOnly?" AND creator = 'manager'":""),
 			$contextId
 		);
 		return new DAOResultFactory($result, $this, '_fromRow');
@@ -80,9 +102,8 @@ class ObjectForReviewDAO extends DAO {
 	 * @return int Inserted objectForReview ID
 	 */
 	function insertObject($objectForReview) {
-
 		$this->update(
-			'INSERT INTO objects_for_review (submission_id, context_id, user_id, identifier, identifier_type, resource_type, description) VALUES (?, ?, ?, ?, ?, ?, ?)',
+			'INSERT INTO objects_for_review (submission_id, context_id, user_id, identifier, identifier_type, resource_type, description, creator) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
 			array(
 				(int) $objectForReview->getSubmissionId(),
 				(int) $objectForReview->getContextId(),
@@ -90,7 +111,9 @@ class ObjectForReviewDAO extends DAO {
 				$objectForReview->getIdentifier(),
 				$objectForReview->getIdentifierType(),
 				$objectForReview->getResourceType(),
-				$objectForReview->getDescription()
+				$objectForReview->getDescription(),
+				$objectForReview->getCreator()
+
 			)
 		);
 		
@@ -106,20 +129,24 @@ class ObjectForReviewDAO extends DAO {
 	function updateObject($objectForReview) {
 		$this->update(
 			'UPDATE	objects_for_review
-			SET	context_id = ?,
+			SET	submission_id = ?,
+				context_id = ?,
 				user_id = ?,
 				identifier = ?,
 				identifier_type = ?,
 				resource_type = ?,
-				description = ?
+				description = ?,
+				creator = ?
 			WHERE object_id = ?',
 			array(
+				$objectForReview->getSubmissionId(),
 				(int) $objectForReview->getContextId(),
-				(int) $objectForReview->getUserId(),
+				$objectForReview->getUserId(),
 				$objectForReview->getIdentifier(),
 				$objectForReview->getIdentifierType(),
 				$objectForReview->getResourceType(),
 				$objectForReview->getDescription(),
+				$objectForReview->getCreator(),
 				(int) $objectForReview->getId()
 			)
 		);
@@ -171,6 +198,7 @@ class ObjectForReviewDAO extends DAO {
 		$objectForReview->setContextId($row['context_id']);
 		$objectForReview->setUserId($row['user_id']);
 		$objectForReview->setSubmissionId($row['submission_id']);
+		$objectForReview->setCreator($row['creator']);
 		return $objectForReview;
 	}
 

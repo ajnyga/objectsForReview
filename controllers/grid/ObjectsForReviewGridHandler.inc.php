@@ -30,7 +30,7 @@ class ObjectsForReviewGridHandler extends GridHandler {
 		parent::__construct();
 		$this->addRoleAssignment(
 			array(ROLE_ID_MANAGER, ROLE_ID_SUB_EDITOR, ROLE_ID_ASSISTANT, ROLE_ID_AUTHOR),
-			array('fetchGrid', 'fetchRow', 'addObjectForReview', 'editObjectForReview', 'updateObjectForReview', 'deleteObjectForReview')
+			array('fetchGrid', 'fetchRow', 'addObjectForReview', 'editObjectForReview', 'updateObjectForReview', 'deleteObjectForReview','addReservedObjectForReview')
 		);
 	}
 
@@ -213,7 +213,7 @@ class ObjectsForReviewGridHandler extends GridHandler {
 	}
 
 	/**
-	 * Update a objectForReview
+	 * Update an objectForReview
 	 * @param $args array
 	 * @param $request PKPRequest
 	 * @return string Serialized JSON object
@@ -254,9 +254,38 @@ class ObjectsForReviewGridHandler extends GridHandler {
 		$submissionId = $submission->getId();
 
 		$objectForReviewDao = DAORegistry::getDAO('ObjectForReviewDAO');
-		$objectsForReview = $objectForReviewDao->getById($objectId, $submissionId);
+		$objectForReview = $objectForReviewDao->getById($objectId, $submissionId);
 
-		$objectForReviewDao->deleteObject($objectsForReview);
+		// If object is created by the manager, do not delete, just remove from submission
+		if ($objectForReview->getCreator() == "manager") {
+			$objectForReview->setSubmissionId(null);
+			$objectForReviewDao->updateObject($objectForReview);
+		} 
+		else {
+			$objectForReviewDao->deleteObject($objectForReview);
+		}
+
+		return DAO::getDataChangedEvent($submissionId);
+	}
+
+	/**
+	 * Save form values into the database
+	 */
+	function addReservedObjectForReview($args, $request) {
+		$objectId = $request->getUserVar('objectId');
+		$context = $request->getContext();
+		$submission = $this->getSubmission();
+		$submissionId = $submission->getId();
+		$currentUser = $request->getUser();
+
+		$objectForReviewDao = DAORegistry::getDAO('ObjectForReviewDAO');
+		$objectForReview = $objectForReviewDao->getById($objectId);
+
+		if ($currentUser->getId() == $objectForReview->getUserId()) {
+			$objectForReview->setSubmissionId($submissionId);
+			$objectForReviewDao->updateObject($objectForReview);
+		}
+
 		return DAO::getDataChangedEvent($submissionId);
 	}
 

@@ -80,6 +80,24 @@ class ObjectsForReviewForm extends Form {
 		$templateMgr = TemplateManager::getManager();
 		$identifierTypes = $this->_getIdentifierTypes();
 		$resourceTypes = $this->_getResourceTypes(null);
+		$currentUser = $request->getUser();
+
+		// Get reserved objects for review
+
+		$objectForReviewDao = DAORegistry::getDAO('ObjectForReviewDAO');
+		$objectsForReview = $objectForReviewDao->getByUserId($currentUser->getId(), NULL, true);
+		if ($objectsForReview){
+			$reservedObjects = array();
+			while ($objectForReview = $objectsForReview->next()) {
+				$objectId = $objectForReview->getId();
+				$reservedObjects[$objectId] = array(
+					'objectId' => $objectId,
+					'description' => $objectForReview->getDescription(),
+					'userId' => $objectForReview->getUserId()
+				);
+			}
+			$templateMgr->assign('reservedObjects', $reservedObjects);
+		}
 
 		$templateMgr->assign('objectId', $this->objectId);
 		$templateMgr->assign('submissionId', $this->submissionId);

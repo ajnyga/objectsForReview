@@ -31,6 +31,9 @@
   <message key="plugins.generic.objectsForReview.itemIdentifier">Identifier</message>
   <message key="plugins.generic.objectsForReview.itemDescription">Description</message>
   <message key="plugins.generic.objectsForReview.noneCreated">No object for review in this submission.</message>
+  <message key="plugins.generic.objectsForReview.objectsForReviewData.addReservedObject">Select this item</message>
+  
+
 
   <message key="plugins.generic.objectsForReview.managementLink">Objects for Review</message>
   <message key="plugins.generic.objectsForReview.addAvailableObjectForReview">Add available object</message>

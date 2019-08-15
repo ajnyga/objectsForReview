@@ -100,6 +100,7 @@ class AvailableobjectsForReviewForm extends Form {
 		$objectForReview->setIdentifierType($this->getData('identifierType'));
 		$objectForReview->setResourceType($this->getData('resourceType'));
 		$objectForReview->setDescription($this->getData('description'));
+		$objectForReview->setCreator("manager");
 
 		if ($objectId) {
 			$objectForReviewDao->updateObject($objectForReview);

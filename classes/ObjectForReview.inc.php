@@ -147,6 +147,22 @@ class ObjectForReview extends DataObject {
 		return $this->setData('description', $description);
 	}
 
+	/**
+	 * Get creator.
+	 * @return string
+	 */
+	function getCreator() {
+		return $this->getData('creator');
+	}
+
+	/**
+	 * Set creator.
+	 * @param $creator string
+	 */
+	function setCreator($creator) {
+		return $this->setData('creator', $creator);
+	}
+
 }
 
 ?>
