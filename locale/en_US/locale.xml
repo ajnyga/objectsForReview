@@ -17,11 +17,20 @@
 
   <!-- Editorial management -->
   <message key="plugins.generic.objectsForReview.tabTitle">Objects for review</message>
+  <message key="plugins.generic.objectsForReview.managementLink">Objects for Review</message>
+  <message key="plugins.generic.objectsForReview.management.gridTitle">Objects for Review</message>
+  <message key="plugins.generic.objectsForReview.addAvailableObjectForReview">Add available object</message>
+  <message key="plugins.generic.objectsForReview.userName">Reserved for user</message>
 
   <!-- Settings Management -->
   <message key="plugins.generic.objectsForReview.settings.displayOptions">Display options</message>
   <message key="plugins.generic.objectsForReview.settings.displayAsSubtitle">Display reviewed objects in the article subtitle field</message>
   <message key="plugins.generic.objectsForReview.settings.displayAsList">Display a list of reviewed objects under the abstract</message>
+  <message key="plugins.generic.objectsForReview.settings.onlyReserved">Only allow objects created by the manager</message>
+
+  <!-- Navigation menu -->
+  <message key="plugins.generic.objectsForReview.navMenuItem.description">Link to the public Objects for Review page</message>
+  <message key="plugins.generic.objectsForReview.navMenuItem">Objects for Review</message>
 
   <!-- Object listing in submission form -->
   <message key="plugins.generic.objectsForReview.objectsForReviewTitle">Objects reviewed in this submission</message>
@@ -32,12 +41,6 @@
   <message key="plugins.generic.objectsForReview.itemDescription">Description</message>
   <message key="plugins.generic.objectsForReview.noneCreated">No object for review in this submission.</message>
   <message key="plugins.generic.objectsForReview.objectsForReviewData.addReservedObject">Select this item</message>
-  
-
-
-  <message key="plugins.generic.objectsForReview.managementLink">Objects for Review</message>
-  <message key="plugins.generic.objectsForReview.addAvailableObjectForReview">Add available object</message>
-  <message key="plugins.generic.objectsForReview.userName">Reserved for user</message>
 
   <!-- Article landing page -->
   <message key="plugins.generic.objectsForReview.objectsForReviewData.singular">Reviewed publication</message>
@@ -65,7 +68,6 @@
   <message key="plugins.generic.objectsForReview.COAR.software">software</message>
   <message key="plugins.generic.objectsForReview.COAR.cartographicMaterial">cartographic material</message>
   <message key="plugins.generic.objectsForReview.COAR.sound">sound</message>
-
 </locale>
 
 

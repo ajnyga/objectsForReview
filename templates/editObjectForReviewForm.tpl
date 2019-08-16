@@ -30,44 +30,46 @@
 	{/foreach}
 {/if}
 
-<script>
-	$(function() {ldelim}
-		// Attach the form handler.
-		$('#objectsForReviewForm').pkpHandler('$.pkp.controllers.form.AjaxFormHandler');
-	{rdelim});
-</script>
+{if !$onlyReserved}
+	<script>
+		$(function() {ldelim}
+			// Attach the form handler.
+			$('#objectsForReviewForm').pkpHandler('$.pkp.controllers.form.AjaxFormHandler');
+		{rdelim});
+	</script>
 
-{capture assign="actionUrl"}{url router=$smarty.const.ROUTE_COMPONENT component="plugins.generic.objectsForReview.controllers.grid.ObjectsForReviewGridHandler" op="updateObjectForReview" submissionId=$submissionId escape=false}{/capture}
+	{capture assign="actionUrl"}{url router=$smarty.const.ROUTE_COMPONENT component="plugins.generic.objectsForReview.controllers.grid.ObjectsForReviewGridHandler" op="updateObjectForReview" submissionId=$submissionId escape=false}{/capture}
 
-<form class="pkp_form" id="objectsForReviewForm" method="post" action="{$actionUrl}">
-	{csrf}
-	{if $objectId}
-		<input type="hidden" name="objectId" value="{$objectId|escape}" />
-	{/if}
-	{fbvFormArea id="objectsForReviewFormArea" class="border"}
+	<form class="pkp_form" id="objectsForReviewForm" method="post" action="{$actionUrl}">
+		{csrf}
+		{if $objectId}
+			<input type="hidden" name="objectId" value="{$objectId|escape}" />
+		{/if}
+		{fbvFormArea id="objectsForReviewFormArea" class="border"}
 
 
-		{fbvFormSection for="resourceType" label="plugins.generic.objectsForReview.resourceType"}
-			{fbvElement type="select" id="resourceType" from=$resourceTypes selected=$resourceType size=$fbvStyles.size.SMALL}
+			{fbvFormSection for="resourceType" label="plugins.generic.objectsForReview.resourceType"}
+				{fbvElement type="select" id="resourceType" from=$resourceTypes selected=$resourceType size=$fbvStyles.size.SMALL}
+			{/fbvFormSection}
+
+			{fbvFormSection for="identifierType" label="plugins.generic.objectsForReview.itemIdentifierType"}
+				{fbvElement type="select" id="identifierType" from=$identifierTypes selected=$identifierType translate=false size=$fbvStyles.size.SMALL} 
+			{/fbvFormSection}
+
+			{fbvFormSection label="plugins.generic.objectsForReview.itemIdentifier" for="identifier"}
+				{fbvElement type="text" id="identifier" value=$identifier maxlength="255" inline=true multilingual=false size=$fbvStyles.size.MEDIUM}
+			{/fbvFormSection}
+
+			{fbvFormSection label="plugins.generic.objectsForReview.itemDescription" for="description"}
+				{fbvElement type="textarea" multilingual=false name="description" id="description" value=$description rich=false height=$fbvStyles.height.TALL variables=$allowedVariables}
+			{/fbvFormSection}
+
+		{/fbvFormArea}
+
+		{fbvFormSection class="formButtons"}
+			{assign var=buttonId value="submitFormButton"|concat:"-"|uniqid}
+			{fbvElement type="submit" class="submitFormButton" id=$buttonId label="common.save"}
 		{/fbvFormSection}
-
-		{fbvFormSection for="identifierType" label="plugins.generic.objectsForReview.itemIdentifierType"}
-			{fbvElement type="select" id="identifierType" from=$identifierTypes selected=$identifierType translate=false size=$fbvStyles.size.SMALL} 
-		{/fbvFormSection}
-
-		{fbvFormSection label="plugins.generic.objectsForReview.itemIdentifier" for="identifier"}
-			{fbvElement type="text" id="identifier" value=$identifier maxlength="255" inline=true multilingual=false size=$fbvStyles.size.MEDIUM}
-		{/fbvFormSection}
-
-		{fbvFormSection label="plugins.generic.objectsForReview.itemDescription" for="description"}
-			{fbvElement type="textarea" multilingual=false name="description" id="description" value=$description rich=false height=$fbvStyles.height.TALL variables=$allowedVariables}
-		{/fbvFormSection}
-
-	{/fbvFormArea}
-
-	{fbvFormSection class="formButtons"}
-		{assign var=buttonId value="submitFormButton"|concat:"-"|uniqid}
-		{fbvElement type="submit" class="submitFormButton" id=$buttonId label="common.save"}
-	{/fbvFormSection}
-</form>
+	</form>
+{/if}
 

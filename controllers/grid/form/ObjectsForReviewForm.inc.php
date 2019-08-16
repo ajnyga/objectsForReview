@@ -81,9 +81,9 @@ class ObjectsForReviewForm extends Form {
 		$identifierTypes = $this->_getIdentifierTypes();
 		$resourceTypes = $this->_getResourceTypes(null);
 		$currentUser = $request->getUser();
+		$context = $request->getContext();
 
 		// Get reserved objects for review
-
 		$objectForReviewDao = DAORegistry::getDAO('ObjectForReviewDAO');
 		$objectsForReview = $objectForReviewDao->getByUserId($currentUser->getId(), NULL, true);
 		if ($objectsForReview){
@@ -97,6 +97,10 @@ class ObjectsForReviewForm extends Form {
 				);
 			}
 			$templateMgr->assign('reservedObjects', $reservedObjects);
+		}
+
+		if ($this->plugin->getSetting($context->getId(), 'onlyReserved')){
+			$templateMgr->assign('onlyReserved', true);
 		}
 
 		$templateMgr->assign('objectId', $this->objectId);
