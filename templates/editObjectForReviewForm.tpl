@@ -60,8 +60,20 @@
 				{fbvElement type="text" id="identifier" value=$identifier maxlength="255" inline=true multilingual=false size=$fbvStyles.size.MEDIUM}
 			{/fbvFormSection}
 
-			{fbvFormSection label="plugins.generic.objectsForReview.itemDescription" for="description"}
-				{fbvElement type="textarea" multilingual=false name="description" id="description" value=$description rich=false height=$fbvStyles.height.TALL variables=$allowedVariables}
+			{fbvFormSection label="plugins.generic.objectsForReview.itemAuthors" for="authors"}
+				{fbvElement type="text" id="authors" value=$authors maxlength="255" inline=true multilingual=false size=$fbvStyles.size.MEDIUM}
+			{/fbvFormSection}
+
+			{fbvFormSection label="plugins.generic.objectsForReview.itemTitle" for="title"}
+				{fbvElement type="textarea" multilingual=false name="title" id="title" value=$title rich=true height=$fbvStyles.height.SHORT}
+			{/fbvFormSection}
+
+			{fbvFormSection label="plugins.generic.objectsForReview.itemPublisher" for="publisher"}
+				{fbvElement type="text" id="publisher" value=$publisher maxlength="255" inline=true multilingual=false size=$fbvStyles.size.MEDIUM}
+			{/fbvFormSection}
+
+			{fbvFormSection label="plugins.generic.objectsForReview.itemYear" for="year"}
+				{fbvElement type="text" id="year" value=$year maxlength="255" inline=true multilingual=false size=$fbvStyles.size.SMALL}
 			{/fbvFormSection}
 
 		{/fbvFormArea}

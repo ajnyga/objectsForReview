@@ -139,7 +139,8 @@ class ObjectsForReviewGridHandler extends GridHandler {
 			'plugins.generic.objectsForReview.itemDescription',
 			null,
 			'controllers/grid/gridCell.tpl',
-			$cellProvider
+			$cellProvider,
+			array('html' => true)
 		));
 		$this->addColumn(new GridColumn(
 			'identifierType',

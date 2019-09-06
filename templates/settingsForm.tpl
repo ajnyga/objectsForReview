@@ -31,10 +31,12 @@
 			{fbvElement type="checkbox" id="displayAsList" value="1" label="plugins.generic.objectsForReview.settings.displayAsList" checked=$displayAsList}
 		{/fbvFormSection}
 
-
+		{fbvFormSection list=true label="plugins.generic.objectsForReview.settings.notifyEmail"}
+			{fbvElement type="text" label="plugins.generic.objectsForReview.settings.notifyEmail.description" name="ofrNotifyEmail" id="ofrNotifyEmail" value=$ofrNotifyEmail maxlength="255" inline=true size=$fbvStyles.size.MEDIUM}
+		{/fbvFormSection}
 
 		{fbvFormButtons}
-	
+
 	{/fbvFormArea}
 
 	<p><span class="formRequired">{translate key="common.requiredField"}</span></p>

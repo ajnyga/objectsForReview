@@ -27,6 +27,8 @@
   <message key="plugins.generic.objectsForReview.settings.displayAsSubtitle">Display reviewed objects in the article subtitle field</message>
   <message key="plugins.generic.objectsForReview.settings.displayAsList">Display a list of reviewed objects under the abstract</message>
   <message key="plugins.generic.objectsForReview.settings.onlyReserved">Only allow objects created by the manager</message>
+  <message key="plugins.generic.objectsForReview.settings.notifyEmail">Email for notifying reservations and cancellations</message>
+  <message key="plugins.generic.objectsForReview.settings.notifyEmail.description">If no email is given here, the primary contact email is used instead</message>
 
   <!-- Navigation menu -->
   <message key="plugins.generic.objectsForReview.navMenuItem.description">Link to the public Objects for Review page</message>
@@ -41,6 +43,7 @@
   <message key="plugins.generic.objectsForReview.itemDescription">Description</message>
   <message key="plugins.generic.objectsForReview.noneCreated">No object for review in this submission.</message>
   <message key="plugins.generic.objectsForReview.objectsForReviewData.addReservedObject">Select this item</message>
+  <message key="plugins.generic.objectsForReview.notifyDefaultName">OFR contact</message>
 
   <!-- Article landing page -->
   <message key="plugins.generic.objectsForReview.objectsForReviewData.singular">Reviewed publication</message>

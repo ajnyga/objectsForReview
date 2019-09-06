@@ -1,0 +1,49 @@
+/**
+ * @file plugins/generic/objectsForReview/style.css
+ *
+ * Copyright (c) 2014-2019 Simon Fraser University
+ * Copyright (c) 2003-2019 John Willinsky
+ * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
+ *
+ * @ingroup plugins_generic_objectsForReview
+ *
+ * @brief CSS styles for OFR frontend view
+ */
+
+#objects-for-review-table th[role=columnheader]:not(.no-sort) {
+	cursor: pointer;
+}
+
+#objects-for-review-table th[role=columnheader]:not(.no-sort):after {
+	content: '';
+	float: right;
+	margin-top: 7px;
+	border-width: 0 4px 4px;
+	border-style: solid;
+	border-color: #404040 transparent;
+	visibility: hidden;
+	opacity: 0;
+	-ms-user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+}
+
+#objects-for-review-table th[aria-sort=ascending]:not(.no-sort):after {
+	border-bottom: none;
+	border-width: 4px 4px 0;
+}
+
+#objects-for-review-table th[aria-sort]:not(.no-sort):after {
+	visibility: visible;
+	opacity: 0.6;
+}
+
+#objects-for-review-table th[role=columnheader]:not(.no-sort):hover:after {
+	visibility: visible;
+	opacity: 1;
+}
+
+#objects-for-review-table tr:nth-child(even) {background: #f2f2f2}
+#objects-for-review-table tr td{padding: 4px;}
+

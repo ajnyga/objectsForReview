@@ -28,7 +28,8 @@
   <message key="plugins.generic.objectsForReview.settings.displayAsSubtitle">Näytä arvioidut kohteet käsikirjoituksen alaotsikossa.</message>
   <message key="plugins.generic.objectsForReview.settings.displayAsList">Näytä arvioidut kohteet abstraktin alapuolella.</message>
   <message key="plugins.generic.objectsForReview.settings.onlyReserved">Salli vain toimittajien luomat arvioinnin kohteet</message>
-
+  <message key="plugins.generic.objectsForReview.settings.notifyEmail">Sähköposti varausten ja peruutusten ilmoittamiseen</message>
+  <message key="plugins.generic.objectsForReview.settings.notifyEmail.description">Mikäli osoitetta ei ole annettu, lisäosa käyttää oletuksena julkaisun pääasiallisen kontaktihenkilön sähköpostia</message>
 
   <!-- Navigation menu -->
   <message key="plugins.generic.objectsForReview.navMenuItem.description">Linkki Arvioitavaksi-lisäosan julkiselle listaussivulle.</message>
@@ -43,6 +44,7 @@
   <message key="plugins.generic.objectsForReview.itemDescription">Kuvaus</message>
   <message key="plugins.generic.objectsForReview.noneCreated">Tähän käsikirjoitukseen ei liity arvioituja julkaisuja.</message>
   <message key="plugins.generic.objectsForReview.objectsForReviewData.addReservedObject">Valitse tämä julkaisu</message>
+  <message key="plugins.generic.objectsForReview.notifyDefaultName">OFR-kontakti</message>
 
   <!-- Article landing page -->
   <message key="plugins.generic.objectsForReview.objectsForReviewData.singular">Arvioitu julkaisu</message>

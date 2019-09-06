@@ -129,22 +129,85 @@ class ObjectForReview extends DataObject {
 	 */
 	function setResourceType($resourceType) {
 		return $this->setData('resourceType', $resourceType);
-	}	
+	}
 
 	/**
 	 * Get description.
 	 * @return string
 	 */
 	function getDescription() {
-		return $this->getData('description');
+		$description = $this->getData('title');
+		if ($this->getData('authors'))
+			$description = $this->getData('authors') . ": " . $description;
+		if ($this->getData('publisher'))
+			$description =  $description . ". " . $this->getData('publisher');
+		if ($this->getData('year'))
+			$description =  $description . ". " . $this->getData('year') . ".";
+		return $description;
 	}
 
 	/**
-	 * Set description.
-	 * @param $description string
+	 * Get authors.
+	 * @return string
 	 */
-	function setDescription($description) {
-		return $this->setData('description', $description);
+	function getAuthors() {
+		return $this->getData('authors');
+	}
+
+	/**
+	 * Set authors.
+	 * @param $authors string
+	 */
+	function setAuthors($authors) {
+		return $this->setData('authors', $authors);
+	}
+
+	/**
+	 * Set title.
+	 * @param $title string
+	 */
+	function setTitle($title) {
+		return $this->setData('title', $title);
+	}	
+
+	/**
+	 * Get title.
+	 * @return string
+	 */
+	function getTitle() {
+		return $this->getData('title');
+	}
+
+	/**
+	 * Set publisher.
+	 * @param $publisher string
+	 */
+	function setPublisher($publisher) {
+		return $this->setData('publisher', $publisher);
+	}
+
+	/**
+	 * Get publisher.
+	 * @return string
+	 */
+	function getPublisher() {
+		return $this->getData('publisher');
+	}	
+
+	/**
+	 * Set year.
+	 * @param $year string
+	 */
+	function setYear($year) {
+		return $this->setData('year', $year);
+	}
+
+	/**
+	 * Get year.
+	 * @return string
+	 */
+	function getYear() {
+		return $this->getData('year');
 	}
 
 	/**
@@ -162,6 +225,22 @@ class ObjectForReview extends DataObject {
 	function setCreator($creator) {
 		return $this->setData('creator', $creator);
 	}
+
+	/**
+	 * Get dateCreated.
+	 * @return string
+	 */
+	function getDateCreated() {
+		return $this->getData('dateCreated');
+	}
+
+	/**
+	 * Set dateCreated.
+	 * @param $dateCreated string
+	 */
+	function setDateCreated($dateCreated) {
+		return $this->setData('dateCreated', $dateCreated);
+	}	
 
 }
 

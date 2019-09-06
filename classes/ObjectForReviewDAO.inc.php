@@ -103,7 +103,7 @@ class ObjectForReviewDAO extends DAO {
 	 */
 	function insertObject($objectForReview) {
 		$this->update(
-			'INSERT INTO objects_for_review (submission_id, context_id, user_id, identifier, identifier_type, resource_type, description, creator) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+			'INSERT INTO objects_for_review (submission_id, context_id, user_id, identifier, identifier_type, resource_type, creator, date_created) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
 			array(
 				$objectForReview->getSubmissionId(),
 				(int) $objectForReview->getContextId(),
@@ -111,13 +111,13 @@ class ObjectForReviewDAO extends DAO {
 				$objectForReview->getIdentifier(),
 				$objectForReview->getIdentifierType(),
 				$objectForReview->getResourceType(),
-				$objectForReview->getDescription(),
-				$objectForReview->getCreator()
-
+				$objectForReview->getCreator(),
+				$objectForReview->getDateCreated()
 			)
 		);
 		
 		$objectForReview->setId($this->getInsertId());
+		$this->updateLocaleFields($objectForReview);
 		return $objectForReview->getId();
 
 	}
@@ -135,8 +135,8 @@ class ObjectForReviewDAO extends DAO {
 				identifier = ?,
 				identifier_type = ?,
 				resource_type = ?,
-				description = ?,
-				creator = ?
+				creator = ?,
+				date_created = ?
 			WHERE object_id = ?',
 			array(
 				$objectForReview->getSubmissionId(),
@@ -145,11 +145,12 @@ class ObjectForReviewDAO extends DAO {
 				$objectForReview->getIdentifier(),
 				$objectForReview->getIdentifierType(),
 				$objectForReview->getResourceType(),
-				$objectForReview->getDescription(),
 				$objectForReview->getCreator(),
+				$objectForReview->getDateCreated(),
 				(int) $objectForReview->getId()
 			)
 		);
+		$this->updateLocaleFields($objectForReview);
 	}
 
 	/**
@@ -163,7 +164,7 @@ class ObjectForReviewDAO extends DAO {
 		);
 
 		$this->update(
-			'DELETE FROM objects_for_review WHERE object_id = ?',
+			'DELETE FROM objects_for_review_settings WHERE object_id = ?',
 			(int) $objectId
 		);
 	}
@@ -194,11 +195,13 @@ class ObjectForReviewDAO extends DAO {
 		$objectForReview->setIdentifier($row['identifier']);
 		$objectForReview->setIdentifierType($row['identifier_type']);
 		$objectForReview->setResourceType($row['resource_type']);
-		$objectForReview->setDescription($row['description']);
 		$objectForReview->setContextId($row['context_id']);
 		$objectForReview->setUserId($row['user_id']);
 		$objectForReview->setSubmissionId($row['submission_id']);
 		$objectForReview->setCreator($row['creator']);
+		$objectForReview->setDateCreated($row['date_created']);
+		$this->getDataObjectSettings('objects_for_review_settings', 'object_id', $row['object_id'], $objectForReview);
+
 		return $objectForReview;
 	}
 
@@ -208,6 +211,22 @@ class ObjectForReviewDAO extends DAO {
 	 */
 	function getInsertId() {
 		return $this->_getInsertId('objects_for_review', 'object_id');
+	}
+
+	/**
+	 * Get the additional field names.
+	 * @return array
+	 */
+	function getAdditionalFieldNames() {
+		return array('authors', 'title', 'year', 'publisher');
+	}
+
+	/**
+	 * Update the settings for this object
+	 * @param $objectForReview object
+	 */
+	function updateLocaleFields($objectForReview) {
+		$this->updateDataObjectSettings('objects_for_review_settings', $objectForReview, array('object_id' => (int) $objectForReview->getId()));
 	}
 
 }

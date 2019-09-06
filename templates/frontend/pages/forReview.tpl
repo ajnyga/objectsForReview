@@ -10,6 +10,12 @@
 
 {include file="frontend/components/header.tpl" pageTitle="plugins.generic.objectsForReview.frontendTitle"}
 
+<script type="text/javascript">
+  window.addEventListener('DOMContentLoaded', function(){ldelim}
+    new Tablesort(document.getElementById('objects-for-review-table'));
+  {rdelim});
+</script>
+
 <div class="page objectsForReview">
   {include file="frontend/components/breadcrumbs.tpl" currentTitleKey="plugins.generic.objectsForReview.frontendTitle"}
 
@@ -17,18 +23,30 @@
     <p>{translate key='plugins.generic.objectsForReview.logInToReserve'}</p>
   {/if}
 
-		<table style="width:100%">
+		<table id="objects-for-review-table" class="pkpTable" style="width:100%">
+      <tr data-sort-method='none'>
+        <th>Title</th>
+        <th>Authors</th>
+        <th>Publisher</th>
+        <th>Year</th>
+        <th></th> 
+      </tr>
 			{foreach from=$objectsForReview item=objectForReview}
-        <tr>
-				<td style="width:70%">
-          {if $objectForReview.identifierType == "link"}
-            <a href={$objectForReview.identifier|escape}>{$objectForReview.description|escape}</a>
-          {else}
-            {$objectForReview.description|escape}<br />
+      <tr>
+				<td data-sort='{$objectForReview.title|strip_tags}'>
+            {$objectForReview.title|strip_unsafe_html}<br />
             {$objectForReview.identifierType|escape}: {$objectForReview.identifier|escape}
-          {/if}
 				</td>
-        <td style="width:30%">
+        <td>
+            {$objectForReview.authors}
+        </td>
+        <td>
+            {$objectForReview.publisher}
+        </td>
+        <td>
+            {$objectForReview.year}
+        </td>
+        <td>
           {if $currentUser} <!-- If logged in, show buttons -->
             {if $objectForReview.userId} <!-- If object reserved, show cancel or status -->
               {if $currentUser->getId() == $objectForReview.userId} <!-- If reserved for current user, show cancel button -->

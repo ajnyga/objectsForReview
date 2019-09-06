@@ -52,7 +52,10 @@ class ObjectsForReviewHandler extends Handler {
 					'objectId' => $objectForReview->getId(),
 					'identifierType' => $objectForReview->getIdentifierType(),
 					'identifier' => $objectForReview->getIdentifier(),
-					'description' => $objectForReview->getDescription(),
+					'authors' => $objectForReview->getAuthors(),
+					'title' => $objectForReview->getTitle(),
+					'publisher' => $objectForReview->getPublisher(),
+					'year' => $objectForReview->getYear(),
 					'userId' => $objectForReview->getUserId()
 				);
 		}
@@ -69,7 +72,7 @@ class ObjectsForReviewHandler extends Handler {
 	 * @return JSONMessage JSON object
 	 */
 	function reserveObject($args, $request) {
-		if (!$request->checkCSRF()) fatalError('Error!');
+		if (!$request->checkCSRF()) fatalError('CSRF check failed, please try again!');
 		$objectId = (int) $request->getUserVar('objectId');
 		$currentUser = $request->getUser();
 		$currentContext = $request->getContext();
@@ -78,6 +81,8 @@ class ObjectsForReviewHandler extends Handler {
 		if ($objectForReview && !$objectForReview->getUserId() && $currentContext->getId() == $objectForReview->getContextId()) {
 			$objectForReview->setUserId($currentUser->getId());
 			$objectForReviewDao->updateObject($objectForReview);
+			$plugin = PluginRegistry::getPlugin('generic', 'ObjectsForReviewPlugin');
+			$plugin->notifyEditor($currentUser, $objectForReview->getDescription(), 'OFR_NEW_RESERVATION');
 		}
 		$request->redirect(null, 'for-review');
 	}
@@ -89,7 +94,7 @@ class ObjectsForReviewHandler extends Handler {
 	 * @return JSONMessage JSON object
 	 */
 	function cancelObject($args, $request) {
-		if (!$request->checkCSRF()) fatalError('Error!');
+		if (!$request->checkCSRF()) fatalError('CSRF check failed, please try again!');
 		$objectId = (int) $request->getUserVar('objectId');
 		$currentUser = $request->getUser();
 		$currentContext = $request->getContext();
@@ -98,6 +103,8 @@ class ObjectsForReviewHandler extends Handler {
 		if ($objectForReview && $objectForReview->getUserId() == $currentUser->getId() && $currentContext->getId() == $objectForReview->getContextId()) {
 			$objectForReview->setUserId(null);
 			$objectForReviewDao->updateObject($objectForReview);
+			$plugin = PluginRegistry::getPlugin('generic', 'ObjectsForReviewPlugin');
+			$plugin->notifyEditor($currentUser, $objectForReview->getDescription(), 'OFR_CANCEL_RESERVATION');
 		}
 		$request->redirect(null, 'for-review');
 	}

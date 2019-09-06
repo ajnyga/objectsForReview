@@ -39,7 +39,7 @@ class AvailableobjectsForReviewForm extends Form {
 		// Add form checks
 		$this->addCheck(new FormValidator($this, 'identifierType', 'required', 'plugins.generic.objectsForReview.identifierTypeRequired'));
 		$this->addCheck(new FormValidator($this, 'resourceType', 'required', 'plugins.generic.objectsForReview.resourceTypeRequired'));
-		$this->addCheck(new FormValidator($this, 'description', 'required', 'plugins.generic.objectsForReview.descriptionRequired'));
+		$this->addCheck(new FormValidator($this, 'title', 'required', 'plugins.generic.objectsForReview.titleRequired'));
 		$this->addCheck(new FormValidator($this, 'identifier', 'required', 'plugins.generic.objectsForReview.identifierRequired'));
 		$this->addCheck(new FormValidatorPost($this));
 		$this->addCheck(new FormValidatorCSRF($this));
@@ -55,8 +55,11 @@ class AvailableobjectsForReviewForm extends Form {
 			$objectForReview = $objectForReviewDao->getById($this->objectId);
 			$this->setData('identifierType', $objectForReview->getIdentifierType());
 			$this->setData('resourceType', $objectForReview->getResourceType());
-			$this->setData('description', $objectForReview->getDescription());
 			$this->setData('identifier', $objectForReview->getIdentifier());
+			$this->setData('authors', $objectForReview->getAuthors());
+			$this->setData('title', $objectForReview->getTitle());
+			$this->setData('year', $objectForReview->getYear());
+			$this->setData('publisher', $objectForReview->getPublisher());
 		}
 	}
 
@@ -64,7 +67,7 @@ class AvailableobjectsForReviewForm extends Form {
 	 * @copydoc Form::readInputData()
 	 */
 	function readInputData() {
-		$this->readUserVars(array('identifierType', 'resourceType', 'description', 'identifier'));
+		$this->readUserVars(array('identifierType', 'resourceType', 'identifier', 'authors', 'title', 'year', 'publisher'));
 	}
 
 	/**
@@ -99,7 +102,10 @@ class AvailableobjectsForReviewForm extends Form {
 		$objectForReview->setIdentifier($this->getData('identifier'));
 		$objectForReview->setIdentifierType($this->getData('identifierType'));
 		$objectForReview->setResourceType($this->getData('resourceType'));
-		$objectForReview->setDescription($this->getData('description'));
+		$objectForReview->setAuthors($this->getData('authors'));
+		$title = str_replace(['<p>', '</p>'], '', $this->getData('title'));
+		$objectForReview->setTitle($title);		$objectForReview->setYear($this->getData('year'));
+		$objectForReview->setPublisher($this->getData('publisher'));
 		$objectForReview->setCreator("manager");
 
 		if ($objectId) {

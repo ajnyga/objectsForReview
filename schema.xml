@@ -15,7 +15,7 @@
 <schema version="0.2">
 	<!--
 	 *
-	 * TABLE objects for review
+	 * TABLE objects_for_review
 	 *
 	 -->
 	<table name="objects_for_review">
@@ -44,6 +44,42 @@
 		<field name="creator" type="C2" size="255">
 			<NOTNULL/>
 		</field>
+		<field name="date_created" type="T">
+			<NOTNULL/>
+		</field>
+
 		<descr>List of objects for review</descr>
+	</table>
+	<!--
+	  *
+	  * TABLE objects_for_review_settings
+	  *
+	  -->
+	<table name="objects_for_review_settings">
+		<field name="object_id" type="I8">
+			<NOTNULL/>
+		</field>
+		<field name="locale" type="C2" size="14">
+			<NOTNULL/>
+			<DEFAULT VALUE=""/>
+		</field>
+		<field name="setting_name" type="C2" size="255">
+			<NOTNULL/>
+		</field>
+		<field name="setting_value" type="X"/>
+		<field name="setting_type" type="C2" size="6">
+			<NOTNULL/>
+			<descr>(bool|int|float|string|object)</descr>
+		</field>
+		<descr>Objects for review settings.</descr>
+		<index name="objects_for_review_settings_id">
+			<col>object_id</col>
+		</index>
+		<index name="objects_for_review_settings_pkey">
+			<col>object_id</col>
+			<col>locale</col>
+			<col>setting_name</col>
+			<UNIQUE />
+		</index>
 	</table>
 </schema>

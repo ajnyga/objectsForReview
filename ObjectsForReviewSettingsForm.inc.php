@@ -46,6 +46,7 @@ class ObjectsForReviewSettingsForm extends Form {
 			'displayAsSubtitle' => $this->_plugin->getSetting($this->_journalId, 'displayAsSubtitle'),
 			'displayAsList' => $this->_plugin->getSetting($this->_journalId, 'displayAsList'),
 			'onlyReserved' => $this->_plugin->getSetting($this->_journalId, 'onlyReserved'),
+			'ofrNotifyEmail' => $this->_plugin->getSetting($this->_journalId, 'ofrNotifyEmail'),
 		);
 	}
 
@@ -53,7 +54,7 @@ class ObjectsForReviewSettingsForm extends Form {
 	 * Assign form data to user-submitted data.
 	 */
 	function readInputData() {
-		$this->readUserVars(array('displayAsSubtitle', 'displayAsList', 'onlyReserved'));
+		$this->readUserVars(array('displayAsSubtitle', 'displayAsList', 'onlyReserved', 'ofrNotifyEmail'));
 	}
 
 	/**
@@ -72,6 +73,7 @@ class ObjectsForReviewSettingsForm extends Form {
 		$this->_plugin->updateSetting($this->_journalId, 'displayAsSubtitle', $this->getData('displayAsSubtitle'), 'boolean');
 		$this->_plugin->updateSetting($this->_journalId, 'displayAsList', $this->getData('displayAsList'), 'boolean');
 		$this->_plugin->updateSetting($this->_journalId, 'onlyReserved', $this->getData('onlyReserved'), 'boolean');
+		$this->_plugin->updateSetting($this->_journalId, 'ofrNotifyEmail', $this->getData('ofrNotifyEmail'), 'string');
 	}
 }
 
