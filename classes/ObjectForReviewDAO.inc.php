@@ -103,7 +103,7 @@ class ObjectForReviewDAO extends DAO {
 	 */
 	function insertObject($objectForReview) {
 		$this->update(
-			'INSERT INTO objects_for_review (submission_id, context_id, user_id, identifier, identifier_type, resource_type, creator, date_created) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+			'INSERT INTO objects_for_review (submission_id, context_id, user_id, identifier, identifier_type, resource_type, creator, date_created) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())',
 			array(
 				$objectForReview->getSubmissionId(),
 				(int) $objectForReview->getContextId(),
@@ -111,8 +111,7 @@ class ObjectForReviewDAO extends DAO {
 				$objectForReview->getIdentifier(),
 				$objectForReview->getIdentifierType(),
 				$objectForReview->getResourceType(),
-				$objectForReview->getCreator(),
-				$objectForReview->getDateCreated()
+				$objectForReview->getCreator()
 			)
 		);
 		

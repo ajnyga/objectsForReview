@@ -42,6 +42,10 @@
   <message key="plugins.generic.objectsForReview.itemIdentifierType">Tunnisteen tyyppi</message>
   <message key="plugins.generic.objectsForReview.itemIdentifier">Tunniste</message>
   <message key="plugins.generic.objectsForReview.itemDescription">Kuvaus</message>
+  <message key="plugins.generic.objectsForReview.itemAuthors">Tekijät</message>
+  <message key="plugins.generic.objectsForReview.itemTitle">Nimike</message>
+  <message key="plugins.generic.objectsForReview.itemPublisher">Julkaisija</message>
+  <message key="plugins.generic.objectsForReview.itemYear">Julkaisuvuosi</message>    
   <message key="plugins.generic.objectsForReview.noneCreated">Tähän käsikirjoitukseen ei liity arvioituja julkaisuja.</message>
   <message key="plugins.generic.objectsForReview.objectsForReviewData.addReservedObject">Valitse tämä julkaisu</message>
   <message key="plugins.generic.objectsForReview.notifyDefaultName">OFR-kontakti</message>

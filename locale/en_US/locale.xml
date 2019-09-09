@@ -41,6 +41,10 @@
   <message key="plugins.generic.objectsForReview.resourceType">Resource type</message>
   <message key="plugins.generic.objectsForReview.itemIdentifier">Identifier</message>
   <message key="plugins.generic.objectsForReview.itemDescription">Description</message>
+  <message key="plugins.generic.objectsForReview.itemAuthors">Authors</message>
+  <message key="plugins.generic.objectsForReview.itemTitle">Title</message>
+  <message key="plugins.generic.objectsForReview.itemPublisher">Publisher</message>
+  <message key="plugins.generic.objectsForReview.itemYear">Publishing year</message>
   <message key="plugins.generic.objectsForReview.noneCreated">No object for review in this submission.</message>
   <message key="plugins.generic.objectsForReview.objectsForReviewData.addReservedObject">Select this item</message>
   <message key="plugins.generic.objectsForReview.notifyDefaultName">OFR contact</message>
