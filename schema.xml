@@ -39,7 +39,6 @@
 		<field name="resource_type" type="C2" size="255">
 			<NOTNULL/>
 		</field>		
-		<field name="description" type="X">
 		</field>
 		<field name="creator" type="C2" size="255">
 			<NOTNULL/>

@@ -23,7 +23,7 @@
     <p>{translate key='plugins.generic.objectsForReview.logInToReserve'}</p>
   {/if}
 
-		<table id="objects-for-review-table" class="pkpTable" style="width:100%">
+		<table id="objects-for-review-table" style="width:100%">
       <tr data-sort-method='none'>
         <th>Title</th>
         <th>Authors</th>
