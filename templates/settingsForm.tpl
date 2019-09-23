@@ -35,6 +35,10 @@
 			{fbvElement type="text" label="plugins.generic.objectsForReview.settings.notifyEmail.description" name="ofrNotifyEmail" id="ofrNotifyEmail" value=$ofrNotifyEmail maxlength="255" inline=true size=$fbvStyles.size.MEDIUM}
 		{/fbvFormSection}
 
+		{fbvFormSection list=true label="plugins.generic.objectsForReview.settings.instructions"}
+			{fbvElement type="textarea" label="plugins.generic.objectsForReview.settings.instructions.description" name="ofrInstructions" id="ofrInstructions" value=$ofrInstructions multilingual="true" inline=true}
+		{/fbvFormSection}
+
 		{fbvFormButtons}
 
 	{/fbvFormArea}

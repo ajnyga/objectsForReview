@@ -61,7 +61,7 @@ class ObjectsForReviewHandler extends Handler {
 		}
 
 		$templateMgr->assign(array('objectsForReview' => $gridData, 'currentUser' => $currentUser));
-
+		$templateMgr->assign('instructions', $context->getSetting('ofrInstructions', AppLocale::getLocale()));
 		return $templateMgr->display($plugin->getTemplateResource('frontend/pages/forReview.tpl'));
 	}
 

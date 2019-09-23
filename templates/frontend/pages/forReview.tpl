@@ -19,6 +19,8 @@
 <div class="page objectsForReview">
   {include file="frontend/components/breadcrumbs.tpl" currentTitleKey="plugins.generic.objectsForReview.frontendTitle"}
 
+  <p>{$instructions|strip_unsafe_html}</p>
+
   {if !$currentUser}
     <p>{translate key='plugins.generic.objectsForReview.logInToReserve'}</p>
   {/if}

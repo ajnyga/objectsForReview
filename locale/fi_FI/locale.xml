@@ -30,6 +30,8 @@
   <message key="plugins.generic.objectsForReview.settings.onlyReserved">Salli vain toimittajien luomat arvioinnin kohteet</message>
   <message key="plugins.generic.objectsForReview.settings.notifyEmail">Sähköposti varausten ja peruutusten ilmoittamiseen</message>
   <message key="plugins.generic.objectsForReview.settings.notifyEmail.description">Mikäli osoitetta ei ole annettu, lisäosa käyttää oletuksena julkaisun pääasiallisen kontaktihenkilön sähköpostia</message>
+  <message key="plugins.generic.objectsForReview.settings.instructions">Julkiset ohjeet</message>
+  <message key="plugins.generic.objectsForReview.settings.instructions.description">Nämä ohjeet näkyvät OFR-sivulla lukijoille.</message>  
 
   <!-- Navigation menu -->
   <message key="plugins.generic.objectsForReview.navMenuItem.description">Linkki Arvioitavaksi-lisäosan julkiselle listaussivulle.</message>
