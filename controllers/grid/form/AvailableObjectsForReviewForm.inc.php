@@ -3,9 +3,9 @@
 /**
  * @file plugins/generic/objectsForReview/controllers/grid/form/AvailableObjectsForReviewForm.inc.php
  *
- * Copyright (c) 2014-2019 Simon Fraser University
- * Copyright (c) 2003-2019 John Willinsky
- * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
+ * Copyright (c) 2014-2021 Simon Fraser University
+ * Copyright (c) 2003-2021 John Willinsky
+ * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
  *
  * @class AvailableObjectsForReviewForm
  * @ingroup controllers_grid_objectsForReviewManager
@@ -86,7 +86,7 @@ class AvailableobjectsForReviewForm extends Form {
 	/**
 	 * Save form values into the database
 	 */
-	function execute() {
+	function execute(...$functionArgs) {
 		$objectId = $this->objectId;
 		$objectForReviewDao = DAORegistry::getDAO('ObjectForReviewDAO');
 

@@ -1,0 +1,170 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2021-02-21T14:12:01+02:00\n"
+"PO-Revision-Date: 2021-02-21T14:12:01+02:00\n"
+"Language: \n"
+
+msgid "plugins.generic.objectsForReview.displayName"
+msgstr "Arvioitavaksi-lisäosa"
+
+msgid "plugins.generic.objectsForReview.description"
+msgstr "Käyttäjät voivat varata esimerkiksi kirjoja arvioitavaksi ja liittää arvionnin kohde lähettämäänsä käsikirjoitukseen."
+
+msgid "plugins.generic.objectsForReview.tabTitle"
+msgstr "Arvioitavaksi"
+
+msgid "plugins.generic.objectsForReview.managementLink"
+msgstr "Arvioitavaksi"
+
+msgid "plugins.generic.objectsForReview.management.gridTitle"
+msgstr "Arvioitavaksi"
+
+msgid "plugins.generic.objectsForReview.addAvailableObjectForReview"
+msgstr "Lisää tarjottava kohde"
+
+msgid "plugins.generic.objectsForReview.userName"
+msgstr "Varattu käyttäjälle"
+
+msgid "plugins.generic.objectsForReview.settings.displayInToc.display"
+msgstr "Näytä arvioinnin kohteet sisällysluettelossa."
+
+msgid "plugins.generic.objectsForReview.settings.displayOptions"
+msgstr "Tietojen esittämisen asetukset"
+
+msgid "plugins.generic.objectsForReview.settings.displayAsSubtitle"
+msgstr "Näytä arvioidut kohteet käsikirjoituksen alaotsikossa."
+
+msgid "plugins.generic.objectsForReview.settings.displayAsList"
+msgstr "Näytä arvioidut kohteet abstraktin alapuolella."
+
+msgid "plugins.generic.objectsForReview.settings.onlyReserved"
+msgstr "Salli vain toimittajien luomat arvioinnin kohteet"
+
+msgid "plugins.generic.objectsForReview.settings.notifyEmail"
+msgstr "Sähköposti varausten ja peruutusten ilmoittamiseen"
+
+msgid "plugins.generic.objectsForReview.settings.notifyEmail.description"
+msgstr "Mikäli osoitetta ei ole annettu, lisäosa käyttää oletuksena julkaisun pääasiallisen kontaktihenkilön sähköpostia"
+
+msgid "plugins.generic.objectsForReview.settings.instructions"
+msgstr "Julkiset ohjeet"
+
+msgid "plugins.generic.objectsForReview.settings.instructions.description"
+msgstr "Nämä ohjeet näkyvät OFR-sivulla lukijoille."
+
+msgid "plugins.generic.objectsForReview.navMenuItem.description"
+msgstr "Linkki Arvioitavaksi-lisäosan julkiselle listaussivulle."
+
+msgid "plugins.generic.objectsForReview.navMenuItem"
+msgstr "Arvioitavaksi"
+
+msgid "plugins.generic.objectsForReview.objectsForReviewTitle"
+msgstr "Tässä käsikirjoituksessa arvioidut julkaisut"
+
+msgid "plugins.generic.objectsForReview.addObjectForReview"
+msgstr "Lisää arvioitu julkaisu"
+
+msgid "plugins.generic.objectsForReview.resourceType"
+msgstr "Julkaisun tyyppi"
+
+msgid "plugins.generic.objectsForReview.itemIdentifierType"
+msgstr "Tunnisteen tyyppi"
+
+msgid "plugins.generic.objectsForReview.itemIdentifier"
+msgstr "Tunniste"
+
+msgid "plugins.generic.objectsForReview.itemDescription"
+msgstr "Kuvaus"
+
+msgid "plugins.generic.objectsForReview.itemAuthors"
+msgstr "Tekijät"
+
+msgid "plugins.generic.objectsForReview.itemTitle"
+msgstr "Nimike"
+
+msgid "plugins.generic.objectsForReview.itemPublisher"
+msgstr "Julkaisija"
+
+msgid "plugins.generic.objectsForReview.itemYear"
+msgstr "Julkaisuvuosi"
+
+msgid "plugins.generic.objectsForReview.noneCreated"
+msgstr "Tähän käsikirjoitukseen ei liity arvioituja julkaisuja."
+
+msgid "plugins.generic.objectsForReview.objectsForReviewData.addReservedObject"
+msgstr "Valitse tämä julkaisu"
+
+msgid "plugins.generic.objectsForReview.notifyDefaultName"
+msgstr "OFR-kontakti"
+
+msgid "plugins.generic.objectsForReview.objectsForReviewData.singular"
+msgstr "Arvioitu julkaisu"
+
+msgid "plugins.generic.objectsForReview.objectsForReviewData.plural"
+msgstr "Arvioidut julkaisut"
+
+msgid "plugins.generic.objectsForReview.frontendTitle"
+msgstr "Arvioitavaksi"
+
+msgid "plugins.generic.objectsForReview.reserve"
+msgstr "Varaa arvioitavaksi"
+
+msgid "plugins.generic.objectsForReview.cancel"
+msgstr "Peruuta oma varaus"
+
+msgid "plugins.generic.objectsForReview.reserve.confirm"
+msgstr ""
+"\n"
+"    Valittu julkaisu varataan sinulle. Kun arvio on valmis, voit lähettää sen käsikirjoituksena kirjoittajaohjeiden mukaisesti."
+
+msgid "plugins.generic.objectsForReview.cancel.confirm"
+msgstr "Haluatko varmasti perua tätä julkaisua koskevan arviosi?"
+
+msgid "plugins.generic.objectsForReview.objectAvailable"
+msgstr "Vapaa arvioitavaksi"
+
+msgid "plugins.generic.objectsForReview.objectReserved"
+msgstr "Varattu"
+
+msgid "plugins.generic.objectsForReview.logInToReserve"
+msgstr "Arvioitavia julkaisuja voi varata kirjautumalla ensin sisään."
+
+msgid "plugins.generic.objectsForReview.COAR.book"
+msgstr "kirja"
+
+msgid "plugins.generic.objectsForReview.COAR.bookPart"
+msgstr "kirjan luku"
+
+msgid "plugins.generic.objectsForReview.COAR.journalArticle"
+msgstr "artikkeli"
+
+msgid "plugins.generic.objectsForReview.COAR.conferencePaper"
+msgstr "konferenssipaperi"
+
+msgid "plugins.generic.objectsForReview.COAR.thesis"
+msgstr "opinnäyte"
+
+msgid "plugins.generic.objectsForReview.COAR.preprint"
+msgstr "preprint-versio"
+
+msgid "plugins.generic.objectsForReview.COAR.website"
+msgstr "verkkosivu"
+
+msgid "plugins.generic.objectsForReview.COAR.dataset"
+msgstr "tietoaineisto"
+
+msgid "plugins.generic.objectsForReview.COAR.software"
+msgstr "ohjelmisto"
+
+msgid "plugins.generic.objectsForReview.COAR.cartographicMaterial"
+msgstr "kartta"
+
+msgid "plugins.generic.objectsForReview.COAR.sound"
+msgstr "äänite"

@@ -1,4 +1,4 @@
-# Objects for Review Plugin 3.0
+# Objects for Review Plugin for OJS3
 
 
 ## About
@@ -13,6 +13,6 @@ The frontend object listing uses https://github.com/tristen/tablesort for table 
 
 ## License
 
-This plugin is licensed under the GNU General Public License v2. See the file LICENSE for the complete terms of this license.
+This plugin is licensed under the GNU General Public License v3. See the file LICENSE for the complete terms of this license.
 
 The license for https://github.com/tristen/tablesort included in the repository is MIT. See https://github.com/tristen/tablesort/blob/gh-pages/LICENCE

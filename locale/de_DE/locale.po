@@ -1,0 +1,45 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2021-02-21T14:12:01+02:00\n"
+"PO-Revision-Date: 2021-02-21T14:12:01+02:00\n"
+"Language: \n"
+
+msgid "plugins.generic.objectsForReview.displayName"
+msgstr "Rezensierte Objekte"
+
+msgid "plugins.generic.objectsForReview.description"
+msgstr "Erfasst rezensierte Objekte bei Einreichungen."
+
+msgid "plugins.generic.objectsForReview.settings.displayInToc.display"
+msgstr "Rezensierte Objekte im Inhaltsverzeichnis anzeigen"
+
+msgid "plugins.generic.objectsForReview.objectsForReviewTitle"
+msgstr "Rezensierte Objekte in dieser Einreichung"
+
+msgid "plugins.generic.objectsForReview.addObjectForReview"
+msgstr "Rezensiertes Objekt hinzufügen"
+
+msgid "plugins.generic.objectsForReview.itemIdentifierType"
+msgstr "Verweis-Typ"
+
+msgid "plugins.generic.objectsForReview.itemIdentifier"
+msgstr "Verweis"
+
+msgid "plugins.generic.objectsForReview.itemDescription"
+msgstr "Beschreibung"
+
+msgid "plugins.generic.objectsForReview.noneCreated"
+msgstr "Diese Einreichung hat keine rezensierten Objekte."
+
+msgid "plugins.generic.objectsForReview.objectsForReviewData.singular"
+msgstr "Rezensiertes Werk"
+
+msgid "plugins.generic.objectsForReview.objectsForReviewData.plural"
+msgstr "Rezensierte Werke"

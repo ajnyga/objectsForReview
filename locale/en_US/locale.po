@@ -1,0 +1,165 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2021-02-21T14:12:01+02:00\n"
+"PO-Revision-Date: 2021-02-21T14:12:01+02:00\n"
+"Language: \n"
+
+msgid "plugins.generic.objectsForReview.displayName"
+msgstr "Objects for review"
+
+msgid "plugins.generic.objectsForReview.description"
+msgstr "Record reviewed objects with submissions."
+
+msgid "plugins.generic.objectsForReview.tabTitle"
+msgstr "Objects for review"
+
+msgid "plugins.generic.objectsForReview.managementLink"
+msgstr "Objects for Review"
+
+msgid "plugins.generic.objectsForReview.management.gridTitle"
+msgstr "Objects for Review"
+
+msgid "plugins.generic.objectsForReview.addAvailableObjectForReview"
+msgstr "Add available object"
+
+msgid "plugins.generic.objectsForReview.userName"
+msgstr "Reserved for user"
+
+msgid "plugins.generic.objectsForReview.settings.displayOptions"
+msgstr "Display options"
+
+msgid "plugins.generic.objectsForReview.settings.displayAsSubtitle"
+msgstr "Display reviewed objects in the article subtitle field"
+
+msgid "plugins.generic.objectsForReview.settings.displayAsList"
+msgstr "Display a list of reviewed objects under the abstract"
+
+msgid "plugins.generic.objectsForReview.settings.onlyReserved"
+msgstr "Only allow objects created by the manager"
+
+msgid "plugins.generic.objectsForReview.settings.notifyEmail"
+msgstr "Email for notifying reservations and cancellations"
+
+msgid "plugins.generic.objectsForReview.settings.notifyEmail.description"
+msgstr "If no email is given here, the primary contact email is used instead"
+
+msgid "plugins.generic.objectsForReview.settings.instructions"
+msgstr "Public instructions"
+
+msgid "plugins.generic.objectsForReview.settings.instructions.description"
+msgstr "These instructions are visible in the public OFR page"
+
+msgid "plugins.generic.objectsForReview.navMenuItem.description"
+msgstr "Link to the public Objects for Review page"
+
+msgid "plugins.generic.objectsForReview.navMenuItem"
+msgstr "Objects for Review"
+
+msgid "plugins.generic.objectsForReview.objectsForReviewTitle"
+msgstr "Objects reviewed in this submission"
+
+msgid "plugins.generic.objectsForReview.addObjectForReview"
+msgstr "Add reviewed object"
+
+msgid "plugins.generic.objectsForReview.itemIdentifierType"
+msgstr "Identifier type"
+
+msgid "plugins.generic.objectsForReview.resourceType"
+msgstr "Resource type"
+
+msgid "plugins.generic.objectsForReview.itemIdentifier"
+msgstr "Identifier"
+
+msgid "plugins.generic.objectsForReview.itemDescription"
+msgstr "Description"
+
+msgid "plugins.generic.objectsForReview.itemAuthors"
+msgstr "Authors"
+
+msgid "plugins.generic.objectsForReview.itemTitle"
+msgstr "Title"
+
+msgid "plugins.generic.objectsForReview.itemPublisher"
+msgstr "Publisher"
+
+msgid "plugins.generic.objectsForReview.itemYear"
+msgstr "Publishing year"
+
+msgid "plugins.generic.objectsForReview.noneCreated"
+msgstr "No object for review in this submission."
+
+msgid "plugins.generic.objectsForReview.objectsForReviewData.addReservedObject"
+msgstr "Select this item"
+
+msgid "plugins.generic.objectsForReview.notifyDefaultName"
+msgstr "OFR contact"
+
+msgid "plugins.generic.objectsForReview.objectsForReviewData.singular"
+msgstr "Reviewed publication"
+
+msgid "plugins.generic.objectsForReview.objectsForReviewData.plural"
+msgstr "Reviewed publications"
+
+msgid "plugins.generic.objectsForReview.frontendTitle"
+msgstr "For review"
+
+msgid "plugins.generic.objectsForReview.reserve"
+msgstr "Offer to review"
+
+msgid "plugins.generic.objectsForReview.cancel"
+msgstr "Cancel your offer to review"
+
+msgid "plugins.generic.objectsForReview.reserve.confirm"
+msgstr "The selected item will be reserved for you and once you are ready, you can submit your review article."
+
+msgid "plugins.generic.objectsForReview.cancel.confirm"
+msgstr "Are you sure you want to cancel your review for this item?"
+
+msgid "plugins.generic.objectsForReview.objectAvailable"
+msgstr "Available for review"
+
+msgid "plugins.generic.objectsForReview.objectReserved"
+msgstr "Reserved for review"
+
+msgid "plugins.generic.objectsForReview.logInToReserve"
+msgstr "To reserve an item for review, please login."
+
+msgid "plugins.generic.objectsForReview.COAR.book"
+msgstr "book"
+
+msgid "plugins.generic.objectsForReview.COAR.bookPart"
+msgstr "book part"
+
+msgid "plugins.generic.objectsForReview.COAR.journalArticle"
+msgstr "journal article"
+
+msgid "plugins.generic.objectsForReview.COAR.conferencePaper"
+msgstr "conference paper"
+
+msgid "plugins.generic.objectsForReview.COAR.thesis"
+msgstr "thesis"
+
+msgid "plugins.generic.objectsForReview.COAR.preprint"
+msgstr "preprint"
+
+msgid "plugins.generic.objectsForReview.COAR.website"
+msgstr "website"
+
+msgid "plugins.generic.objectsForReview.COAR.dataset"
+msgstr "dataset"
+
+msgid "plugins.generic.objectsForReview.COAR.software"
+msgstr "software"
+
+msgid "plugins.generic.objectsForReview.COAR.cartographicMaterial"
+msgstr "cartographic material"
+
+msgid "plugins.generic.objectsForReview.COAR.sound"
+msgstr "sound"

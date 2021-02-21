@@ -3,9 +3,9 @@
 /**
  * @file plugins/generic/objectsForReview/ObjectsForReviewPlugin.inc.php
  *
- * Copyright (c) 2014-2019 Simon Fraser University
- * Copyright (c) 2003-2019 John Willinsky
- * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
+ * Copyright (c) 2014-2021 Simon Fraser University
+ * Copyright (c) 2003-2021 John Willinsky
+ * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
  *
  * @class ObjectsForReviewPlugin
  * @ingroup plugins_generic_objectsForReview
@@ -111,7 +111,7 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 		$success = parent::register($category, $path, $mainContextId);
 		if ($success && $this->getEnabled($mainContextId)) {
 
-			$request = $this->getRequest();
+			$request = Application::get()->getRequest();
 			$context = $request->getContext();
 
 			import('plugins.generic.objectsForReview.classes.ObjectForReviewDAO');
@@ -119,11 +119,12 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 			DAORegistry::registerDAO('ObjectForReviewDAO', $objectForReviewDao);
 
 			HookRegistry::register('Templates::Submission::SubmissionMetadataForm::AdditionalMetadata', array($this, 'metadataFieldEdit'));
+			HookRegistry::register('Template::Workflow::Publication', array($this, 'addToPublicationForms'));
 
 			HookRegistry::register('LoadComponentHandler', array($this, 'setupGridHandler'));
 			HookRegistry::register('TemplateManager::display',array($this, 'addJs'));
 
-			HookRegistry::register('Templates::Management::Settings::website', array($this, 'callbackShowWebsiteSettingsTabs'));
+			HookRegistry::register('Template::Settings::website', array($this, 'callbackShowWebsiteSettingsTabs'));
 
 			// if list display is enabled
 			if ($this->getSetting($context->getId(), 'displayAsList')) {
@@ -132,10 +133,10 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 			}
 
 			// If subtitle display is enabled
-			if ($this->getSetting($context->getId(), 'displayAsSubtitle')) {
-				HookRegistry::register('ArticleDAO::_fromRow', array($this, 'addSubtitleDisplay'));
-				HookRegistry::register('MonographDAO::_fromRow', array($this, 'addSubtitleDisplay'));
-			}
+			// Not working in 3.2, need to find a new solution
+			#if ($this->getSetting($context->getId(), 'displayAsSubtitle')) {
+			#	HookRegistry::register('pkp\\services\\pkppublicationservice::_getmany', array($this, 'addSubtitleDisplay'));
+			#}
 
 			// Handler for public objects for review page
 			HookRegistry::register('LoadHandler', array($this, 'loadPageHandler'));
@@ -149,16 +150,15 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 	}
 
 	/**
-	 * Extend the website settings tabs to include custom locale
+	 * Extend the website settings tabs to include objects for review tab
 	 * @param $hookName string The name of the invoked hook
 	 * @param $args array Hook parameters
 	 * @return boolean Hook handling status
 	 */
 	function callbackShowWebsiteSettingsTabs($hookName, $args) {
+		$templateMgr = $args[1];
 		$output =& $args[2];
-		$request =& Registry::get('request');
-		$dispatcher = $request->getDispatcher();
-		$output .= '<li><a name="objectsForReviewManagement" href="' . $dispatcher->url($request, ROUTE_COMPONENT, null, 'plugins.generic.objectsForReview.controllers.grid.ObjectsForReviewManagementGridHandler', 'fetchGrid') . '">' . __('plugins.generic.objectsForReview.managementLink') . '</a></li>';
+		$output .= $templateMgr->fetch($this->getTemplateResource('objectsForReviewTab.tpl'));
 		return false;
 	}
 
@@ -183,12 +183,31 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 	}
 
 	/**
+	 * Insert ObjectsForReview grid in the publication tabs
+	 */
+	function addToPublicationForms($hookName, $params) {
+		$smarty =& $params[1];
+		$output =& $params[2];
+		$submission = $smarty->get_template_vars('submission');
+		$smarty->assign([
+			'submissionId' => $submission->getId(),
+		]);
+
+		$output .= sprintf(
+			'<tab id="objectsForReviewGridInWorkflow" label="%s">%s</tab>',
+			__('plugins.generic.objectsForReview.management.gridTitle'),
+			$smarty->fetch($this->getTemplateResource('metadataForm.tpl'))
+		);
+
+		return false;
+	}
+
+	/**
 	 * Insert ObjectsForReview grid in the submission metadata form
 	 */
 	function metadataFieldEdit($hookName, $params) {
 		$smarty =& $params[1];
 		$output =& $params[2];
-		$request = $this->getRequest();
 		$output .= $smarty->fetch($this->getTemplateResource('metadataForm.tpl'));
 		return false;
 	}
@@ -235,6 +254,7 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 	* @param $params array
 	*/ 
 	function addSubtitleDisplay($hookName, $params) {
+		// NOTE Not working in 3.2, need to rewrite this
 		$submission =& $params[0];
 
 		$objectForReviewDao = DAORegistry::getDAO('ObjectForReviewDAO');
@@ -247,7 +267,7 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 			}
 
 			if ($objects){
-				$submission->setSubtitle(implode(" ▪ ", $objects), $submission->getLocale());
+				$publication->setSubtitle(implode(" ▪ ", $objects), $publication->getLocale());
 			}
 		}
 
@@ -267,7 +287,7 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 	function addJs($hookName, $params) {
 		$templateMgr = $params[0];
 		$template =& $params[1];
-		$request = $this->getRequest();
+		$request = Application::get()->getRequest();
 
 		$gridHandlerJs = $this->getJavaScriptURL($request, false) . DIRECTORY_SEPARATOR . 'ObjectsForReviewGridHandler.js';
 		$templateMgr->addJavaScript(
@@ -275,9 +295,16 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 			$gridHandlerJs,
 			array('contexts' => 'backend')
 		);
+		$templateMgr->addStylesheet(
+			'ObjectsForReviewGridHandlerStyles',
+			'#objectsForReviewGridInWorkflow { margin-top: 32px; }',
+			[
+				'inline' => true,
+				'contexts' => 'backend',
+			]
+		);
 
-		#error_log(print_r($template, true));
-		if ($template == 'plugins-plugins-generic-objectsForReview-generic-objectsForReview:frontend/pages/forReview.tpl') {
+		if (strpos($template, 'frontend/pages/forReview.tpl')) {
 			$tablesortJs = $this->getJavaScriptURL($request, false) . DIRECTORY_SEPARATOR . '/tablesort/src/tablesort.js';
 			$templateMgr->addJavaScript(
 				'TableSortJs',
@@ -295,7 +322,8 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 	 * Get the JavaScript URL for this plugin.
 	 */
 	function getJavaScriptURL() {
-		return Request::getBaseUrl() . DIRECTORY_SEPARATOR . $this->getPluginPath() . DIRECTORY_SEPARATOR . 'js';
+		$request = Application::get()->getRequest();
+		return $request->getBaseUrl() . DIRECTORY_SEPARATOR . $this->getPluginPath() . DIRECTORY_SEPARATOR . 'js';
 	}
 
 	/**
@@ -329,7 +357,7 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 	 */
 	public function addMenuItemTypes($hookName, $args) {
 		$types =& $args[0];
-		$request = Application::getRequest();
+		$request = Application::get()->getRequest();
 		$context = $request->getContext();
 		$contextId = $context ? $context->getId() : CONTEXT_ID_NONE;
 		$types[OBJECTSFORREVIEW_NMI_TYPE] = array(
@@ -349,7 +377,7 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 	public function setMenuItemDisplayDetails($hookName, $args) {
 		$navigationMenuItem =& $args[0];
 		if ($navigationMenuItem->getType() == OBJECTSFORREVIEW_NMI_TYPE) {
-			$request = Application::getRequest();
+			$request = Application::get()->getRequest();
 			$context = $request->getContext();
 			if ($context){
 				$dispatcher = $request->getDispatcher();
@@ -373,7 +401,7 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 	function addSitemapURLs($hookName, $args) {
 		$doc = $args[0];
 		$rootNode = $doc->documentElement;
-		$request = Application::getRequest();
+		$request = Application::get()->getRequest();
 		$context = $request->getContext();
 		if ($context) {
 			// Create and append sitemap XML "url" element
@@ -420,7 +448,7 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 	 */
 	public function notifyEditor($user, $objectDescription, $mailTemplate) {
 
-		$request = PKPApplication::getRequest();
+		$request = Application::get()->getRequest();
 		$context = $request->getContext();
 
 		// This should only ever happen within a context, never site-wide.
