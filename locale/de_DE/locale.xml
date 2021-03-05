@@ -12,22 +12,72 @@
   *
   -->
   <locale name="de_DE" full_name="German">
-  <message key="plugins.generic.objectsForReview.displayName">Rezensierte Objekte</message>
-  <message key="plugins.generic.objectsForReview.description">Erfasst rezensierte Objekte bei Einreichungen.</message>
+  <message key="plugins.generic.objectsForReview.displayName">Objects for Review</message>
+  <message key="plugins.generic.objectsForReview.description">Das Plugin erfasst Objekte, die in Artikeln rezensiert werden.</message>
 
+  <!-- Editorial management -->
+  <message key="plugins.generic.objectsForReview.tabTitle">Objects for Review</message>
+  <message key="plugins.generic.objectsForReview.managementLink">Objects for Review</message>
+  <message key="plugins.generic.objectsForReview.management.gridTitle">Objects for Review</message>
+  <message key="plugins.generic.objectsForReview.addAvailableObjectForReview">Objekte, die rezensiert werden sollen, hinzufügen</message>
+  <message key="plugins.generic.objectsForReview.userName">Reserviert für Nutzer/in</message>
+   
   <!-- Settings Management -->
+  <message key="plugins.generic.objectsForReview.settings.displayOptions">Darstellungsoptionen</message>
   <message key="plugins.generic.objectsForReview.settings.displayInToc.display">Rezensierte Objekte im Inhaltsverzeichnis anzeigen</message>
+  <message key="plugins.generic.objectsForReview.settings.displayAsSubtitle">Rezensierte Objekte im Untertitel anzeigen</message>
+  <message key="plugins.generic.objectsForReview.settings.displayAsList">Liste rezensierter Objekte unter dem Abstract anzeigen</message>
+  <message key="plugins.generic.objectsForReview.settings.onlyReserved">Nur Objekte zulassen, die vom Manager erstellt wurden</message>
+  <message key="plugins.generic.objectsForReview.settings.notifyEmail">E-Mail-Adresse, die bei Reservierungen und Absagen benachrichtigt wird</message>
+  <message key="plugins.generic.objectsForReview.settings.notifyEmail.description">Wird hier keine E-Mail-Adresse angegeben, wird der Hauptkontakt benachrichtigt.</message>
+  <message key="plugins.generic.objectsForReview.settings.instructions">Öffentliche Beschreibung</message>
+  <message key="plugins.generic.objectsForReview.settings.instructions.description">Diese Beschreibung ist auf der öffentlichen OFR-Seite sichtbar.</message>
+   
+  <!-- Navigation menu -->
+  <message key="plugins.generic.objectsForReview.navMenuItem.description">Link zur öffentlichen Objects-for-Review-Seite</message>
+  <message key="plugins.generic.objectsForReview.navMenuItem">Objects for Review</message>
 
   <!-- Object listing in submission form -->
   <message key="plugins.generic.objectsForReview.objectsForReviewTitle">Rezensierte Objekte in dieser Einreichung</message>
   <message key="plugins.generic.objectsForReview.addObjectForReview">Rezensiertes Objekt hinzufügen</message>
-  <message key="plugins.generic.objectsForReview.itemIdentifierType">Verweis-Typ</message>
-  <message key="plugins.generic.objectsForReview.itemIdentifier">Verweis</message>
+  <message key="plugins.generic.objectsForReview.itemIdentifierType">Identifikationssystem</message>
+  <message key="plugins.generic.objectsForReview.resourceType">Resource</message>
+  <message key="plugins.generic.objectsForReview.itemIdentifier">Identifikator</message>
   <message key="plugins.generic.objectsForReview.itemDescription">Beschreibung</message>
-  <message key="plugins.generic.objectsForReview.noneCreated">Diese Einreichung hat keine rezensierten Objekte.</message>
+  <message key="plugins.generic.objectsForReview.itemAuthors">Autor/innen</message>
+  <message key="plugins.generic.objectsForReview.itemTitle">Titel</message>
+  <message key="plugins.generic.objectsForReview.itemPublisher">Verlag</message>
+  <message key="plugins.generic.objectsForReview.itemYear">Veröffentlichungsjahr</message>
+  <message key="plugins.generic.objectsForReview.noneCreated">Diese Einreichung ist keine Rezension.</message>
+  <message key="plugins.generic.objectsForReview.objectsForReviewData.addReservedObject">Objekt auswählen</message>
+  <message key="plugins.generic.objectsForReview.notifyDefaultName">OFR Kontakt</message>
+   
 
   <!-- article landing page -->
-  <message key="plugins.generic.objectsForReview.objectsForReviewData.singular">Rezensiertes Werk</message>
-  <message key="plugins.generic.objectsForReview.objectsForReviewData.plural">Rezensierte Werke</message>
+  <message key="plugins.generic.objectsForReview.objectsForReviewData.singular">Rezensionsgegenstand</message>
+  <message key="plugins.generic.objectsForReview.objectsForReviewData.plural">Rezensionsgegenstände</message>
 
+  <!-- Available objects for review page -->
+  <message key="plugins.generic.objectsForReview.frontendTitle">Zur Rezension</message>
+  <message key="plugins.generic.objectsForReview.reserve">Rezension anbieten</message>
+  <message key="plugins.generic.objectsForReview.cancel">Rezensionsangebot zurückziehen</message>
+  <message key="plugins.generic.objectsForReview.reserve.confirm">Das ausgewählte Objekt wird für Sie reserviert. Wenn Sie Ihre Rezension fertig gestellt haben, können Sie sie einreichen.</message>
+  <message key="plugins.generic.objectsForReview.cancel.confirm">Sind Sie sicher, dass Sie die Zusage zur Rezension zurückziehen wollen?</message>
+  <message key="plugins.generic.objectsForReview.objectAvailable">Objekt für Rezension verfügbar</message>
+  <message key="plugins.generic.objectsForReview.objectReserved">Objekt für Rezension reserviert</message>
+  <message key="plugins.generic.objectsForReview.logInToReserve">Um ein Objekt zu reservieren, loggen Sie sich bitte ein.</message>
+
+  <!-- For official label translations see http://vocabularies.coar-repositories.org/documentation/resource_types/2.0.draft/ -->
+  <message key="plugins.generic.objectsForReview.COAR.book">Buch</message>
+  <message key="plugins.generic.objectsForReview.COAR.bookPart">Teil oder Kapitel eines Buches</message>
+  <message key="plugins.generic.objectsForReview.COAR.journalArticle">Wissenschaftlicher Artikel</message>
+  <message key="plugins.generic.objectsForReview.COAR.conferencePaper">Konferenzbeitrag</message>  
+  <message key="plugins.generic.objectsForReview.COAR.thesis">Schriftliche Abschlussarbeit</message>
+  <message key="plugins.generic.objectsForReview.COAR.preprint">Preprint</message>
+  <message key="plugins.generic.objectsForReview.COAR.website">Webseite</message>
+  <message key="plugins.generic.objectsForReview.COAR.dataset">Datensatz</message>
+  <message key="plugins.generic.objectsForReview.COAR.software">Software</message>
+  <message key="plugins.generic.objectsForReview.COAR.cartographicMaterial">kartographisches Material</message>
+  <message key="plugins.generic.objectsForReview.COAR.sound">Ton</message>
+   
 </locale>
