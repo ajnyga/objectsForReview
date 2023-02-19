@@ -46,12 +46,6 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 		return ($this->getPluginPath() . '/emailTemplates.xml');
 	}
 
-	/**
-	 * @see PKPPlugin::getInstallEmailTemplateDataFile()
-	 */
-	function getInstallEmailTemplateDataFile() {
-		return ($this->getPluginPath() . '/locale/{$installedLocale}/emailTemplates.xml');
-	}
 
 	/**
 	 * @copydoc Plugin::getActions()
@@ -60,7 +54,7 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 		$router = $request->getRouter();
 		import('lib.pkp.classes.linkAction.request.AjaxModal');
 		return array_merge(
-			$this->getEnabled()?array(
+			$this->getEnabled()?[
 				new LinkAction(
 					'settings',
 					new AjaxModal(
@@ -70,7 +64,7 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 					__('manager.plugins.settings'),
 					null
 				),
-			):array(),
+			]:[],
 			parent::getActions($request, $verb)
 		);
 	}
@@ -108,6 +102,7 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 	 * @copydoc Plugin::register()
 	 */
     function register($category, $path, $mainContextId = null) {
+
 		$success = parent::register($category, $path, $mainContextId);
 		if ($success && $this->getEnabled($mainContextId)) {
 
@@ -188,7 +183,7 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 	function addToPublicationForms($hookName, $params) {
 		$smarty =& $params[1];
 		$output =& $params[2];
-		$submission = $smarty->get_template_vars('submission');
+		$submission = $smarty->getTemplateVars('submission');
 		$smarty->assign([
 			'submissionId' => $submission->getId(),
 		]);
@@ -221,7 +216,7 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 		$templateMgr = $params[1];
 		$output =& $params[2];
 
-		$submission = $templateMgr->get_template_vars('monograph') ? $templateMgr->get_template_vars('monograph') : $templateMgr->get_template_vars('article');
+		$submission = $templateMgr->getTemplateVars('monograph') ? $templateMgr->getTemplateVars('monograph') : $templateMgr->getTemplateVars('article');
 
 		$objectForReviewDao = DAORegistry::getDAO('ObjectForReviewDAO');
 		$objectsForReview = $objectForReviewDao->getBySubmissionId($submission->getId());
@@ -252,7 +247,7 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 	* Hook to ArticleDAO::_fromRow and MonographDAO::_fromRow and display objectForReview as subtitle
 	* @param $hookName string
 	* @param $params array
-	*/ 
+	*/
 	function addSubtitleDisplay($hookName, $params) {
 		// NOTE Not working in 3.2, need to rewrite this
 		$submission =& $params[0];
@@ -275,10 +270,11 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 	}
 
 	/**
-	 * @copydoc Plugin::getInstallSchemaFile()
+	 * @copydoc Plugin::getInstallMigration()
 	 */
-	function getInstallSchemaFile() {
-		return $this->getPluginPath() . '/schema.xml';
+	function getInstallMigration() {
+		$this->import('ObjectsForReviewSchemaMigration');
+		return new ObjectsForReviewSchemaMigration();
 	}
 
 	/**
@@ -443,7 +439,7 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 	 * Send mail to editor when object is reserved or cancelled
 	 *
 	 * @param User $user
-	 * @param $object 
+	 * @param $object
 	 * @param $template Send either the reserve or cancel mail
 	 */
 	public function notifyEditor($user, $objectDescription, $mailTemplate) {

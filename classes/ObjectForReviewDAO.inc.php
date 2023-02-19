@@ -24,7 +24,7 @@ class ObjectForReviewDAO extends DAO {
 	 * @param $submissionId int (optional) Submission ID
 	 */
 	function getById($objectId, $submissionId = null) {
-		$params = array((int) $objectId);
+		$params = [(int) $objectId];
 		if ($submissionId) $params[] = (int) $submissionId;
 
 		$result = $this->retrieve(
@@ -33,12 +33,8 @@ class ObjectForReviewDAO extends DAO {
 			$params
 		);
 
-		$returner = null;
-		if ($result->RecordCount() != 0) {
-			$returner = $this->_fromRow($result->GetRowAssoc(false));
-		}
-		$result->Close();
-		return $returner;
+		$row = $result->current();
+		return $row ? $this->_fromRow((array) $row) : null;
 	}
 
 	/**
@@ -47,7 +43,7 @@ class ObjectForReviewDAO extends DAO {
 	 * @param $contextId int (optional) context ID
 	 */
 	function getBySubmissionId($submissionId, $contextId = null) {
-		$params = array((int) $submissionId);
+		$params = [(int) $submissionId];
 		if ($contextId) $params[] = (int) $contextId;
 
 		$result = $this->retrieve(
@@ -66,7 +62,7 @@ class ObjectForReviewDAO extends DAO {
 	 * @param $withoutSubmissionOnly true if only objects without a submission should be included
 	 */
 	function getByUserId($userId, $contextId = null, $withoutSubmissionOnly = false) {
-		$params = array((int) $userId);
+		$params = [(int) $userId];
 		if ($contextId) $params[] = (int) $contextId;
 
 		$result = $this->retrieve(
@@ -91,7 +87,7 @@ class ObjectForReviewDAO extends DAO {
 			'SELECT * FROM objects_for_review WHERE context_id = ?'
 			. ($withoutSubmissionOnly?' AND submission_id IS NULL':'')
 			. ($managerCreatedOnly?" AND creator = 'manager'":""),
-			$contextId
+			[$contextId]
 		);
 		return new DAOResultFactory($result, $this, '_fromRow');
 	}
@@ -159,12 +155,12 @@ class ObjectForReviewDAO extends DAO {
 	function deleteById($objectId) {
 		$this->update(
 			'DELETE FROM objects_for_review WHERE object_id = ?',
-			(int) $objectId
+			[(int) $objectId]
 		);
 
 		$this->update(
 			'DELETE FROM objects_for_review_settings WHERE object_id = ?',
-			(int) $objectId
+			[(int) $objectId]
 		);
 	}
 

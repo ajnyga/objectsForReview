@@ -140,6 +140,7 @@ class ObjectsForReviewForm extends Form {
 		$objectForReview->setTitle($title);
 		$objectForReview->setYear($this->getData('year'));
 		$objectForReview->setPublisher($this->getData('publisher'));
+		$objectForReview->setCreator("workflow");
 
 		if ($objectId) {
 			$objectForReviewDao->updateObject($objectForReview);

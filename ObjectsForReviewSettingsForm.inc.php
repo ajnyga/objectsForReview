@@ -42,7 +42,7 @@ class ObjectsForReviewSettingsForm extends Form {
 	 * Initialize form data.
 	 */
 	function initData() {
-		$request = Application::getRequest();
+		$request = Application::get()->getRequest();
 		$context = $request->getContext();
 		$this->_data = array(
 			'displayAsSubtitle' => $this->_plugin->getSetting($this->_journalId, 'displayAsSubtitle'),
@@ -73,7 +73,7 @@ class ObjectsForReviewSettingsForm extends Form {
 	 * Save settings.
 	 */
 	function execute(...$functionArgs) {
-		$request = Application::getRequest();
+		$request = Application::get()->getRequest();
 		$context = $request->getContext();
 		$this->_plugin->updateSetting($this->_journalId, 'displayAsSubtitle', $this->getData('displayAsSubtitle'), 'bool');
 		$this->_plugin->updateSetting($this->_journalId, 'displayAsList', $this->getData('displayAsList'), 'bool');
