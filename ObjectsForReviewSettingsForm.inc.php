@@ -49,7 +49,7 @@ class ObjectsForReviewSettingsForm extends Form {
 			'displayAsList' => $this->_plugin->getSetting($this->_journalId, 'displayAsList'),
 			'onlyReserved' => $this->_plugin->getSetting($this->_journalId, 'onlyReserved'),
 			'ofrNotifyEmail' => $this->_plugin->getSetting($this->_journalId, 'ofrNotifyEmail'),
-			'ofrInstructions' => $context->getSetting('ofrInstructions'),
+			'ofrInstructions' => $this->_plugin->getSetting($this->_journalId, 'ofrInstructions'),
 		);
 	}
 
@@ -74,12 +74,15 @@ class ObjectsForReviewSettingsForm extends Form {
 	 */
 	function execute(...$functionArgs) {
 		$request = Application::get()->getRequest();
-		$context = $request->getContext();
+		$router = $request->getRouter();
+		$context = $router->getContext($request);
+
 		$this->_plugin->updateSetting($this->_journalId, 'displayAsSubtitle', $this->getData('displayAsSubtitle'), 'bool');
 		$this->_plugin->updateSetting($this->_journalId, 'displayAsList', $this->getData('displayAsList'), 'bool');
 		$this->_plugin->updateSetting($this->_journalId, 'onlyReserved', $this->getData('onlyReserved'), 'bool');
 		$this->_plugin->updateSetting($this->_journalId, 'ofrNotifyEmail', $this->getData('ofrNotifyEmail'), 'string');
-		$context->updateSetting('ofrInstructions', $this->getData('ofrInstructions'), 'object', true);
+		$this->_plugin->updateSetting($this->_journalId, 'ofrInstructions', $this->getData('ofrInstructions'));
+
 	}
 }
 

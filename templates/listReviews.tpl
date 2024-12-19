@@ -20,7 +20,7 @@
           {if $objectForReview.identifierType == "link"}
             <a href={$objectForReview.identifier}>{$objectForReview.description}</a>
           {else}
-            {$objectForReview.description}. {$objectForReview.identifierType}: {$objectForReview.identifier}
+            {$objectForReview.description} {$objectForReview.identifierType}: {$objectForReview.identifier}
           {/if}
 				</li>
 			{/foreach}

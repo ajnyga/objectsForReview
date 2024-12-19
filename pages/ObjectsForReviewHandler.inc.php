@@ -59,9 +59,16 @@ class ObjectsForReviewHandler extends Handler {
 					'userId' => $objectForReview->getUserId()
 				);
 		}
+		
+		$ofrInstructions = $plugin->getSetting($contextId, 'ofrInstructions');
+		$currentLocale = AppLocale::getLocale();
+		$primaryLocale = $context?$context->getPrimaryLocale():$request->getSite()->getPrimaryLocale();
+
+		$instructions = $ofrInstructions[$currentLocale] ? $ofrInstructions[$currentLocale] : $ofrInstructions[$contextPrimaryLocale];
+
 
 		$templateMgr->assign(array('objectsForReview' => $gridData, 'currentUser' => $currentUser));
-		$templateMgr->assign('instructions', $context->getSetting('ofrInstructions', AppLocale::getLocale()));
+		$templateMgr->assign('instructions', $instructions);
 		return $templateMgr->display($plugin->getTemplateResource('frontend/pages/forReview.tpl'));
 	}
 

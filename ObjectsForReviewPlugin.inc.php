@@ -127,12 +127,6 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 				HookRegistry::register('Templates::Catalog::Book::Main', array($this, 'addSubmissionDisplay'));
 			}
 
-			// If subtitle display is enabled
-			// Not working in 3.2, need to find a new solution
-			#if ($this->getSetting($context->getId(), 'displayAsSubtitle')) {
-			#	HookRegistry::register('pkp\\services\\pkppublicationservice::_getmany', array($this, 'addSubtitleDisplay'));
-			#}
-
 			// Handler for public objects for review page
 			HookRegistry::register('LoadHandler', array($this, 'loadPageHandler'));
 			HookRegistry::register('NavigationMenus::itemTypes', array($this, 'addMenuItemTypes'));

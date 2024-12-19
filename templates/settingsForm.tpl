@@ -27,7 +27,6 @@
 			{fbvElement type="checkbox" id="onlyReserved" value="1" label="plugins.generic.objectsForReview.settings.onlyReserved" checked=$onlyReserved}
 		{/fbvFormSection}
 		{fbvFormSection list=true label="plugins.generic.objectsForReview.settings.displayOptions"}
-			{fbvElement type="checkbox" id="displayAsSubtitle" value="1" label="plugins.generic.objectsForReview.settings.displayAsSubtitle" checked=$displayAsSubtitle}
 			{fbvElement type="checkbox" id="displayAsList" value="1" label="plugins.generic.objectsForReview.settings.displayAsList" checked=$displayAsList}
 		{/fbvFormSection}
 

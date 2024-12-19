@@ -74,21 +74,6 @@
               {translate key='plugins.generic.objectsForReview.objectAvailable'}
             {/if}
           {/if} <!-- END If logged in, show buttons -->
-
-
-<!--
-
-          Käyttäjä on kirjautunut
-            - Kirja vapaa
-            - Kirja varattu itselle
-            - Kirja varattu toiselle
-
-          Käyttäjä ei ole kirjautunut
-            - Kirja vapaa
-            - Kirja ei vapaa
--->
-
-
         </td>
         </tr>
 			{/foreach}
