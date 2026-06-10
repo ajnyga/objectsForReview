@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @file ObjectsForReviewSchemaMigration.inc.php
+ * @file ObjectsForReviewSchemaMigration.php
  *
  * Copyright (c) 2014-2020 Simon Fraser University
  * Copyright (c) 2000-2020 John Willinsky
@@ -11,10 +11,13 @@
  * @brief Describe database table structures.
  */
 
+namespace APP\plugins\generic\objectsForReview;
+
+use APP\core\Application;
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Builder;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Capsule\Manager as Capsule;
+use Illuminate\Support\Facades\Schema;
+
 
 class ObjectsForReviewSchemaMigration extends Migration
 {
@@ -23,7 +26,7 @@ class ObjectsForReviewSchemaMigration extends Migration
      */
     public function up()
     {
-        Capsule::schema()->create('objects_for_review', function (Blueprint $table) {
+        Schema::create('objects_for_review', function (Blueprint $table) {
             $table->bigInteger('object_id')->autoIncrement();
             $table->bigInteger('submission_id')->nullable();
             $table->bigInteger('context_id');
@@ -35,7 +38,7 @@ class ObjectsForReviewSchemaMigration extends Migration
             $table->datetime('date_created');
         });
 
-        Capsule::schema()->create('objects_for_review_settings', function (Blueprint $table) {
+        Schema::create('objects_for_review_settings', function (Blueprint $table) {
             $table->bigInteger('object_id');
             $table->string('locale', 14)->default('');
             $table->string('setting_name', 255);

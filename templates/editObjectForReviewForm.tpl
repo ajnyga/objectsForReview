@@ -18,7 +18,7 @@
 		</script>
 		<p>
 
-			{capture assign="reserveActionUrl"}{url router=$smarty.const.ROUTE_COMPONENT component="plugins.generic.objectsForReview.controllers.grid.ObjectsForReviewGridHandler" op="addReservedObjectForReview" submissionId=$submissionId escape=false}{/capture}
+			{capture assign="reserveActionUrl"}{url router=\PKP\core\PKPApplication::ROUTE_COMPONENT component="plugins.generic.objectsForReview.controllers.grid.ObjectsForReviewGridHandler" op="addReservedObjectForReview" submissionId=$submissionId escape=false}{/capture}
 
 			<form class="pkp_form" id="reservedObjectsForReviewForm-{$reservedObject.objectId}" method="post" action="{$reserveActionUrl}">
 				{csrf}
@@ -28,7 +28,12 @@
 			</form>
 		</p>
 	{/foreach}
+{else}
+	{if $onlyReserved}
+		{translate key="plugins.generic.objectsForReview.noReservedObjects"}
+	{/if}
 {/if}
+
 
 {if !$onlyReserved}
 	<script>
@@ -38,7 +43,7 @@
 		{rdelim});
 	</script>
 
-	{capture assign="actionUrl"}{url router=$smarty.const.ROUTE_COMPONENT component="plugins.generic.objectsForReview.controllers.grid.ObjectsForReviewGridHandler" op="updateObjectForReview" submissionId=$submissionId escape=false}{/capture}
+	{capture assign="actionUrl"}{url router=\PKP\core\PKPApplication::ROUTE_COMPONENT component="plugins.generic.objectsForReview.controllers.grid.ObjectsForReviewGridHandler" op="updateObjectForReview" submissionId=$submissionId escape=false}{/capture}
 
 	<form class="pkp_form" id="objectsForReviewForm" method="post" action="{$actionUrl}">
 		{csrf}

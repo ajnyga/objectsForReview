@@ -10,6 +10,6 @@
   * Email templates XML file.
   -->
 <emails>
-  <email key="OFR_NEW_RESERVATION" can_edit="1" can_disable="0" subject="emails.ofrNewReservation.subject" description="emails.ofrNewReservation.description" body="emails.ofrNewReservation.body"/>
-  <email key="OFR_CANCEL_RESERVATION" can_edit="1" can_disable="0" subject="emails.ofrCancelReservation.subject" description="emails.ofrCancelReservation.description" body="emails.ofrCancelReservation.body"/>
+  <email key="OFR_NEW_RESERVATION" subject="emails.ofrNewReservation.subject" name="emails.ofrNewReservation.name" body="emails.ofrNewReservation.body"/>
+  <email key="OFR_CANCEL_RESERVATION" subject="emails.ofrCancelReservation.subject" name="emails.ofrCancelReservation.name" body="emails.ofrCancelReservation.body"/>
 </emails>

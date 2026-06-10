@@ -1,0 +1,174 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2021-02-21T14:12:01+02:00\n"
+"PO-Revision-Date: 2021-02-21T14:12:01+02:00\n"
+"Language: \n"
+
+msgid "plugins.generic.objectsForReview.displayName"
+msgstr "Rezensierte Objekte"
+
+msgid "plugins.generic.objectsForReview.description"
+msgstr "Erfasst rezensierte Objekte bei Einreichungen."
+
+msgid "plugins.generic.objectsForReview.tabTitle"
+msgstr "Rezensierte Objekte"
+
+msgid "plugins.generic.objectsForReview.managementLink"
+msgstr "Rezensierte Objekte"
+
+msgid "plugins.generic.objectsForReview.management.gridTitle"
+msgstr "Rezensierte Objekte"
+
+msgid "plugins.generic.objectsForReview.addAvailableObjectForReview"
+msgstr "Verfügbares Objekt hinzufügen"
+
+msgid "plugins.generic.objectsForReview.userName"
+msgstr "Reserviert für Benutzer"
+
+msgid "plugins.generic.objectsForReview.settings.displayInToc.display"
+msgstr "Rezensierte Objekte im Inhaltsverzeichnis anzeigen"
+
+msgid "plugins.generic.objectsForReview.settings.displayOptions"
+msgstr "Anzeigeoptionen"
+
+msgid "plugins.generic.objectsForReview.settings.displayAsSubtitle"
+msgstr "Rezensierte Objekte im Untertitelfeld des Artikels anzeigen"
+
+msgid "plugins.generic.objectsForReview.settings.displayAsList"
+msgstr "Eine Liste rezensierter Objekte unterhalb des Abstracts anzeigen"
+
+msgid "plugins.generic.objectsForReview.settings.onlyReserved"
+msgstr "Nur vom Verwaltenden erstellte Objekte zulassen"
+
+msgid "plugins.generic.objectsForReview.settings.notifyEmail"
+msgstr "E-Mail für Benachrichtigungen über Reservierungen und Stornierungen"
+
+msgid "plugins.generic.objectsForReview.settings.notifyEmail.description"
+msgstr "Wenn keine E-Mail-Adresse angegeben wird, wird stattdessen die primäre Kontakt-E-Mail verwendet"
+
+msgid "plugins.generic.objectsForReview.settings.instructions"
+msgstr "Öffentliche Anweisungen"
+
+msgid "plugins.generic.objectsForReview.settings.instructions.description"
+msgstr "Diese Anweisungen sind auf der öffentlichen OFR-Seite sichtbar"
+
+msgid "plugins.generic.objectsForReview.navMenuItem.description"
+msgstr "Link zur öffentlichen Seite der rezensierten Objekte"
+
+msgid "plugins.generic.objectsForReview.navMenuItem"
+msgstr "Rezensierte Objekte"
+
+msgid "plugins.generic.objectsForReview.objectsForReviewTitle"
+msgstr "Rezensierte Objekte in dieser Einreichung"
+
+msgid "plugins.generic.objectsForReview.addObjectForReview"
+msgstr "Rezensiertes Objekt hinzufügen"
+
+msgid "plugins.generic.objectsForReview.noReservedObjects"
+msgstr "Keine für Sie reservierten Objekte"
+
+msgid "plugins.generic.objectsForReview.submissionWizard.name"
+msgstr "Rezensierte Objekte"
+
+msgid "plugins.generic.objectsForReview.itemIdentifierType"
+msgstr "Verweis-Typ"
+
+msgid "plugins.generic.objectsForReview.resourceType"
+msgstr "Ressourcentyp"
+
+msgid "plugins.generic.objectsForReview.itemIdentifier"
+msgstr "Verweis"
+
+msgid "plugins.generic.objectsForReview.itemDescription"
+msgstr "Beschreibung"
+
+msgid "plugins.generic.objectsForReview.itemAuthors"
+msgstr "Autor/innen"
+
+msgid "plugins.generic.objectsForReview.itemTitle"
+msgstr "Titel"
+
+msgid "plugins.generic.objectsForReview.itemPublisher"
+msgstr "Verlag"
+
+msgid "plugins.generic.objectsForReview.itemYear"
+msgstr "Erscheinungsjahr"
+
+msgid "plugins.generic.objectsForReview.noneCreated"
+msgstr "Diese Einreichung hat keine rezensierten Objekte."
+
+msgid "plugins.generic.objectsForReview.objectsForReviewData.addReservedObject"
+msgstr "Dieses Objekt auswählen"
+
+msgid "plugins.generic.objectsForReview.notifyDefaultName"
+msgstr "OFR-Kontakt"
+
+msgid "plugins.generic.objectsForReview.objectsForReviewData.singular"
+msgstr "Rezensiertes Werk"
+
+msgid "plugins.generic.objectsForReview.objectsForReviewData.plural"
+msgstr "Rezensierte Werke"
+
+msgid "plugins.generic.objectsForReview.frontendTitle"
+msgstr "Zur Rezension"
+
+msgid "plugins.generic.objectsForReview.reserve"
+msgstr "Zur Rezension anbieten"
+
+msgid "plugins.generic.objectsForReview.cancel"
+msgstr "Angebot zur Rezension zurückziehen"
+
+msgid "plugins.generic.objectsForReview.reserve.confirm"
+msgstr "Das ausgewählte Objekt wird für Sie reserviert. Sobald Sie bereit sind, können Sie Ihren Rezensionsartikel einreichen."
+
+msgid "plugins.generic.objectsForReview.cancel.confirm"
+msgstr "Möchten Sie Ihre Rezension für dieses Objekt wirklich abbrechen?"
+
+msgid "plugins.generic.objectsForReview.objectAvailable"
+msgstr "Zur Rezension verfügbar"
+
+msgid "plugins.generic.objectsForReview.objectReserved"
+msgstr "Zur Rezension reserviert"
+
+msgid "plugins.generic.objectsForReview.logInToReserve"
+msgstr "Um ein Objekt zur Rezension zu reservieren, melden Sie sich bitte an."
+
+msgid "plugins.generic.objectsForReview.COAR.book"
+msgstr "Buch"
+
+msgid "plugins.generic.objectsForReview.COAR.bookPart"
+msgstr "Buchteil"
+
+msgid "plugins.generic.objectsForReview.COAR.journalArticle"
+msgstr "Zeitschriftenartikel"
+
+msgid "plugins.generic.objectsForReview.COAR.conferencePaper"
+msgstr "Konferenzbeitrag"
+
+msgid "plugins.generic.objectsForReview.COAR.thesis"
+msgstr "Abschlussarbeit"
+
+msgid "plugins.generic.objectsForReview.COAR.preprint"
+msgstr "Preprint"
+
+msgid "plugins.generic.objectsForReview.COAR.website"
+msgstr "Webseite"
+
+msgid "plugins.generic.objectsForReview.COAR.dataset"
+msgstr "Datensatz"
+
+msgid "plugins.generic.objectsForReview.COAR.software"
+msgstr "Software"
+
+msgid "plugins.generic.objectsForReview.COAR.cartographicMaterial"
+msgstr "Kartografisches Material"
+
+msgid "plugins.generic.objectsForReview.COAR.sound"
+msgstr "Tonaufnahme"

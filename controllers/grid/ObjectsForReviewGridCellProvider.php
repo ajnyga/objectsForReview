@@ -13,7 +13,10 @@
  * @brief Class for a cell provider to display information about objectsForReview items
  */
 
-import('lib.pkp.classes.controllers.grid.GridCellProvider');
+namespace APP\plugins\generic\objectsForReview\controllers\grid;
+
+
+use PKP\controllers\grid\GridCellProvider;
 
 class ObjectsForReviewGridCellProvider extends GridCellProvider {
 

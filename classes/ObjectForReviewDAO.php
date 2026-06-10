@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @file plugins/generic/objectsForReview/classes/classes/ObjectForReviewDAO.inc.php
+ * @file plugins/generic/objectsForReview/classes/ObjectForReviewDAO.inc.php
  *
  * Copyright (c) 2014-2021 Simon Fraser University
  * Copyright (c) 2003-2021 John Willinsky
@@ -13,8 +13,12 @@
  * Operations for retrieving and modifying ObjectForReview objects.
  */
 
-import('lib.pkp.classes.db.DAO');
-import('plugins.generic.objectsForReview.classes.ObjectForReview');
+namespace APP\plugins\generic\objectsForReview\classes;
+
+use PKP\db\DAO;
+use Illuminate\Support\Facades\DB;
+use PKP\db\DAOResultFactory;
+use PKP\db\DBResultRange;
 
 class ObjectForReviewDAO extends DAO {
 
@@ -198,14 +202,6 @@ class ObjectForReviewDAO extends DAO {
 		$this->getDataObjectSettings('objects_for_review_settings', 'object_id', $row['object_id'], $objectForReview);
 
 		return $objectForReview;
-	}
-
-	/**
-	 * Get the insert ID for the last inserted objectForReview.
-	 * @return int
-	 */
-	function getInsertId() {
-		return $this->_getInsertId('objects_for_review', 'object_id');
 	}
 
 	/**

@@ -14,7 +14,7 @@
 	{rdelim});
 </script>
 
-{capture assign="actionUrl"}{url router=$smarty.const.ROUTE_COMPONENT component="plugins.generic.objectsForReview.controllers.grid.ObjectsForReviewManagementGridHandler" op="updateAvailableObjectForReview" escape=false}{/capture}
+{capture assign="actionUrl"}{url router=\PKP\core\PKPApplication::ROUTE_COMPONENT component="plugins.generic.objectsForReview.controllers.grid.ObjectsForReviewManagementGridHandler" op="updateAvailableObjectForReview" escape=false}{/capture}
 
 <form class="pkp_form" id="availableObjectsForReviewForm" method="post" action="{$actionUrl}">
 	{csrf}
@@ -35,8 +35,6 @@
 		{fbvFormSection label="plugins.generic.objectsForReview.itemIdentifier" for="identifier"}
 			{fbvElement type="text" id="identifier" value=$identifier maxlength="255" inline=true multilingual=false size=$fbvStyles.size.MEDIUM}
 		{/fbvFormSection}
-
-
 
 		{fbvFormSection label="plugins.generic.objectsForReview.itemAuthors" for="authors"}
 			{fbvElement type="text" id="authors" value=$authors maxlength="255" inline=true multilingual=false size=$fbvStyles.size.MEDIUM}

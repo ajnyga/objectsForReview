@@ -1,26 +1,34 @@
 <?php
 
 /**
- * @file plugins/generic/objectsForReview/controllers/grid/ObjectsForReviewManagementGridRow.inc.php
+ * @file plugins/generic/objectsForReview/controllers/grid/ObjectsForReviewGridRow.inc.php
  *
  * Copyright (c) 2014-2021 Simon Fraser University
  * Copyright (c) 2003-2021 John Willinsky
  * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
  *
- * @class ObjectsForReviewManagementGridRow
+ * @class ObjectsForReviewGridRow
  * @ingroup plugins_generic_objectsForReview
  *
- * @brief Handle ObjectsForReview management grid row requests.
+ * @brief Handle ObjectsForReview grid row requests.
  */
 
-import('lib.pkp.classes.controllers.grid.GridRow');
+namespace APP\plugins\generic\objectsForReview\controllers\grid;
 
-class ObjectsForReviewManagementGridRow extends GridRow {
+use PKP\controllers\grid\GridRow;
+use PKP\linkAction\LinkAction;
+use PKP\linkAction\request\AjaxModal;
+use PKP\linkAction\request\RemoteActionConfirmationModal;
+
+class ObjectsForReviewGridRow extends GridRow {
+	/** @var boolean */
+	var $_readOnly;
 
 	/**
 	 * Constructor
 	 */
 	function __construct($readOnly = false) {
+		$this->_readOnly = $readOnly;
 		parent::__construct();
 	}
 
@@ -33,17 +41,17 @@ class ObjectsForReviewManagementGridRow extends GridRow {
 	function initialize($request, $template = null) {
 		parent::initialize($request, $template);
 		$objectId = $this->getId();
+		$submissionId = $request->getUserVar('submissionId');
 
-		if (!empty($objectId)) {
+		if (!empty($objectId) && !$this->isReadOnly()) {
 			$router = $request->getRouter();
 
 			// Create the "edit" action
-			import('lib.pkp.classes.linkAction.request.AjaxModal');
 			$this->addAction(
 				new LinkAction(
-					'edit',
+					'editObjectForReviewItem',
 					new AjaxModal(
-						$router->url($request, null, null, 'editAvailableObjectForReview', null, array('objectId' => $objectId)),
+						$router->url($request, null, null, 'editObjectForReview', null, array('objectId' => $objectId, 'submissionId' => $submissionId)),
 						__('grid.action.edit'),
 						'modal_edit',
 						true),
@@ -53,7 +61,6 @@ class ObjectsForReviewManagementGridRow extends GridRow {
 			);
 
 			// Create the "delete" action
-			import('lib.pkp.classes.linkAction.request.RemoteActionConfirmationModal');
 			$this->addAction(
 				new LinkAction(
 					'delete',
@@ -61,13 +68,21 @@ class ObjectsForReviewManagementGridRow extends GridRow {
 						$request->getSession(),
 						__('common.confirmDelete'),
 						__('grid.action.delete'),
-						$router->url($request, null, null, 'deleteAvailableObjectForReview', null, array('objectId' => $objectId)), 'modal_delete'
+						$router->url($request, null, null, 'deleteObjectForReview', null, array('objectId' => $objectId, 'submissionId' => $submissionId)), 'modal_delete'
 					),
 					__('grid.action.delete'),
 					'delete'
 				)
 			);
 		}
+	}
+
+	/**
+	 * Determine if this grid row should be read only.
+	 * @return boolean
+	 */
+	function isReadOnly() {
+		return $this->_readOnly;
 	}
 }
 

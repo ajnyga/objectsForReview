@@ -32,6 +32,9 @@ msgstr "Add available object"
 msgid "plugins.generic.objectsForReview.userName"
 msgstr "Reserved for user"
 
+msgid "plugins.generic.objectsForReview.settings.displayInToc.display"
+msgstr "Display reviewed objects in the table of contents."
+
 msgid "plugins.generic.objectsForReview.settings.displayOptions"
 msgstr "Display options"
 
@@ -67,6 +70,12 @@ msgstr "Objects reviewed in this submission"
 
 msgid "plugins.generic.objectsForReview.addObjectForReview"
 msgstr "Add reviewed object"
+
+msgid "plugins.generic.objectsForReview.noReservedObjects"
+msgstr "No objects reserved for you"
+
+msgid "plugins.generic.objectsForReview.submissionWizard.name"
+msgstr "Objects for Review"
 
 msgid "plugins.generic.objectsForReview.itemIdentifierType"
 msgstr "Identifier type"

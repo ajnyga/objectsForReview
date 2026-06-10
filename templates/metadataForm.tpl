@@ -10,7 +10,7 @@
 
 {if array_intersect(array(ROLE_ID_MANAGER, ROLE_ID_SUB_EDITOR, ROLE_ID_ASSISTANT, ROLE_ID_AUTHOR), (array)$userRoles)}
 <div id="objectsForReview">
-  {capture assign="objectsForReviewGridUrl"}{url router=$smarty.const.ROUTE_COMPONENT component="plugins.generic.objectsForReview.controllers.grid.ObjectsForReviewGridHandler" op="fetchGrid" submissionId=$submissionId escape=false}{/capture}
+  {capture assign="objectsForReviewGridUrl"}{url router=PKP\core\PKPApplication::ROUTE_COMPONENT component="plugins.generic.objectsForReview.controllers.grid.ObjectsForReviewGridHandler" op="fetchGrid" submissionId=$submissionId escape=false}{/capture}
   {load_url_in_div id="objectsForReviewGridContainer"|uniqid url=$objectsForReviewGridUrl}
 </div>
 {/if}

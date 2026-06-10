@@ -13,20 +13,42 @@
  * @brief Handle ObjectsForReview management grid requests.
  */
 
-import('lib.pkp.classes.controllers.grid.GridHandler');
-import('plugins.generic.objectsForReview.controllers.grid.ObjectsForReviewManagementGridRow');
-import('plugins.generic.objectsForReview.controllers.grid.ObjectsForReviewManagementGridCellProvider');
+
+namespace APP\plugins\generic\objectsForReview\controllers\grid;
+
+use APP\plugins\generic\objectsForReview\classes\ObjectForReviewDAO;
+
+use APP\plugins\generic\objectsForReview\controllers\grid\form\AvailableObjectsForReviewForm;
+use APP\plugins\generic\objectsForReview\controllers\grid\form\ObjectsForReviewForm;
+
+use APP\plugins\generic\objectsForReview\controllers\grid\ObjectsForReviewManagementGridRow;
+use APP\plugins\generic\objectsForReview\controllers\grid\ObjectsForReviewManagementGridCellProvider;
+
+use PKP\controllers\grid\GridColumn;
+use PKP\controllers\grid\GridHandler;
+
+use APP\facades\Repo;
+
+use PKP\core\JSONMessage;
+use PKP\core\PKPRequest;
+use PKP\db\DAO;
+use PKP\db\DAORegistry;
+use PKP\linkAction\LinkAction;
+use PKP\linkAction\request\AjaxModal;
+use PKP\security\authorization\ContextAccessPolicy;
+use PKP\security\Role;
 
 class ObjectsForReviewManagementGridHandler extends GridHandler {
-	static $plugin;
+	public $plugin;
 
 	/**
 	 * Constructor
 	 */
-	function __construct() {
+	function __construct($plugin) {
 		parent::__construct();
+		$this->plugin = $plugin;
 		$this->addRoleAssignment(
-			array(ROLE_ID_MANAGER),
+			array(Role::ROLE_ID_MANAGER),
 			array('fetchGrid', 'fetchRow', 'addAvailableObjectForReview', 'editAvailableObjectForReview', 'updateAvailableObjectForReview', 'deleteAvailableObjectForReview')
 		);
 	}
@@ -34,13 +56,6 @@ class ObjectsForReviewManagementGridHandler extends GridHandler {
 	//
 	// Getters/Setters
 	//
-	/**
-	 * Set the ObjectsForReview plugin.
-	 * @param $plugin ObjectsForReviewPlugin
-	 */
-	static function setPlugin($plugin) {
-		self::$plugin = $plugin;
-	}
 
 	//
 	// Overridden template methods
@@ -49,7 +64,6 @@ class ObjectsForReviewManagementGridHandler extends GridHandler {
 	 * @copydoc PKPHandler::authorize()
 	 */
 	function authorize($request, &$args, $roleAssignments) {
-		import('lib.pkp.classes.security.authorization.ContextAccessPolicy');
 		$this->addPolicy(new ContextAccessPolicy($request, $roleAssignments));
 		return parent::authorize($request, $args, $roleAssignments);
 	}
@@ -74,8 +88,7 @@ class ObjectsForReviewManagementGridHandler extends GridHandler {
 			$objectId = $objectForReview->getId();
 
 			if ($objectForReview->getUserId()){
-				$userDao = DAORegistry::getDAO('UserDAO');
-				$user = $userDao->getById($objectForReview->getUserId());
+				$user = Repo::user()->get($objectForReview->getUserId());
 				$userName = $user->getUsername() . " (" . $user->getEmail() . ")";
 			} else{
 				$userName = "-";
@@ -93,7 +106,6 @@ class ObjectsForReviewManagementGridHandler extends GridHandler {
 
 		// Add grid-level actions
 		$router = $request->getRouter();
-		import('lib.pkp.classes.linkAction.request.AjaxModal');
 		$this->addAction(
 			new LinkAction(
 				'addAvailableObjectForReview',
@@ -178,14 +190,10 @@ class ObjectsForReviewManagementGridHandler extends GridHandler {
 
 		$this->setupTemplate($request);
 
-		// Create and present the edit form
-		import('plugins.generic.objectsForReview.controllers.grid.form.AvailableObjectsForReviewForm');
-		$availableObjectsForReviewForm = new AvailableObjectsForReviewForm(self::$plugin, $context->getId(), $objectId);
-		$availableObjectsForReviewForm->initData();
+        $availableObjectsForReviewForm = new AvailableObjectsForReviewForm($this->plugin, $context->getId(), $objectId);
+        $availableObjectsForReviewForm->initData();
+        return new JSONMessage(true, $availableObjectsForReviewForm->fetch($request));
 
-
-		$json = new JSONMessage(true, $availableObjectsForReviewForm->fetch($request));
-		return $json->getString();
 	}
 
 	/**
@@ -201,8 +209,7 @@ class ObjectsForReviewManagementGridHandler extends GridHandler {
 		$this->setupTemplate($request);
 
 		// Create and populate the form
-		import('plugins.generic.objectsForReview.controllers.grid.form.AvailableObjectsForReviewForm');
-		$availableObjectsForReviewForm = new AvailableObjectsForReviewForm(self::$plugin, $context->getId(), $objectId);
+		$availableObjectsForReviewForm = new AvailableObjectsForReviewForm($this->plugin, $context->getId(), $objectId);
 		$availableObjectsForReviewForm->readInputData();
 		// Validate
 		if ($availableObjectsForReviewForm->validate()) {

@@ -68,6 +68,12 @@ msgstr "Arvioitavaksi"
 msgid "plugins.generic.objectsForReview.objectsForReviewTitle"
 msgstr "Tässä käsikirjoituksessa arvioidut julkaisut"
 
+msgid "plugins.generic.objectsForReview.noReservedObjects"
+msgstr "Sinulle ei ole varattuja arvioitavia julkaisuja"
+
+msgid "plugins.generic.objectsForReview.submissionWizard.name"
+msgstr "Arvioitavaksi"
+
 msgid "plugins.generic.objectsForReview.addObjectForReview"
 msgstr "Lisää arvioitu julkaisu"
 

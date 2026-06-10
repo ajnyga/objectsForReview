@@ -1,4 +1,4 @@
-# Objects for Review Plugin for OJS 3.3
+# Objects for Review Plugin for OJS 3.4
 
 
 ## About

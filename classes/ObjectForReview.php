@@ -13,7 +13,9 @@
  * Data object representing a ObjectForReview.
  */
 
-class ObjectForReview extends DataObject {
+namespace APP\plugins\generic\objectsForReview\classes;
+
+class ObjectForReview extends \PKP\core\DataObject {
 
 	//
 	// Get/set methods

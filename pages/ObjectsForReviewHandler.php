@@ -12,7 +12,16 @@
  * @brief Handle reader-facing router requests for the objects for review plugin
  */
 
-import('classes.handler.Handler');
+namespace APP\plugins\generic\objectsForReview\pages;
+use APP\handler\Handler;
+use APP\core\Application;
+use APP\i18n\AppLocale;
+use PKP\db\DAORegistry;
+use APP\plugins\generic\objectsForReview\classes\ObjectForReviewDAO;
+use PKP\core\PKPRequest;
+use APP\template\TemplateManager;
+use PKP\plugins\PluginRegistry;
+use PKP\security\authorization\ContextRequiredPolicy;
 
 class ObjectsForReviewHandler extends Handler {
 
@@ -20,7 +29,6 @@ class ObjectsForReviewHandler extends Handler {
 	 * @copydoc PKPHandler::authorize()
 	 */
 	function authorize($request, &$args, $roleAssignments) {
-		import('lib.pkp.classes.security.authorization.ContextRequiredPolicy');
 		$this->addPolicy(new ContextRequiredPolicy($request));
 		return parent::authorize($request, $args, $roleAssignments);
 	}
@@ -37,7 +45,7 @@ class ObjectsForReviewHandler extends Handler {
 	 */
 	public function index($args, $request) {
 		$context = $request->getContext();
-		$contextId = $context ? $context->getId() : CONTEXT_ID_NONE;
+		$contextId = $context ? $context->getId() : Application::CONTEXT_ID_NONE;
 		$plugin = PluginRegistry::getPlugin('generic', 'ObjectsForReviewPlugin');
 		$templateMgr = TemplateManager::getManager($request);
 		$currentUser = $request->getUser();

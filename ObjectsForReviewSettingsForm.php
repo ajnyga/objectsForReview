@@ -13,9 +13,13 @@
  * @brief Form for journal managers to modify Objects for Review plugin settings
  */
 
-import('lib.pkp.classes.form.Form');
+namespace APP\plugins\generic\objectsForReview;
 
-class ObjectsForReviewSettingsForm extends Form {
+use APP\core\Application;
+use APP\template\TemplateManager;
+
+
+class ObjectsForReviewSettingsForm extends \PKP\form\Form {
 
 	/** @var int */
 	var $_journalId;
@@ -34,8 +38,8 @@ class ObjectsForReviewSettingsForm extends Form {
 
 		parent::__construct($plugin->getTemplateResource('settingsForm.tpl'));
 
-		$this->addCheck(new FormValidatorPost($this));
-		$this->addCheck(new FormValidatorCSRF($this));
+		$this->addCheck(new \PKP\form\validation\FormValidatorPost($this));
+		$this->addCheck(new \PKP\form\validation\FormValidatorCSRF($this));
 	}
 
 	/**

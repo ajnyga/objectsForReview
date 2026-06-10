@@ -13,12 +13,25 @@
  * @brief Handle ObjectsForReview grid requests.
  */
 
-import('lib.pkp.classes.controllers.grid.GridHandler');
-import('plugins.generic.objectsForReview.controllers.grid.ObjectsForReviewGridRow');
-import('plugins.generic.objectsForReview.controllers.grid.ObjectsForReviewGridCellProvider');
+namespace APP\plugins\generic\objectsForReview\controllers\grid;
+
+use APP\core\Application;
+
+use APP\plugins\generic\objectsForReview\controllers\grid\form\ObjectsForReviewForm;
+use APP\plugins\generic\objectsForReview\controllers\grid\ObjectsForReviewGridRow;
+use APP\plugins\generic\objectsForReview\controllers\grid\ObjectsForReviewGridCellProvider;
+use PKP\controllers\grid\GridColumn;
+use PKP\controllers\grid\GridHandler;
+use PKP\core\JSONMessage;
+use PKP\db\DAO;
+use PKP\db\DAORegistry;
+use PKP\linkAction\LinkAction;
+use PKP\linkAction\request\AjaxModal;
+use PKP\security\Role;
+use PKP\security\authorization\SubmissionAccessPolicy;
 
 class ObjectsForReviewGridHandler extends GridHandler {
-	static $plugin;
+	public $plugin;
 
 	/** @var boolean */
 	var $_readOnly;
@@ -26,10 +39,12 @@ class ObjectsForReviewGridHandler extends GridHandler {
 	/**
 	 * Constructor
 	 */
-	function __construct() {
+	function __construct($plugin) {
 		parent::__construct();
+		$this->plugin = $plugin;
+
 		$this->addRoleAssignment(
-			array(ROLE_ID_MANAGER, ROLE_ID_SUB_EDITOR, ROLE_ID_ASSISTANT, ROLE_ID_AUTHOR),
+			array(Role::ROLE_ID_MANAGER, Role::ROLE_ID_SUB_EDITOR, Role::ROLE_ID_ASSISTANT, Role::ROLE_ID_AUTHOR),
 			array('fetchGrid', 'fetchRow', 'addObjectForReview', 'editObjectForReview', 'updateObjectForReview', 'deleteObjectForReview','addReservedObjectForReview')
 		);
 	}
@@ -37,20 +52,13 @@ class ObjectsForReviewGridHandler extends GridHandler {
 	//
 	// Getters/Setters
 	//
-	/**
-	 * Set the ObjectsForReview plugin.
-	 * @param $plugin ObjectsForReviewPlugin
-	 */
-	static function setPlugin($plugin) {
-		self::$plugin = $plugin;
-	}
 
 	/**
 	 * Get the submission associated with this grid.
 	 * @return Submission
 	 */
 	function getSubmission() {
-		return $this->getAuthorizedContextObject(ASSOC_TYPE_SUBMISSION);
+		return $this->getAuthorizedContextObject(Application::ASSOC_TYPE_SUBMISSION);
 	}
 
 	/**
@@ -77,7 +85,6 @@ class ObjectsForReviewGridHandler extends GridHandler {
 	 * @copydoc PKPHandler::authorize()
 	 */
 	function authorize($request, &$args, $roleAssignments) {
-		import('lib.pkp.classes.security.authorization.SubmissionAccessPolicy');
 		$this->addPolicy(new SubmissionAccessPolicy($request, $args, $roleAssignments));
 		return parent::authorize($request, $args, $roleAssignments);
 	}
@@ -115,7 +122,6 @@ class ObjectsForReviewGridHandler extends GridHandler {
 			$this->setReadOnly(false);
 			// Add grid-level actions
 			$router = $request->getRouter();
-			import('lib.pkp.classes.linkAction.request.AjaxModal');
 			$this->addAction(
 				new LinkAction(
 					'addObjectForReview',
@@ -206,8 +212,7 @@ class ObjectsForReviewGridHandler extends GridHandler {
 		$this->setupTemplate($request);
 
 		// Create and present the edit form
-		import('plugins.generic.objectsForReview.controllers.grid.form.ObjectsForReviewForm');
-		$objectsForReviewForm = new ObjectsForReviewForm(self::$plugin, $context->getId(), $submissionId, $objectId);
+		$objectsForReviewForm = new ObjectsForReviewForm($this->plugin, $context->getId(), $submissionId, $objectId);
 		$objectsForReviewForm->initData();
 		$json = new JSONMessage(true, $objectsForReviewForm->fetch($request));
 		return $json->getString();
@@ -227,17 +232,22 @@ class ObjectsForReviewGridHandler extends GridHandler {
 
 		$this->setupTemplate($request);
 
-		// Create and populate the form
-		import('plugins.generic.objectsForReview.controllers.grid.form.ObjectsForReviewForm');
-		$objectsForReviewForm = new ObjectsForReviewForm(self::$plugin, $context->getId(), $submissionId, $objectId);
+		$objectsForReviewForm = new ObjectsForReviewForm($this->plugin, $context->getId(), $submissionId, $objectId);
 		$objectsForReviewForm->readInputData();
-		// Validate
 		if ($objectsForReviewForm->validate()) {
-			// Save
-			$objectsForReview = $objectsForReviewForm->execute();
- 			return DAO::getDataChangedEvent($submissionId);
+			$savedObjectId = $objectsForReviewForm->execute();
+
+			$objectForReviewDao = DAORegistry::getDAO('ObjectForReviewDAO');
+			$objectForReview = $objectForReviewDao->getById($savedObjectId, $submissionId);
+
+			$json = DAO::getDataChangedEvent($submissionId);
+			if (!$objectId) {
+				$json->setGlobalEvent('plugin:objectsForReview:added', $this->plugin->getObjectForReviewData($objectForReview));
+			} else {
+				$json->setGlobalEvent('plugin:objectsForReview:edited', $this->plugin->getObjectForReviewData($objectForReview));
+			}
+			return $json;
 		} else {
-			// Present any errors
 			$json = new JSONMessage(true, $objectsForReviewForm->fetch($request));
 			return $json->getString();
 		}
@@ -261,12 +271,13 @@ class ObjectsForReviewGridHandler extends GridHandler {
 		if ($objectForReview->getCreator() == "manager") {
 			$objectForReview->setSubmissionId(null);
 			$objectForReviewDao->updateObject($objectForReview);
-		} 
-		else {
+		} else {
 			$objectForReviewDao->deleteObject($objectForReview);
 		}
 
-		return DAO::getDataChangedEvent($submissionId);
+		$json = DAO::getDataChangedEvent($submissionId);
+		$json->setGlobalEvent('plugin:objectsForReview:deleted', ['id' => (int) $objectId]);
+		return $json;
 	}
 
 	/**
@@ -287,7 +298,9 @@ class ObjectsForReviewGridHandler extends GridHandler {
 			$objectForReviewDao->updateObject($objectForReview);
 		}
 
-		return DAO::getDataChangedEvent($submissionId);
+		$json = DAO::getDataChangedEvent($submissionId);
+		$json->setGlobalEvent('plugin:objectsForReview:added', $this->plugin->getObjectForReviewData($objectForReview));
+		return $json;
 	}
 
 	/**
@@ -302,8 +315,8 @@ class ObjectsForReviewGridHandler extends GridHandler {
 		if ($submission->getDateSubmitted() == null) return true;
 
 		// Managers should always have access.
-		$userRoles = $this->getAuthorizedContextObject(ASSOC_TYPE_USER_ROLES);
-		if (array_intersect(array(ROLE_ID_MANAGER), $userRoles)) return true;
+		$userRoles = $this->getAuthorizedContextObject(Application::ASSOC_TYPE_USER_ROLES);
+		if (array_intersect(array(Role::ROLE_ID_MANAGER), $userRoles)) return true;
 
 		// Sub editors and assistants need to be assigned to the current stage.
 		$stageAssignmentDao = DAORegistry::getDAO('StageAssignmentDAO');
@@ -311,7 +324,7 @@ class ObjectsForReviewGridHandler extends GridHandler {
 		$userGroupDao = DAORegistry::getDAO('UserGroupDAO');
 		while ($stageAssignment = $stageAssignments->next()) {
 			$userGroup = $userGroupDao->getById($stageAssignment->getUserGroupId());
-			if (in_array($userGroup->getRoleId(), array(ROLE_ID_SUB_EDITOR, ROLE_ID_ASSISTANT))) return true;
+			if (in_array($userGroup->getRoleId(), array(Role::ROLE_ID_SUB_EDITOR, Role::ROLE_ID_ASSISTANT))) return true;
 		}
 
 		// Default: Read-only.
@@ -319,5 +332,3 @@ class ObjectsForReviewGridHandler extends GridHandler {
 	}
 
 }
-
-?>
