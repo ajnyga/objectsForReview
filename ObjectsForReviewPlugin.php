@@ -19,10 +19,10 @@ use APP\core\Application;
 use APP\pages\submission\SubmissionHandler;
 use APP\plugins\generic\objectsForReview\classes\ObjectForReview;
 use APP\plugins\generic\objectsForReview\classes\ObjectForReviewDAO;
+use APP\plugins\generic\objectsForReview\classes\migration\install\SchemaMigration;
 
 use APP\plugins\generic\objectsForReview\controllers\grid\ObjectsForReviewGridHandler;
 use APP\plugins\generic\objectsForReview\controllers\grid\ObjectsForReviewManagementGridHandler;
-use APP\plugins\generic\objectsForReview\ObjectsForReviewSchemaMigration;
 use APP\plugins\generic\objectsForReview\pages\ObjectsForReviewHandler;
 
 use APP\plugins\generic\objectsForReview\mailables\ObjectsForReviewNew;
@@ -71,6 +71,14 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 		return ($this->getPluginPath() . '/emailTemplates.xml');
 	}
 
+    /**
+     * @copydoc Plugin::getInstallMigration()
+     */
+    function getInstallMigration() {
+		    error_log('getInstallMigration called, getName: ' . $this->getName());
+
+        return new SchemaMigration();
+    }
 
 	/**
 	 * @copydoc Plugin::getActions()
@@ -152,7 +160,7 @@ class ObjectsForReviewPlugin extends GenericPlugin {
             Hook::add('Template::SubmissionWizard::Section', $this->addToSubmissionWizardTemplate(...));
             Hook::add('Template::SubmissionWizard::Section::Review', $this->addToSubmissionWizardReviewTemplate(...));
 
-			Hook::Add('Template::Workflow::Publication', array($this, 'addToPublicationForms'));
+			#Hook::Add('Template::Workflow::Publication', array($this, 'addToPublicationForms'));
 
 			Hook::Add('LoadComponentHandler', array($this, 'setupGridHandler'));
 			Hook::Add('TemplateManager::display',array($this, 'addJs'));
@@ -425,13 +433,6 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 		}
 
 		return false;
-	}
-
-	/**
-	 * @copydoc Plugin::getInstallMigration()
-	 */
-	function getInstallMigration() {
-		return new ObjectsForReviewSchemaMigration();
 	}
 
 	/**

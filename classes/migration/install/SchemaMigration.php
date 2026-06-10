@@ -1,28 +1,28 @@
 <?php
 
 /**
- * @file ObjectsForReviewSchemaMigration.php
+ * @file SchemaMigration.php
  *
- * Copyright (c) 2014-2020 Simon Fraser University
- * Copyright (c) 2000-2020 John Willinsky
+ * Copyright (c) 2014-2026 Simon Fraser University
+ * Copyright (c) 2000-2026 John Willinsky
  * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
  *
- * @class ObjectsForReviewSchemaMigration
+ * @class SchemaMigration
  * @brief Describe database table structures.
  */
 
-namespace APP\plugins\generic\objectsForReview;
+namespace APP\plugins\generic\objectsForReview\classes\migration\install;
 
-use APP\core\Application;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use PKP\install\DowngradeNotSupportedException;
 
-
-class ObjectsForReviewSchemaMigration extends Migration
+class SchemaMigration extends Migration
 {
     /**
      * Run the migrations.
+     * @return void
      */
     public function up()
     {
@@ -49,4 +49,11 @@ class ObjectsForReviewSchemaMigration extends Migration
         });
     }
 
+    /**
+     * Rollback the migrations.
+     */
+    public function down(): void
+    {
+        throw new DowngradeNotSupportedException();
+    }
 }

@@ -208,7 +208,8 @@ class ObjectForReviewDAO extends DAO {
 	 * Get the additional field names.
 	 * @return array
 	 */
-	function getAdditionalFieldNames() {
+    public function getAdditionalFieldNames(): array
+    {
 		return array('authors', 'title', 'year', 'publisher');
 	}
 
@@ -216,7 +217,8 @@ class ObjectForReviewDAO extends DAO {
 	 * Update the settings for this object
 	 * @param $objectForReview object
 	 */
-	function updateLocaleFields($objectForReview) {
+    public function updateLocaleFields($objectForReview): void
+	{
 		$this->updateDataObjectSettings('objects_for_review_settings', $objectForReview, array('object_id' => (int) $objectForReview->getId()));
 	}
 
