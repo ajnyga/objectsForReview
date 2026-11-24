@@ -1,10 +1,10 @@
 <?php
 
 /**
- * @file plugins/generic/objectsForReview/controllers/grid/form/ObjectsForReviewForm.inc.php
+ * @file plugins/generic/objectsForReview/controllers/grid/form/ObjectsForReviewForm.php
  *
- * Copyright (c) 2014-2021 Simon Fraser University
- * Copyright (c) 2003-2021 John Willinsky
+ * Copyright (c) 2014-2026 Simon Fraser University
+ * Copyright (c) 2003-2026 John Willinsky
  * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
  *
  * @class ObjectsForReviewForm
@@ -15,7 +15,7 @@
  */
 namespace APP\plugins\generic\objectsForReview\controllers\grid\form;
 
-use APP\plugins\generic\objectsForReview\classes\ObjectsForReviewDAO;
+use APP\plugins\generic\objectsForReview\classes\ObjectForReview;
 use APP\plugins\generic\objectsForReview\ObjectsForReviewPlugin;
 use APP\template\TemplateManager;
 use PKP\db\DAORegistry;
@@ -65,7 +65,7 @@ class ObjectsForReviewForm extends \PKP\form\Form {
 		$this->setData('submissionId', $this->submissionId);
 		if ($this->objectId) {
 			$objectForReviewDao = DAORegistry::getDAO('ObjectForReviewDAO');
-			$objectForReview = $objectForReviewDao->getById($this->objectId);
+			$objectForReview = $objectForReviewDao->getById($this->objectId, $this->submissionId);
 			$this->setData('identifierType', $objectForReview->getIdentifierType());
 			$this->setData('resourceType', $objectForReview->getResourceType());
 			$this->setData('identifier', $objectForReview->getIdentifier());
@@ -88,14 +88,12 @@ class ObjectsForReviewForm extends \PKP\form\Form {
 	 */
 	function fetch($request, $template = NULL, $display = false) {
 		$templateMgr = TemplateManager::getManager();
-		$identifierTypes = $this->_getIdentifierTypes();
-		$resourceTypes = $this->_getResourceTypes(null);
 		$currentUser = $request->getUser();
 		$context = $request->getContext();
 
 		// Get reserved objects for review
 		$objectForReviewDao = DAORegistry::getDAO('ObjectForReviewDAO');
-		$objectsForReview = $objectForReviewDao->getByUserId($currentUser->getId(), NULL, true);
+		$objectsForReview = $objectForReviewDao->getByUserId($currentUser->getId(), $context->getId(), true);
 
 		if ($objectsForReview){
 			$reservedObjects = array();
@@ -103,7 +101,7 @@ class ObjectsForReviewForm extends \PKP\form\Form {
 				$objectId = $objectForReview->getId();
 				$reservedObjects[$objectId] = array(
 					'objectId' => $objectId,
-					'description' => $objectForReview->getAuthors() . ": " . $objectForReview->getTitle(),
+					'description' => htmlspecialchars((string) $objectForReview->getAuthors()) . ': ' . $objectForReview->getTitle(),
 					'userId' => $objectForReview->getUserId()
 				);
 			}
@@ -116,8 +114,8 @@ class ObjectsForReviewForm extends \PKP\form\Form {
 
 		$templateMgr->assign('objectId', $this->objectId);
 		$templateMgr->assign('submissionId', $this->submissionId);
-		$templateMgr->assign('identifierTypes', $identifierTypes);
-		$templateMgr->assign('resourceTypes', $resourceTypes);
+		$templateMgr->assign('identifierTypes', ObjectForReview::IDENTIFIER_TYPES);
+		$templateMgr->assign('resourceTypes', ObjectForReview::RESOURCE_TYPES);
 
 		return parent::fetch($request);
 	}
@@ -137,6 +135,7 @@ class ObjectsForReviewForm extends \PKP\form\Form {
 			$objectForReview = $objectForReviewDao->newDataObject();
 			$objectForReview->setContextId($this->contextId);
 			$objectForReview->setSubmissionId($this->submissionId);
+			$objectForReview->setCreator('workflow');
 		}
 
 		$objectForReview->setIdentifier($this->getData('identifier'));
@@ -147,7 +146,6 @@ class ObjectsForReviewForm extends \PKP\form\Form {
 		$objectForReview->setTitle($title);
 		$objectForReview->setYear($this->getData('year'));
 		$objectForReview->setPublisher($this->getData('publisher'));
-		$objectForReview->setCreator("workflow");
 
 		if ($objectId) {
 			$objectForReviewDao->updateObject($objectForReview);
@@ -156,57 +154,4 @@ class ObjectsForReviewForm extends \PKP\form\Form {
 			return $objectForReviewDao->insertObject($objectForReview);
 		}
 	}
-
-	/**
-	 * List identifierTypes 
-	 * See Crossref Schema isReviewOf relation types and Datacite relationType
-	 * @return array
-	 */
-	function _getIdentifierTypes() {
-		return array(
-				'DOI'=>'doi',
-				'ISSN'=>'issn',
-				'ISBN'=>'isbn',
-				'Link'=>'uri',
-				'urn'=>'urn',				
-				'pmid'=>'pmid',
-				'pmcid'=>'pmcid',
-				'purl'=>'purl',
-				'arxiv'=>'arxiv',
-				'ark'=>'ark',
-				'handle'=>'handle',
-				'uuid'=>'uuid',
-				'ecli'=>'ecli',
-				'accession'=>'accession',
-				'other'=>'other'
-		);
-	}
-
-	/**
-	 * Get a COAR Resource Type by URI. If $uri is null return all.
-	 * @param $uri string
-	 * @return mixed
-	 */
-	function _getResourceTypes($uri = null) {
-		$resourceTypes = array(
-				'http://purl.org/coar/resource_type/c_2f33' => 'plugins.generic.objectsForReview.COAR.book',
-				'http://purl.org/coar/resource_type/c_3248' => 'plugins.generic.objectsForReview.COAR.bookPart',
-				'http://purl.org/coar/resource_type/c_6501' => 'plugins.generic.objectsForReview.COAR.journalArticle',
-				'http://purl.org/coar/resource_type/c_5794' => 'plugins.generic.objectsForReview.COAR.conferencePaper',
-				'http://purl.org/coar/resource_type/c_46ec' => 'plugins.generic.objectsForReview.COAR.thesis',
-				'http://purl.org/coar/resource_type/c_816b' => 'plugins.generic.objectsForReview.COAR.preprint',
-				'http://purl.org/coar/resource_type/c_7ad9' => 'plugins.generic.objectsForReview.COAR.website',
-				'http://purl.org/coar/resource_type/c_ddb1' => 'plugins.generic.objectsForReview.COAR.dataset',
-				'http://purl.org/coar/resource_type/c_ddb1' => 'plugins.generic.objectsForReview.COAR.software',
-				'http://purl.org/coar/resource_type/c_12cc' => 'plugins.generic.objectsForReview.COAR.cartographicMaterial',
-				'http://purl.org/coar/resource_type/c_18cc' => 'plugins.generic.objectsForReview.COAR.sound'
-		);
-		if ($uri){
-			return $resourceTypes[$uri];
-		} else {
-			return $resourceTypes;
-		}
-	}
 }
-
-?>

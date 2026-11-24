@@ -1,10 +1,10 @@
 <?php
 
 /**
- * @file plugins/generic/objectsForReview/ObjectsForReviewSettingsForm.inc.php
+ * @file plugins/generic/objectsForReview/ObjectsForReviewSettingsForm.php
  *
- * Copyright (c) 2014-2021 Simon Fraser University
- * Copyright (c) 2003-2021 John Willinsky
+ * Copyright (c) 2014-2026 Simon Fraser University
+ * Copyright (c) 2003-2026 John Willinsky
  * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
  *
  * @class ObjectsForReviewSettingsForm
@@ -15,7 +15,6 @@
 
 namespace APP\plugins\generic\objectsForReview;
 
-use APP\core\Application;
 use APP\template\TemplateManager;
 
 
@@ -38,6 +37,7 @@ class ObjectsForReviewSettingsForm extends \PKP\form\Form {
 
 		parent::__construct($plugin->getTemplateResource('settingsForm.tpl'));
 
+		$this->addCheck(new \PKP\form\validation\FormValidatorEmail($this, 'ofrNotifyEmail', 'optional'));
 		$this->addCheck(new \PKP\form\validation\FormValidatorPost($this));
 		$this->addCheck(new \PKP\form\validation\FormValidatorCSRF($this));
 	}
@@ -46,10 +46,7 @@ class ObjectsForReviewSettingsForm extends \PKP\form\Form {
 	 * Initialize form data.
 	 */
 	function initData() {
-		$request = Application::get()->getRequest();
-		$context = $request->getContext();
 		$this->_data = array(
-			'displayAsSubtitle' => $this->_plugin->getSetting($this->_journalId, 'displayAsSubtitle'),
 			'displayAsList' => $this->_plugin->getSetting($this->_journalId, 'displayAsList'),
 			'onlyReserved' => $this->_plugin->getSetting($this->_journalId, 'onlyReserved'),
 			'ofrNotifyEmail' => $this->_plugin->getSetting($this->_journalId, 'ofrNotifyEmail'),
@@ -61,7 +58,7 @@ class ObjectsForReviewSettingsForm extends \PKP\form\Form {
 	 * Assign form data to user-submitted data.
 	 */
 	function readInputData() {
-		$this->readUserVars(array('displayAsSubtitle', 'displayAsList', 'onlyReserved', 'ofrNotifyEmail', 'ofrInstructions'));
+		$this->readUserVars(array('displayAsList', 'onlyReserved', 'ofrNotifyEmail', 'ofrInstructions'));
 	}
 
 	/**
@@ -77,11 +74,6 @@ class ObjectsForReviewSettingsForm extends \PKP\form\Form {
 	 * Save settings.
 	 */
 	function execute(...$functionArgs) {
-		$request = Application::get()->getRequest();
-		$router = $request->getRouter();
-		$context = $router->getContext($request);
-
-		$this->_plugin->updateSetting($this->_journalId, 'displayAsSubtitle', $this->getData('displayAsSubtitle'), 'bool');
 		$this->_plugin->updateSetting($this->_journalId, 'displayAsList', $this->getData('displayAsList'), 'bool');
 		$this->_plugin->updateSetting($this->_journalId, 'onlyReserved', $this->getData('onlyReserved'), 'bool');
 		$this->_plugin->updateSetting($this->_journalId, 'ofrNotifyEmail', $this->getData('ofrNotifyEmail'), 'string');
@@ -89,5 +81,3 @@ class ObjectsForReviewSettingsForm extends \PKP\form\Form {
 
 	}
 }
-
-?>

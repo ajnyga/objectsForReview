@@ -1,9 +1,9 @@
 {**
- * plugins/generic/objectsForReview/templates/editFunderForm.tpl
+ * plugins/generic/objectsForReview/templates/editObjectForReviewForm.tpl
  *
- * Copyright (c) 2014-2019 Simon Fraser University
- * Copyright (c) 2003-2019 John Willinsky
- * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
+ * Copyright (c) 2014-2026 Simon Fraser University
+ * Copyright (c) 2003-2026 John Willinsky
+ * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
  *
  * Form for editing a objectsForReview item
  *}
@@ -24,7 +24,7 @@
 				{csrf}
 				<input type="hidden" name="objectId" value="{$reservedObject.objectId|escape}" />
 				{assign var=buttonId value="submitFormButton"|concat:"-"|uniqid}
-				{$reservedObject.description} {fbvElement type="submit" class="submitFormButton" id=$buttonId label="plugins.generic.objectsForReview.objectsForReviewData.addReservedObject"}
+				{$reservedObject.description|strip_unsafe_html} {fbvElement type="submit" class="submitFormButton" id=$buttonId label="plugins.generic.objectsForReview.objectsForReviewData.addReservedObject"}
 			</form>
 		</p>
 	{/foreach}

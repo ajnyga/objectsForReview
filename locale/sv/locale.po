@@ -1,0 +1,174 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-11-24T12:00:00+02:00\n"
+"PO-Revision-Date: 2026-11-24T12:00:00+02:00\n"
+"Language: sv\n"
+
+msgid "plugins.generic.objectsForReview.displayName"
+msgstr "Objekt för recension"
+
+msgid "plugins.generic.objectsForReview.description"
+msgstr "Användare kan reservera till exempel böcker för recension och koppla det recenserade objektet till sitt inskickade manuskript."
+
+msgid "plugins.generic.objectsForReview.tabTitle"
+msgstr "Objekt för recension"
+
+msgid "plugins.generic.objectsForReview.managementLink"
+msgstr "Objekt för recension"
+
+msgid "plugins.generic.objectsForReview.management.gridTitle"
+msgstr "Objekt för recension"
+
+msgid "plugins.generic.objectsForReview.addAvailableObjectForReview"
+msgstr "Lägg till tillgängligt objekt"
+
+msgid "plugins.generic.objectsForReview.userName"
+msgstr "Reserverat för användare"
+
+msgid "plugins.generic.objectsForReview.settings.displayInToc.display"
+msgstr "Visa recenserade objekt i innehållsförteckningen."
+
+msgid "plugins.generic.objectsForReview.settings.displayOptions"
+msgstr "Visningsalternativ"
+
+msgid "plugins.generic.objectsForReview.settings.displayAsSubtitle"
+msgstr "Visa recenserade objekt i artikelns undertitel"
+
+msgid "plugins.generic.objectsForReview.settings.displayAsList"
+msgstr "Visa en lista över recenserade objekt under sammanfattningen"
+
+msgid "plugins.generic.objectsForReview.settings.onlyReserved"
+msgstr "Tillåt endast objekt som skapats av tidskriftsansvarig"
+
+msgid "plugins.generic.objectsForReview.settings.notifyEmail"
+msgstr "E-postadress för meddelanden om reservationer och avbokningar"
+
+msgid "plugins.generic.objectsForReview.settings.notifyEmail.description"
+msgstr "Om ingen e-postadress anges här används tidskriftens primära kontaktadress"
+
+msgid "plugins.generic.objectsForReview.settings.instructions"
+msgstr "Offentliga instruktioner"
+
+msgid "plugins.generic.objectsForReview.settings.instructions.description"
+msgstr "Dessa instruktioner visas på den offentliga sidan Objekt för recension"
+
+msgid "plugins.generic.objectsForReview.navMenuItem.description"
+msgstr "Länk till den offentliga sidan Objekt för recension"
+
+msgid "plugins.generic.objectsForReview.navMenuItem"
+msgstr "Objekt för recension"
+
+msgid "plugins.generic.objectsForReview.objectsForReviewTitle"
+msgstr "Objekt som recenseras i detta manuskript"
+
+msgid "plugins.generic.objectsForReview.addObjectForReview"
+msgstr "Lägg till recenserat objekt"
+
+msgid "plugins.generic.objectsForReview.noReservedObjects"
+msgstr "Inga objekt har reserverats för dig"
+
+msgid "plugins.generic.objectsForReview.submissionWizard.name"
+msgstr "Objekt för recension"
+
+msgid "plugins.generic.objectsForReview.itemIdentifierType"
+msgstr "Identifierartyp"
+
+msgid "plugins.generic.objectsForReview.resourceType"
+msgstr "Resurstyp"
+
+msgid "plugins.generic.objectsForReview.itemIdentifier"
+msgstr "Identifierare"
+
+msgid "plugins.generic.objectsForReview.itemDescription"
+msgstr "Beskrivning"
+
+msgid "plugins.generic.objectsForReview.itemAuthors"
+msgstr "Författare"
+
+msgid "plugins.generic.objectsForReview.itemTitle"
+msgstr "Titel"
+
+msgid "plugins.generic.objectsForReview.itemPublisher"
+msgstr "Förlag"
+
+msgid "plugins.generic.objectsForReview.itemYear"
+msgstr "Utgivningsår"
+
+msgid "plugins.generic.objectsForReview.noneCreated"
+msgstr "Inga recenserade objekt i detta manuskript."
+
+msgid "plugins.generic.objectsForReview.objectsForReviewData.addReservedObject"
+msgstr "Välj detta objekt"
+
+msgid "plugins.generic.objectsForReview.notifyDefaultName"
+msgstr "Kontaktperson för recensioner"
+
+msgid "plugins.generic.objectsForReview.objectsForReviewData.singular"
+msgstr "Recenserad publikation"
+
+msgid "plugins.generic.objectsForReview.objectsForReviewData.plural"
+msgstr "Recenserade publikationer"
+
+msgid "plugins.generic.objectsForReview.frontendTitle"
+msgstr "För recension"
+
+msgid "plugins.generic.objectsForReview.reserve"
+msgstr "Erbjud dig att recensera"
+
+msgid "plugins.generic.objectsForReview.cancel"
+msgstr "Återkalla ditt erbjudande att recensera"
+
+msgid "plugins.generic.objectsForReview.reserve.confirm"
+msgstr "Det valda objektet reserveras för dig. När du är klar kan du skicka in din recension."
+
+msgid "plugins.generic.objectsForReview.cancel.confirm"
+msgstr "Är du säker på att du vill avbryta din recension av detta objekt?"
+
+msgid "plugins.generic.objectsForReview.objectAvailable"
+msgstr "Tillgängligt för recension"
+
+msgid "plugins.generic.objectsForReview.objectReserved"
+msgstr "Reserverat för recension"
+
+msgid "plugins.generic.objectsForReview.logInToReserve"
+msgstr "Logga in för att reservera ett objekt för recension."
+
+msgid "plugins.generic.objectsForReview.COAR.book"
+msgstr "bok"
+
+msgid "plugins.generic.objectsForReview.COAR.bookPart"
+msgstr "del av bok"
+
+msgid "plugins.generic.objectsForReview.COAR.journalArticle"
+msgstr "tidskriftsartikel"
+
+msgid "plugins.generic.objectsForReview.COAR.conferencePaper"
+msgstr "konferensbidrag"
+
+msgid "plugins.generic.objectsForReview.COAR.thesis"
+msgstr "avhandling"
+
+msgid "plugins.generic.objectsForReview.COAR.preprint"
+msgstr "preprint"
+
+msgid "plugins.generic.objectsForReview.COAR.website"
+msgstr "webbplats"
+
+msgid "plugins.generic.objectsForReview.COAR.dataset"
+msgstr "dataset"
+
+msgid "plugins.generic.objectsForReview.COAR.software"
+msgstr "programvara"
+
+msgid "plugins.generic.objectsForReview.COAR.cartographicMaterial"
+msgstr "kartografiskt material"
+
+msgid "plugins.generic.objectsForReview.COAR.sound"
+msgstr "ljudinspelning"

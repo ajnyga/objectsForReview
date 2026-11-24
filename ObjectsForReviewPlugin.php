@@ -1,10 +1,10 @@
 <?php
 
 /**
- * @file plugins/generic/objectsForReview/ObjectsForReviewPlugin.inc.php
+ * @file plugins/generic/objectsForReview/ObjectsForReviewPlugin.php
  *
- * Copyright (c) 2014-2021 Simon Fraser University
- * Copyright (c) 2003-2021 John Willinsky
+ * Copyright (c) 2014-2026 Simon Fraser University
+ * Copyright (c) 2003-2026 John Willinsky
  * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
  *
  * @class ObjectsForReviewPlugin
@@ -32,6 +32,7 @@ use APP\facades\Repo;
 use PKP\linkAction\request\AjaxModal;
 use PKP\linkAction\LinkAction;
 use PKP\core\JSONMessage;
+use PKP\core\PKPString;
 use APP\template\TemplateManager;
 use PKP\db\DAORegistry;
 use PKP\plugins\GenericPlugin;
@@ -142,8 +143,7 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 		$success = parent::register($category, $path, $mainContextId);
 		if ($success && $this->getEnabled($mainContextId)) {
 
-			$request = Application::get()->getRequest();
-			$context = $request->getContext();
+			$contextId = $mainContextId ?? Application::get()->getRequest()->getContext()?->getId();
 
 			$objectForReviewDao = new ObjectForReviewDAO();
 			DAORegistry::registerDAO('ObjectForReviewDAO', $objectForReviewDao);
@@ -152,26 +152,27 @@ class ObjectsForReviewPlugin extends GenericPlugin {
             Hook::add('Template::SubmissionWizard::Section', $this->addToSubmissionWizardTemplate(...));
             Hook::add('Template::SubmissionWizard::Section::Review', $this->addToSubmissionWizardReviewTemplate(...));
 
-			Hook::Add('Template::Workflow::Publication', array($this, 'addToPublicationForms'));
+			Hook::add('Template::Workflow::Publication', array($this, 'addToPublicationForms'));
 
-			Hook::Add('LoadComponentHandler', array($this, 'setupGridHandler'));
-			Hook::Add('TemplateManager::display',array($this, 'addJs'));
+			Hook::add('LoadComponentHandler', array($this, 'setupGridHandler'));
+			Hook::add('TemplateManager::display',array($this, 'addJs'));
 
-			Hook::Add('Template::Settings::website', array($this, 'callbackShowWebsiteSettingsTabs'));
+			Hook::add('Template::Settings::website', array($this, 'callbackShowWebsiteSettingsTabs'));
 
 			// if list display is enabled
-			if ($this->getSetting($context->getId(), 'displayAsList')) {
-				Hook::Add('Templates::Article::Main', array($this, 'addSubmissionDisplay'));
-				Hook::Add('Templates::Catalog::Book::Main', array($this, 'addSubmissionDisplay'));
+			if ($contextId && $this->getSetting($contextId, 'displayAsList')) {
+				Hook::add('Templates::Article::Main', array($this, 'addSubmissionDisplay'));
+				Hook::add('Templates::Catalog::Book::Main', array($this, 'addSubmissionDisplay'));
 			}
 
 			// Handler for public objects for review page
-			Hook::Add('LoadHandler', array($this, 'loadPageHandler'));
-			Hook::Add('NavigationMenus::itemTypes', array($this, 'addMenuItemTypes'));
-			Hook::Add('NavigationMenus::displaySettings', array($this, 'setMenuItemDisplayDetails'));
-			Hook::Add('SitemapHandler::createJournalSitemap', array($this, 'addSitemapURLs'));
+			Hook::add('LoadHandler', array($this, 'loadPageHandler'));
+			Hook::add('NavigationMenus::itemTypes', array($this, 'addMenuItemTypes'));
+			Hook::add('NavigationMenus::displaySettings', array($this, 'setMenuItemDisplayDetails'));
+			Hook::add('SitemapHandler::createJournalSitemap', array($this, 'addSitemapURLs'));
 
 			Hook::add('Mailer::Mailables', [$this, 'addMailable']);
+			Hook::add('Submission::delete', $this->deleteSubmissionObjectsForReview(...));
 
 
 
@@ -379,51 +380,40 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 		$objectForReviewDao = DAORegistry::getDAO('ObjectForReviewDAO');
 		$objectsForReview = $objectForReviewDao->getBySubmissionId($submission->getId());
 
-		if ($objectsForReview){
-			$templateData = array();
+		$templateData = [];
+		while ($objectForReview = $objectsForReview->next()) {
+			$templateData[$objectForReview->getId()] = [
+				'identifierType' => $objectForReview->getIdentifierType(),
+				'identifier' => $objectForReview->getIdentifier(),
+				'description' => $objectForReview->getDescription()
+			];
+		}
 
-			while ($objectForReview = $objectsForReview->next()) {
-				$objectId = $objectForReview->getId();
-				$templateData[$objectId] = array(
-					'identifierType' => $objectForReview->getIdentifierType(),
-					'identifier' => $objectForReview->getIdentifier(),
-					'description' => $objectForReview->getDescription()
-				);
-			}
-
-			if ($objectsForReview){
-				$templateMgr->assign('objectsForReview', $templateData);
-				$output .= $templateMgr->fetch($this->getTemplateResource('listReviews.tpl'));
-			}
-
+		if ($templateData) {
+			$templateMgr->assign('objectsForReview', $templateData);
+			$output .= $templateMgr->fetch($this->getTemplateResource('listReviews.tpl'));
 		}
 
 		return false;
 	}
 
 	/**
-	* Hook to ArticleDAO::_fromRow and MonographDAO::_fromRow and display objectForReview as subtitle
-	* @param $hookName string
-	* @param $params array
-	*/
-	function addSubtitleDisplay($hookName, $params) {
-		// NOTE Not working in 3.2, need to rewrite this
-		$submission =& $params[0];
-
+	 * Detach manager-created and delete workflow-created objects when a submission is deleted.
+	 */
+	public function deleteSubmissionObjectsForReview(string $hookName, array $params): bool
+	{
+		$submission = $params[0];
+		/** @var ObjectForReviewDAO $objectForReviewDao */
 		$objectForReviewDao = DAORegistry::getDAO('ObjectForReviewDAO');
 		$objectsForReview = $objectForReviewDao->getBySubmissionId($submission->getId());
-
-		if ($objectsForReview){
-			$objects = array();
-			while ($objectForReview = $objectsForReview->next()) {
-				$objects[] = $objectForReview->getDescription();
-			}
-
-			if ($objects){
-				$publication->setSubtitle(implode(" ▪ ", $objects), $publication->getLocale());
+		while ($objectForReview = $objectsForReview->next()) {
+			if ($objectForReview->getCreator() === 'manager') {
+				$objectForReview->setSubmissionId(null);
+				$objectForReviewDao->updateObject($objectForReview);
+			} else {
+				$objectForReviewDao->deleteObject($objectForReview);
 			}
 		}
-
 		return false;
 	}
 
@@ -441,11 +431,11 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 		$templateMgr = $params[0];
 		$template =& $params[1];
 		$request = Application::get()->getRequest();
+		$pluginUrl = $request->getBaseUrl() . '/' . $this->getPluginPath();
 
-		$gridHandlerJs = $this->getJavaScriptURL($request, false) . DIRECTORY_SEPARATOR . 'ObjectsForReviewGridHandler.js';
 		$templateMgr->addJavaScript(
 			'ObjectsForReviewGridHandlerJs',
-			$gridHandlerJs,
+			$pluginUrl . '/js/ObjectsForReviewGridHandler.js',
 			array('contexts' => 'backend')
 		);
 		$templateMgr->addStylesheet(
@@ -457,26 +447,16 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 			]
 		);
 
-		if (strpos($template, 'frontend/pages/forReview.tpl')) {
-			$tablesortJs = $this->getJavaScriptURL($request, false) . DIRECTORY_SEPARATOR . '/tablesort/src/tablesort.js';
+		if (str_contains($template, 'frontend/pages/forReview.tpl')) {
 			$templateMgr->addJavaScript(
 				'TableSortJs',
-				$tablesortJs,
+				$pluginUrl . '/js/tablesort/src/tablesort.js',
 				array('contexts' => 'frontend')
 			);
-			$tablesortCss = $request->getBaseUrl() . '/plugins/generic/objectsForReview/style.css';
-			$templateMgr->addStyleSheet('tablesortCss', $tablesortCss);
+			$templateMgr->addStyleSheet('tablesortCss', $pluginUrl . '/style.css', ['contexts' => 'frontend']);
 		}
 
 		return false;
-	}
-
-	/**
-	 * Get the JavaScript URL for this plugin.
-	 */
-	function getJavaScriptURL() {
-		$request = Application::get()->getRequest();
-		return $request->getBaseUrl() . DIRECTORY_SEPARATOR . $this->getPluginPath() . DIRECTORY_SEPARATOR . 'js';
 	}
 
 	/**
@@ -510,9 +490,6 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 	 */
 	public function addMenuItemTypes($hookName, $args) {
 		$types =& $args[0];
-		$request = Application::get()->getRequest();
-		$context = $request->getContext();
-		$contextId = $context ? $context->getId() : Application::CONTEXT_ID_NONE;
 		$types[OBJECTSFORREVIEW_NMI_TYPE] = array(
 			'title' => __('plugins.generic.objectsForReview.navMenuItem'),
 			'description' => __('plugins.generic.objectsForReview.navMenuItem.description'),
@@ -591,7 +568,7 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 		$contextId = $context->getId();
 
         $emailParams = [
-            'objectDescription' => htmlspecialchars($objectDescription),
+            'objectDescription' => PKPString::stripUnsafeHtml($objectDescription),
             'senderUsername' => htmlspecialchars($user->getFullName()),
 			'senderEmail' => htmlspecialchars($user->getEmail())		
         ];
@@ -620,4 +597,3 @@ class ObjectsForReviewPlugin extends GenericPlugin {
 
 	}
 }
-?>

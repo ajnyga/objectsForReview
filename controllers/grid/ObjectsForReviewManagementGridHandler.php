@@ -1,10 +1,10 @@
 <?php
 
 /**
- * @file plugins/generic/objectsForReview/controllers/grid/ObjectsForReviewManagementGridHandler.inc.php
+ * @file plugins/generic/objectsForReview/controllers/grid/ObjectsForReviewManagementGridHandler.php
  *
- * Copyright (c) 2014-2021 Simon Fraser University
- * Copyright (c) 2003-2021 John Willinsky
+ * Copyright (c) 2014-2026 Simon Fraser University
+ * Copyright (c) 2003-2026 John Willinsky
  * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
  *
  * @class ObjectsForReviewManagementGridHandler
@@ -16,6 +16,7 @@
 
 namespace APP\plugins\generic\objectsForReview\controllers\grid;
 
+use APP\plugins\generic\objectsForReview\classes\ObjectForReview;
 use APP\plugins\generic\objectsForReview\classes\ObjectForReviewDAO;
 
 use APP\plugins\generic\objectsForReview\controllers\grid\form\AvailableObjectsForReviewForm;
@@ -87,12 +88,8 @@ class ObjectsForReviewManagementGridHandler extends GridHandler {
 		while ($objectForReview = $objectsForReview->next()) {
 			$objectId = $objectForReview->getId();
 
-			if ($objectForReview->getUserId()){
-				$user = Repo::user()->get($objectForReview->getUserId());
-				$userName = $user->getUsername() . " (" . $user->getEmail() . ")";
-			} else{
-				$userName = "-";
-			}
+			$user = $objectForReview->getUserId() ? Repo::user()->get((int) $objectForReview->getUserId()) : null;
+			$userName = $user ? $user->getUsername() . ' (' . $user->getEmail() . ')' : '-';
 
 			$gridData[$objectId] = array(
 				'identifierType' => $objectForReview->getIdentifierType(),
@@ -187,6 +184,7 @@ class ObjectsForReviewManagementGridHandler extends GridHandler {
 	function editAvailableObjectForReview($args, $request) {
 		$objectId = $request->getUserVar('objectId');
 		$context = $request->getContext();
+		if ($objectId && !$this->getContextObjectForReview($objectId, $context->getId())) return new JSONMessage(false);
 
 		$this->setupTemplate($request);
 
@@ -205,6 +203,7 @@ class ObjectsForReviewManagementGridHandler extends GridHandler {
 	function updateAvailableObjectForReview($args, $request) {
 		$objectId = $request->getUserVar('objectId');
 		$context = $request->getContext();
+		if ($objectId && !$this->getContextObjectForReview($objectId, $context->getId())) return new JSONMessage(false);
 
 		$this->setupTemplate($request);
 
@@ -231,14 +230,21 @@ class ObjectsForReviewManagementGridHandler extends GridHandler {
 	 */
 	function deleteAvailableObjectForReview($args, $request) {
 		$objectId = $request->getUserVar('objectId');
+		$objectForReview = $this->getContextObjectForReview($objectId, $request->getContext()->getId());
+		if (!$objectForReview) return new JSONMessage(false);
 
-		$objectForReviewDao = DAORegistry::getDAO('ObjectForReviewDAO');
-		$objectsForReview = $objectForReviewDao->getById($objectId);
-
-		$objectForReviewDao->deleteObject($objectsForReview);
+		DAORegistry::getDAO('ObjectForReviewDAO')->deleteObject($objectForReview);
 		return DAO::getDataChangedEvent();
 	}
 
-}
+	/**
+	 * Get an object for review belonging to the current context, or null.
+	 */
+	protected function getContextObjectForReview($objectId, int $contextId): ?ObjectForReview
+	{
+		if (!$objectId) return null;
+		$objectForReview = DAORegistry::getDAO('ObjectForReviewDAO')->getById((int) $objectId);
+		return ($objectForReview && $objectForReview->getContextId() == $contextId) ? $objectForReview : null;
+	}
 
-?>
+}

@@ -1,10 +1,10 @@
 <?php
 
 /**
- * @file plugins/generic/objectsForReview/controllers/grid/form/AvailableObjectsForReviewForm.inc.php
+ * @file plugins/generic/objectsForReview/controllers/grid/form/AvailableObjectsForReviewForm.php
  *
- * Copyright (c) 2014-2021 Simon Fraser University
- * Copyright (c) 2003-2021 John Willinsky
+ * Copyright (c) 2014-2026 Simon Fraser University
+ * Copyright (c) 2003-2026 John Willinsky
  * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
  *
  * @class AvailableObjectsForReviewForm
@@ -15,12 +15,12 @@
  */
 namespace APP\plugins\generic\objectsForReview\controllers\grid\form;
 
-use APP\plugins\generic\objectsForReview\classes\ObjectsForReviewDAO;
+use APP\plugins\generic\objectsForReview\classes\ObjectForReview;
 use APP\plugins\generic\objectsForReview\ObjectsForReviewPlugin;
 use APP\template\TemplateManager;
 use PKP\db\DAORegistry;
 
-class AvailableobjectsForReviewForm extends \PKP\form\Form {
+class AvailableObjectsForReviewForm extends \PKP\form\Form {
 	/** @var int Context ID */
 	var $contextId;
 
@@ -82,11 +82,9 @@ class AvailableobjectsForReviewForm extends \PKP\form\Form {
 	 */
 	function fetch($request, $template = NULL, $display = false) {
 		$templateMgr = TemplateManager::getManager();
-		$identifierTypes = $this->_getIdentifierTypes();
-		$resourceTypes = $this->_getResourceTypes(null);
 		$templateMgr->assign('objectId', $this->objectId);
-		$templateMgr->assign('identifierTypes', $identifierTypes);
-		$templateMgr->assign('resourceTypes', $resourceTypes);
+		$templateMgr->assign('identifierTypes', ObjectForReview::IDENTIFIER_TYPES);
+		$templateMgr->assign('resourceTypes', ObjectForReview::RESOURCE_TYPES);
 		return parent::fetch($request);
 	}
 
@@ -104,6 +102,7 @@ class AvailableobjectsForReviewForm extends \PKP\form\Form {
 			// Create a new objectForReview
 			$objectForReview = $objectForReviewDao->newDataObject();
 			$objectForReview->setContextId($this->contextId);
+			$objectForReview->setCreator('manager');
 		}
 
 		$objectForReview->setIdentifier($this->getData('identifier'));
@@ -111,9 +110,9 @@ class AvailableobjectsForReviewForm extends \PKP\form\Form {
 		$objectForReview->setResourceType($this->getData('resourceType'));
 		$objectForReview->setAuthors($this->getData('authors'));
 		$title = str_replace(['<p>', '</p>'], '', $this->getData('title'));
-		$objectForReview->setTitle($title);		$objectForReview->setYear($this->getData('year'));
+		$objectForReview->setTitle($title);
+		$objectForReview->setYear($this->getData('year'));
 		$objectForReview->setPublisher($this->getData('publisher'));
-		$objectForReview->setCreator("manager");
 
 		if ($objectId) {
 			$objectForReviewDao->updateObject($objectForReview);
@@ -122,57 +121,4 @@ class AvailableobjectsForReviewForm extends \PKP\form\Form {
 		}
 
 	}
-
-	/**
-	 * List identifierTypes 
-	 * See Crossref Schema isReviewOf relation types and Datacite relationType
-	 * @return array
-	 */
-	function _getIdentifierTypes() {
-		return array(
-				'DOI'=>'doi',
-				'ISSN'=>'issn',
-				'ISBN'=>'isbn',
-				'Link'=>'uri',
-				'urn'=>'urn',				
-				'pmid'=>'pmid',
-				'pmcid'=>'pmcid',
-				'purl'=>'purl',
-				'arxiv'=>'arxiv',
-				'ark'=>'ark',
-				'handle'=>'handle',
-				'uuid'=>'uuid',
-				'ecli'=>'ecli',
-				'accession'=>'accession',
-				'other'=>'other'
-		);
-	}
-
-	/**
-	 * Get a COAR Resource Type by URI. If $uri is null return all.
-	 * @param $uri string
-	 * @return mixed
-	 */
-	function _getResourceTypes($uri = null) {
-		$resourceTypes = array(
-				'http://purl.org/coar/resource_type/c_2f33' => 'plugins.generic.objectsForReview.COAR.book',
-				'http://purl.org/coar/resource_type/c_3248' => 'plugins.generic.objectsForReview.COAR.bookPart',
-				'http://purl.org/coar/resource_type/c_6501' => 'plugins.generic.objectsForReview.COAR.journalArticle',
-				'http://purl.org/coar/resource_type/c_5794' => 'plugins.generic.objectsForReview.COAR.conferencePaper',
-				'http://purl.org/coar/resource_type/c_46ec' => 'plugins.generic.objectsForReview.COAR.thesis',
-				'http://purl.org/coar/resource_type/c_816b' => 'plugins.generic.objectsForReview.COAR.preprint',
-				'http://purl.org/coar/resource_type/c_7ad9' => 'plugins.generic.objectsForReview.COAR.website',
-				'http://purl.org/coar/resource_type/c_ddb1' => 'plugins.generic.objectsForReview.COAR.dataset',
-				'http://purl.org/coar/resource_type/c_ddb1' => 'plugins.generic.objectsForReview.COAR.software',
-				'http://purl.org/coar/resource_type/c_12cc' => 'plugins.generic.objectsForReview.COAR.cartographicMaterial',
-				'http://purl.org/coar/resource_type/c_18cc' => 'plugins.generic.objectsForReview.COAR.sound'
-		);
-		if ($uri){
-			return $resourceTypes[$uri];
-		} else {
-			return $resourceTypes;
-		}
-	}
 }
-
-?>

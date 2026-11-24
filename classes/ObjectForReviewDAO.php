@@ -1,10 +1,10 @@
 <?php
 
 /**
- * @file plugins/generic/objectsForReview/classes/ObjectForReviewDAO.inc.php
+ * @file plugins/generic/objectsForReview/classes/ObjectForReviewDAO.php
  *
- * Copyright (c) 2014-2021 Simon Fraser University
- * Copyright (c) 2003-2021 John Willinsky
+ * Copyright (c) 2014-2026 Simon Fraser University
+ * Copyright (c) 2003-2026 John Willinsky
  * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
  *
  * @class ObjectForReviewDAO
@@ -177,7 +177,7 @@ class ObjectForReviewDAO extends DAO {
 	}
 
 	/**
-	 * Generate a new funder object.
+	 * Generate a new object for review.
 	 * @return ObjectForReview
 	 */
 	function newDataObject() {
@@ -185,7 +185,7 @@ class ObjectForReviewDAO extends DAO {
 	}
 
 	/**
-	 * Return a new funder object from a given row.
+	 * Return a new object for review from a given row.
 	 * @return ObjectForReview
 	 */
 	function _fromRow($row) {
@@ -221,5 +221,3 @@ class ObjectForReviewDAO extends DAO {
 	}
 
 }
-
-?>

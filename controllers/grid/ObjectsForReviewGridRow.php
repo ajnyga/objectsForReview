@@ -1,10 +1,10 @@
 <?php
 
 /**
- * @file plugins/generic/objectsForReview/controllers/grid/ObjectsForReviewGridRow.inc.php
+ * @file plugins/generic/objectsForReview/controllers/grid/ObjectsForReviewGridRow.php
  *
- * Copyright (c) 2014-2021 Simon Fraser University
- * Copyright (c) 2003-2021 John Willinsky
+ * Copyright (c) 2014-2026 Simon Fraser University
+ * Copyright (c) 2003-2026 John Willinsky
  * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
  *
  * @class ObjectsForReviewGridRow
@@ -85,5 +85,3 @@ class ObjectsForReviewGridRow extends GridRow {
 		return $this->_readOnly;
 	}
 }
-
-?>

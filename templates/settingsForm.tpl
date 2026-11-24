@@ -1,9 +1,9 @@
 {**
  * plugins/generic/objectsForReview/templates/settingsForm.tpl
  *
- * Copyright (c) 2014-2019 Simon Fraser University
- * Copyright (c) 2003-2019 John Willinsky
- * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
+ * Copyright (c) 2014-2026 Simon Fraser University
+ * Copyright (c) 2003-2026 John Willinsky
+ * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
  *
  * Objects for Review plugin settings
  *
@@ -20,8 +20,6 @@
 	{include file="controllers/notification/inPlaceNotification.tpl" notificationId="orSettingsFormNotification"}
 
 	{fbvFormArea id="objectsForReviewSettingsFormArea"}
-
-			<!--{fbvElement type="select" id="section" from=$sections selected=$section translate=false size=$fbvStyles.size.SMALL}-->
 
 		{fbvFormSection list=true}
 			{fbvElement type="checkbox" id="onlyReserved" value="1" label="plugins.generic.objectsForReview.settings.onlyReserved" checked=$onlyReserved}
@@ -41,7 +39,4 @@
 		{fbvFormButtons}
 
 	{/fbvFormArea}
-
-	<p><span class="formRequired">{translate key="common.requiredField"}</span></p>
-
 </form>

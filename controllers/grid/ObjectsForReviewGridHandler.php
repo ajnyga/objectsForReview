@@ -1,10 +1,10 @@
 <?php
 
 /**
- * @file plugins/generic/objectsForReview/controllers/grid/ObjectsForReviewGridHandler.inc.php
+ * @file plugins/generic/objectsForReview/controllers/grid/ObjectsForReviewGridHandler.php
  *
- * Copyright (c) 2014-2021 Simon Fraser University
- * Copyright (c) 2003-2021 John Willinsky
+ * Copyright (c) 2014-2026 Simon Fraser University
+ * Copyright (c) 2003-2026 John Willinsky
  * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
  *
  * @class ObjectsForReviewGridHandler
@@ -16,6 +16,8 @@
 namespace APP\plugins\generic\objectsForReview\controllers\grid;
 
 use APP\core\Application;
+use APP\facades\Repo;
+use APP\plugins\generic\objectsForReview\classes\ObjectForReview;
 
 use APP\plugins\generic\objectsForReview\controllers\grid\form\ObjectsForReviewForm;
 use APP\plugins\generic\objectsForReview\controllers\grid\ObjectsForReviewGridRow;
@@ -209,6 +211,9 @@ class ObjectsForReviewGridHandler extends GridHandler {
 		$submission = $this->getSubmission();
 		$submissionId = $submission->getId();
 
+		if (!$this->canAdminister($request->getUser())) return new JSONMessage(false);
+		if ($objectId && !$this->getSubmissionObjectForReview($objectId)) return new JSONMessage(false);
+
 		$this->setupTemplate($request);
 
 		// Create and present the edit form
@@ -229,6 +234,11 @@ class ObjectsForReviewGridHandler extends GridHandler {
 		$context = $request->getContext();
 		$submission = $this->getSubmission();
 		$submissionId = $submission->getId();
+
+		if (!$this->canAdminister($request->getUser())) return new JSONMessage(false);
+		if ($objectId && !$this->getSubmissionObjectForReview($objectId)) return new JSONMessage(false);
+		// Only manager-created (reserved) objects may be added when this setting is on.
+		if (!$objectId && $this->plugin->getSetting($context->getId(), 'onlyReserved')) return new JSONMessage(false);
 
 		$this->setupTemplate($request);
 
@@ -264,8 +274,10 @@ class ObjectsForReviewGridHandler extends GridHandler {
 		$submission = $this->getSubmission();
 		$submissionId = $submission->getId();
 
+		if (!$this->canAdminister($request->getUser())) return new JSONMessage(false);
+		$objectForReview = $this->getSubmissionObjectForReview($objectId);
+		if (!$objectForReview) return new JSONMessage(false);
 		$objectForReviewDao = DAORegistry::getDAO('ObjectForReviewDAO');
-		$objectForReview = $objectForReviewDao->getById($objectId, $submissionId);
 
 		// If object is created by the manager, do not delete, just remove from submission
 		if ($objectForReview->getCreator() == "manager") {
@@ -290,17 +302,32 @@ class ObjectsForReviewGridHandler extends GridHandler {
 		$submissionId = $submission->getId();
 		$currentUser = $request->getUser();
 
+		if (!$this->canAdminister($currentUser)) return new JSONMessage(false);
 		$objectForReviewDao = DAORegistry::getDAO('ObjectForReviewDAO');
-		$objectForReview = $objectForReviewDao->getById($objectId);
-
-		if ($currentUser->getId() == $objectForReview->getUserId()) {
-			$objectForReview->setSubmissionId($submissionId);
-			$objectForReviewDao->updateObject($objectForReview);
+		$objectForReview = $objectForReviewDao->getById((int) $objectId);
+		if (
+			!$objectForReview
+			|| $objectForReview->getContextId() != $context->getId()
+			|| $objectForReview->getUserId() != $currentUser->getId()
+			|| $objectForReview->getSubmissionId()
+		) {
+			return new JSONMessage(false);
 		}
+		$objectForReview->setSubmissionId($submissionId);
+		$objectForReviewDao->updateObject($objectForReview);
 
 		$json = DAO::getDataChangedEvent($submissionId);
 		$json->setGlobalEvent('plugin:objectsForReview:added', $this->plugin->getObjectForReviewData($objectForReview));
 		return $json;
+	}
+
+	/**
+	 * Get an object for review attached to this grid's submission, or null.
+	 */
+	protected function getSubmissionObjectForReview($objectId): ?ObjectForReview
+	{
+		if (!$objectId) return null;
+		return DAORegistry::getDAO('ObjectForReviewDAO')->getById((int) $objectId, $this->getSubmission()->getId());
 	}
 
 	/**
@@ -312,7 +339,7 @@ class ObjectsForReviewGridHandler extends GridHandler {
 		$submission = $this->getSubmission();
 
 		// Incomplete submissions can be edited. (Presumably author.)
-		if ($submission->getDateSubmitted() == null) return true;
+		if ($submission->getData('submissionProgress')) return true;
 
 		// Managers should always have access.
 		$userRoles = $this->getAuthorizedContextObject(Application::ASSOC_TYPE_USER_ROLES);
@@ -321,10 +348,9 @@ class ObjectsForReviewGridHandler extends GridHandler {
 		// Sub editors and assistants need to be assigned to the current stage.
 		$stageAssignmentDao = DAORegistry::getDAO('StageAssignmentDAO');
 		$stageAssignments = $stageAssignmentDao->getBySubmissionAndStageId($submission->getId(), $submission->getStageId(), null, $user->getId());
-		$userGroupDao = DAORegistry::getDAO('UserGroupDAO');
 		while ($stageAssignment = $stageAssignments->next()) {
-			$userGroup = $userGroupDao->getById($stageAssignment->getUserGroupId());
-			if (in_array($userGroup->getRoleId(), array(Role::ROLE_ID_SUB_EDITOR, Role::ROLE_ID_ASSISTANT))) return true;
+			$userGroup = Repo::userGroup()->get((int) $stageAssignment->getUserGroupId());
+			if ($userGroup && in_array($userGroup->getRoleId(), [Role::ROLE_ID_SUB_EDITOR, Role::ROLE_ID_ASSISTANT])) return true;
 		}
 
 		// Default: Read-only.

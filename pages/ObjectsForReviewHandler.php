@@ -1,13 +1,13 @@
 <?php
 
 /**
- * @file plugins/generic/objectsForReview/pages/ObjectsForReviewHandler.inc.php
+ * @file plugins/generic/objectsForReview/pages/ObjectsForReviewHandler.php
  *
- * Copyright (c) 2014-2019 Simon Fraser University
- * Copyright (c) 2003-2019 John Willinsky
- * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
+ * Copyright (c) 2014-2026 Simon Fraser University
+ * Copyright (c) 2003-2026 John Willinsky
+ * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
  *
- * @class ObjectsForReviewPlugin
+ * @class ObjectsForReviewHandler
  * @ingroup plugins_generic_objectsForReview
  * @brief Handle reader-facing router requests for the objects for review plugin
  */
@@ -15,13 +15,12 @@
 namespace APP\plugins\generic\objectsForReview\pages;
 use APP\handler\Handler;
 use APP\core\Application;
-use APP\i18n\AppLocale;
+use PKP\facades\Locale;
 use PKP\db\DAORegistry;
-use APP\plugins\generic\objectsForReview\classes\ObjectForReviewDAO;
-use PKP\core\PKPRequest;
 use APP\template\TemplateManager;
 use PKP\plugins\PluginRegistry;
 use PKP\security\authorization\ContextRequiredPolicy;
+use PKP\security\Validation;
 
 class ObjectsForReviewHandler extends Handler {
 
@@ -69,10 +68,10 @@ class ObjectsForReviewHandler extends Handler {
 		}
 		
 		$ofrInstructions = $plugin->getSetting($contextId, 'ofrInstructions');
-		$currentLocale = AppLocale::getLocale();
-		$primaryLocale = $context?$context->getPrimaryLocale():$request->getSite()->getPrimaryLocale();
+		$currentLocale = Locale::getLocale();
+		$primaryLocale = $context->getPrimaryLocale();
 
-		$instructions = $ofrInstructions[$currentLocale] ? $ofrInstructions[$currentLocale] : $ofrInstructions[$contextPrimaryLocale];
+		$instructions = ($ofrInstructions[$currentLocale] ?? '') ?: ($ofrInstructions[$primaryLocale] ?? '');
 
 
 		$templateMgr->assign(array('objectsForReview' => $gridData, 'currentUser' => $currentUser));
@@ -88,12 +87,19 @@ class ObjectsForReviewHandler extends Handler {
 	 */
 	function reserveObject($args, $request) {
 		if (!$request->checkCSRF()) fatalError('CSRF check failed, please try again!');
-		$objectId = (int) $request->getUserVar('objectId');
 		$currentUser = $request->getUser();
+		if (!$currentUser) Validation::redirectLogin();
+		$objectId = (int) $request->getUserVar('objectId');
 		$currentContext = $request->getContext();
 		$objectForReviewDao = DAORegistry::getDAO('ObjectForReviewDAO');
 		$objectForReview = $objectForReviewDao->getById($objectId);
-		if ($objectForReview && !$objectForReview->getUserId() && $currentContext->getId() == $objectForReview->getContextId()) {
+		if (
+			$objectForReview
+			&& !$objectForReview->getUserId()
+			&& !$objectForReview->getSubmissionId()
+			&& $objectForReview->getCreator() === 'manager'
+			&& $currentContext->getId() == $objectForReview->getContextId()
+		) {
 			$objectForReview->setUserId($currentUser->getId());
 			$objectForReviewDao->updateObject($objectForReview);
 			$plugin = PluginRegistry::getPlugin('generic', 'ObjectsForReviewPlugin');
@@ -110,12 +116,18 @@ class ObjectsForReviewHandler extends Handler {
 	 */
 	function cancelObject($args, $request) {
 		if (!$request->checkCSRF()) fatalError('CSRF check failed, please try again!');
-		$objectId = (int) $request->getUserVar('objectId');
 		$currentUser = $request->getUser();
+		if (!$currentUser) Validation::redirectLogin();
+		$objectId = (int) $request->getUserVar('objectId');
 		$currentContext = $request->getContext();
 		$objectForReviewDao = DAORegistry::getDAO('ObjectForReviewDAO');
 		$objectForReview = $objectForReviewDao->getById($objectId);
-		if ($objectForReview && $objectForReview->getUserId() == $currentUser->getId() && $currentContext->getId() == $objectForReview->getContextId()) {
+		if (
+			$objectForReview
+			&& $objectForReview->getUserId() == $currentUser->getId()
+			&& !$objectForReview->getSubmissionId()
+			&& $currentContext->getId() == $objectForReview->getContextId()
+		) {
 			$objectForReview->setUserId(null);
 			$objectForReviewDao->updateObject($objectForReview);
 			$plugin = PluginRegistry::getPlugin('generic', 'ObjectsForReviewPlugin');

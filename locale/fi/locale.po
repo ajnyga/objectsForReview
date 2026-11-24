@@ -126,9 +126,7 @@ msgid "plugins.generic.objectsForReview.cancel"
 msgstr "Peruuta oma varaus"
 
 msgid "plugins.generic.objectsForReview.reserve.confirm"
-msgstr ""
-"\n"
-"    Valittu julkaisu varataan sinulle. Kun arvio on valmis, voit lähettää sen käsikirjoituksena kirjoittajaohjeiden mukaisesti."
+msgstr "Valittu julkaisu varataan sinulle. Kun arvio on valmis, voit lähettää sen käsikirjoituksena kirjoittajaohjeiden mukaisesti."
 
 msgid "plugins.generic.objectsForReview.cancel.confirm"
 msgstr "Haluatko varmasti perua tätä julkaisua koskevan arviosi?"
