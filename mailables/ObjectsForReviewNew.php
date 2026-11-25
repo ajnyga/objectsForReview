@@ -1,17 +1,17 @@
 <?php
 
 /**
- * @file classes/mail/mailables/ManualPaymentNotify.php
+ * @file plugins/generic/objectsForReview/mailables/ObjectsForReviewNew.php
  *
- * Copyright (c) 2014-2022 Simon Fraser University
- * Copyright (c) 2000-2022 John Willinsky
+ * Copyright (c) 2014-2026 Simon Fraser University
+ * Copyright (c) 2000-2026 John Willinsky
  * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
  *
- * @class ManualPaymentNotify
+ * @class ObjectsForReviewNew
  *
- * @ingroup mail_mailables
+ * @ingroup plugins_generic_objectsForReview
  *
- * @brief Email is sent automatically to notify journal manager about new payment that needs to be processed
+ * @brief Email sent to the editor when a user reserves an object for review
  */
 
 namespace APP\plugins\generic\objectsForReview\mailables;
@@ -21,8 +21,6 @@ use PKP\mail\Mailable;
 use PKP\mail\traits\Configurable;
 use PKP\mail\traits\Sender;
 use PKP\security\Role;
-use PKP\user\User;
-use APP\core\Application;
 
 
 class ObjectsForReviewNew extends Mailable

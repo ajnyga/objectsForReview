@@ -172,3 +172,27 @@ msgstr "Kartografisches Material"
 
 msgid "plugins.generic.objectsForReview.COAR.sound"
 msgstr "Tonaufnahme"
+
+msgid "plugins.generic.objectsForReview.submissionWizard.description"
+msgstr "Wenn Ihre Einreichung eine Rezension ist, fügen Sie die rezensierte Publikation hinzu. Wenn Sie auf der Seite „Zur Rezension“ der Zeitschrift eine Publikation reserviert haben, wählen Sie sie aus Ihren reservierten Publikationen aus."
+
+msgid "plugins.generic.objectsForReview.validation.maxLength"
+msgstr "Der Wert ist zu lang. Die maximale Länge beträgt {$length} Zeichen."
+
+msgid "plugins.generic.objectsForReview.editObjectForReview"
+msgstr "Rezensiertes Objekt bearbeiten"
+
+msgid "plugins.generic.objectsForReview.reservedObjects"
+msgstr "Ihre reservierten Objekte"
+
+msgid "plugins.generic.objectsForReview.reservedObjects.description"
+msgstr "Publikationen, die Sie zur Rezension reserviert haben. Wählen Sie eine aus, um sie mit dieser Einreichung zu verknüpfen."
+
+msgid "plugins.generic.objectsForReview.delete.confirm"
+msgstr "Möchten Sie dieses Objekt wirklich löschen? Dies kann nicht rückgängig gemacht werden."
+
+msgid "plugins.generic.objectsForReview.remove.confirm"
+msgstr "Möchten Sie dieses Objekt wirklich aus der Einreichung entfernen? Von der Zeitschrift angebotene Objekte werden wieder in die Liste der zur Rezension verfügbaren Objekte aufgenommen."
+
+msgid "plugins.generic.objectsForReview.management.noneAvailable"
+msgstr "Derzeit sind keine Objekte zur Rezension verfügbar."

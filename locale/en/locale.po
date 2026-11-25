@@ -172,3 +172,27 @@ msgstr "cartographic material"
 
 msgid "plugins.generic.objectsForReview.COAR.sound"
 msgstr "sound"
+
+msgid "plugins.generic.objectsForReview.submissionWizard.description"
+msgstr "If your submission is a review, add the publication you are reviewing. If you have reserved a publication on the journal's For review page, select it from your reserved publications."
+
+msgid "plugins.generic.objectsForReview.validation.maxLength"
+msgstr "This value is too long. The maximum length is {$length} characters."
+
+msgid "plugins.generic.objectsForReview.editObjectForReview"
+msgstr "Edit reviewed object"
+
+msgid "plugins.generic.objectsForReview.reservedObjects"
+msgstr "Your reserved objects"
+
+msgid "plugins.generic.objectsForReview.reservedObjects.description"
+msgstr "Publications you have reserved for review. Select one to link it to this submission."
+
+msgid "plugins.generic.objectsForReview.delete.confirm"
+msgstr "Are you sure you want to delete this object? This cannot be undone."
+
+msgid "plugins.generic.objectsForReview.remove.confirm"
+msgstr "Are you sure you want to remove this object from the submission? Objects offered by the journal return to the list of objects available for review."
+
+msgid "plugins.generic.objectsForReview.management.noneAvailable"
+msgstr "No objects are currently available for review."

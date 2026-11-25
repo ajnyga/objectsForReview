@@ -1,10 +1,10 @@
 <?php
 
 /**
- * @file plugins/generic/objectsForReview/classes/ObjectForReview.inc.php
+ * @file plugins/generic/objectsForReview/classes/ObjectForReview.php
  *
- * Copyright (c) 2014-2021 Simon Fraser University
- * Copyright (c) 2003-2021 John Willinsky
+ * Copyright (c) 2014-2026 Simon Fraser University
+ * Copyright (c) 2003-2026 John Willinsky
  * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
  *
  * @class ObjectForReview
@@ -16,6 +16,40 @@
 namespace APP\plugins\generic\objectsForReview\classes;
 
 class ObjectForReview extends \PKP\core\DataObject {
+
+	/** Identifier types (stored value => label). See Crossref isReviewOf and DataCite relationType. */
+	public const IDENTIFIER_TYPES = [
+		'DOI' => 'doi',
+		'ISSN' => 'issn',
+		'ISBN' => 'isbn',
+		'Link' => 'uri',
+		'urn' => 'urn',
+		'pmid' => 'pmid',
+		'pmcid' => 'pmcid',
+		'purl' => 'purl',
+		'arxiv' => 'arxiv',
+		'ark' => 'ark',
+		'handle' => 'handle',
+		'uuid' => 'uuid',
+		'ecli' => 'ecli',
+		'accession' => 'accession',
+		'other' => 'other',
+	];
+
+	/** COAR resource types (URI => locale key). */
+	public const RESOURCE_TYPES = [
+		'http://purl.org/coar/resource_type/c_2f33' => 'plugins.generic.objectsForReview.COAR.book',
+		'http://purl.org/coar/resource_type/c_3248' => 'plugins.generic.objectsForReview.COAR.bookPart',
+		'http://purl.org/coar/resource_type/c_6501' => 'plugins.generic.objectsForReview.COAR.journalArticle',
+		'http://purl.org/coar/resource_type/c_5794' => 'plugins.generic.objectsForReview.COAR.conferencePaper',
+		'http://purl.org/coar/resource_type/c_46ec' => 'plugins.generic.objectsForReview.COAR.thesis',
+		'http://purl.org/coar/resource_type/c_816b' => 'plugins.generic.objectsForReview.COAR.preprint',
+		'http://purl.org/coar/resource_type/c_7ad9' => 'plugins.generic.objectsForReview.COAR.website',
+		'http://purl.org/coar/resource_type/c_ddb1' => 'plugins.generic.objectsForReview.COAR.dataset',
+		'http://purl.org/coar/resource_type/c_5ce6' => 'plugins.generic.objectsForReview.COAR.software',
+		'http://purl.org/coar/resource_type/c_12cc' => 'plugins.generic.objectsForReview.COAR.cartographicMaterial',
+		'http://purl.org/coar/resource_type/c_18cc' => 'plugins.generic.objectsForReview.COAR.sound',
+	];
 
 	//
 	// Get/set methods
@@ -73,7 +107,8 @@ class ObjectForReview extends \PKP\core\DataObject {
 	 * Get objectId.
 	 * @return string
 	 */
-	function getId() {
+	public function getId(): ?int
+	{
 		return $this->getData('objectId');
 	}
 
@@ -134,17 +169,21 @@ class ObjectForReview extends \PKP\core\DataObject {
 	}
 
 	/**
-	 * Get description.
+	 * Get description as HTML.
+	 *
+	 * Plain-text fields (authors, publisher, year) are escaped; the title is
+	 * rich text, so the result must still be sanitized on output.
+	 *
 	 * @return string
 	 */
 	function getDescription() {
-		$description = $this->getData('title');
+		$description = (string) $this->getData('title');
 		if ($this->getData('authors'))
-			$description = $this->getData('authors') . ": " . $description;
+			$description = htmlspecialchars($this->getData('authors')) . ': ' . $description;
 		if ($this->getData('publisher'))
-			$description =  $description . ". " . $this->getData('publisher');
+			$description = $description . '. ' . htmlspecialchars($this->getData('publisher'));
 		if ($this->getData('year'))
-			$description =  $description . ". " . $this->getData('year') . ".";
+			$description = $description . '. ' . htmlspecialchars($this->getData('year')) . '.';
 		return $description;
 	}
 
@@ -245,5 +284,3 @@ class ObjectForReview extends \PKP\core\DataObject {
 	}	
 
 }
-
-?>

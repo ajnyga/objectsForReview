@@ -126,9 +126,7 @@ msgid "plugins.generic.objectsForReview.cancel"
 msgstr "Peruuta oma varaus"
 
 msgid "plugins.generic.objectsForReview.reserve.confirm"
-msgstr ""
-"\n"
-"    Valittu julkaisu varataan sinulle. Kun arvio on valmis, voit lähettää sen käsikirjoituksena kirjoittajaohjeiden mukaisesti."
+msgstr "Valittu julkaisu varataan sinulle. Kun arvio on valmis, voit lähettää sen käsikirjoituksena kirjoittajaohjeiden mukaisesti."
 
 msgid "plugins.generic.objectsForReview.cancel.confirm"
 msgstr "Haluatko varmasti perua tätä julkaisua koskevan arviosi?"
@@ -174,3 +172,27 @@ msgstr "kartta"
 
 msgid "plugins.generic.objectsForReview.COAR.sound"
 msgstr "äänite"
+
+msgid "plugins.generic.objectsForReview.submissionWizard.description"
+msgstr "Jos käsikirjoituksesi on arvio, lisää arvioimasi julkaisu. Jos olet varannut julkaisun lehden Arvioitavaksi-sivulla, valitse se varaamistasi julkaisuista."
+
+msgid "plugins.generic.objectsForReview.validation.maxLength"
+msgstr "Arvo on liian pitkä. Enimmäispituus on {$length} merkkiä."
+
+msgid "plugins.generic.objectsForReview.editObjectForReview"
+msgstr "Muokkaa arvioitua julkaisua"
+
+msgid "plugins.generic.objectsForReview.reservedObjects"
+msgstr "Varaamasi julkaisut"
+
+msgid "plugins.generic.objectsForReview.reservedObjects.description"
+msgstr "Arvioitavaksi varaamasi julkaisut. Valitse julkaisu liittääksesi sen tähän käsikirjoitukseen."
+
+msgid "plugins.generic.objectsForReview.delete.confirm"
+msgstr "Haluatko varmasti poistaa tämän julkaisun? Poistoa ei voi perua."
+
+msgid "plugins.generic.objectsForReview.remove.confirm"
+msgstr "Haluatko varmasti poistaa julkaisun tästä käsikirjoituksesta? Lehden tarjoamat julkaisut palaavat arvioitavaksi tarjottavien julkaisujen listaan."
+
+msgid "plugins.generic.objectsForReview.management.noneAvailable"
+msgstr "Arvioitavaksi ei ole tällä hetkellä tarjolla julkaisuja."
